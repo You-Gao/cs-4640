@@ -1,0 +1,30 @@
+4: Followed/Not Followed Principles:
+
+Roblox Old:
+
+There may be a lot of things at fault due to the capabilities of a website made in 2006, so I will just start off by pointing out how the sign-up button isn't "reactive". If you hover over the button you don't really know if it is clickable or not. Though, the designers did their best by differentiating the sign-up button with a different color and a button border. The site also had an old Google Ad viewer that worked via a flash video plugin which was interesting.
+
+They did do many things well though. The log-in box matched the schema for many of the old forums back then. The sort-of log-in box where you had the forum contents on the right and the log-in box was some small container at the top-left of the page. There was also the user-bar at the top which allowed returning users to easily navigate the site to places they wanted to go. The only concern there is that new users clicking on some of those links would be classified as a flow error. Besides that they also understood that most of the users coming on-to the site were Roblox players and not Roblox developers, which allowed them to declutter the UI.
+
+Roblox New:
+
+In terms of changes, the shift in user-flow toward making account creation more central to the experience makes sense, especially given how Roblox relies on user accounts for interaction. The redesign of removing the top bar to prevent confusion for non-logged-in users is a smart move. It aligns well with a clear user expectation: you need an account to play games or access your profile. Removing unnecessary options for users who aren't logged in simplifies things and keeps the focus where it needs to be. The new website made ui and ux flows less error-prone and made it clearer of what the intial site wanted a user to do before interacting with the website. The only fault which I will also highlight below is how in design you typically have to "bite-the-bullet" when deciding to design for a specific segment of your users. The decision though is usually justified with respect to what the "purpose" of your website is.
+
+
+5: Different Versions of the slides:
+
+Changes made for better or worse:
+
+1. One of the main things the designer's changed on the roblox.com site is that they in the modern version the yare expecting that the people going onto the site do not have an account, so the user-flow is directly there. It makes certain expectations on the user in order to make the user-flow quicker in allowing the user to do what they want, but also getting them to do what the designer wants.
+
+2. Another update they made is the choice to not show the top-bar of the website. This update aligns with the mental model matching and preventing user errors, because to even access those web-pages of "my roblox" or "games" would require the user to have an account before-hand anyways. Clicking on "my roblox" or "games" would have produced an error that said you didn't have an account or you have to make an account to play the game. So in again, just removing all of that from the roblox.com page, it improves usability.
+
+Suggestions to New One:
+
+1. A suggestion that can be made is actually related to one of the things the designers changed in the newer iteration of the website, that is balancing the user-flow for different users. On the one hand, they designed the site to make it easy for the user to sign-up becaues they would need an account to do anything else. But, the problem is if you were a user that wasn't "sold" on making an account, you would need to hit the "log-in" button and then click the "charts" button to view the trending games, which by all means isn't intuitive. This adds "friction" to that specific user which is the trade-off in designing for a specifc user.
+
+2. Another suggestion, but also small nitpick, is the birthday selection ui on the form. There is already a lot of controversy and effort that goes into the design of what the "best" date-picking ui should be or look like. But, there seems to be one glaring problem with the birthday selection in regards to the "designing for users" component. The year field only shows 2020 as the most recent year. I would wager that a lot of Roblox's users is currently at the age of 3-5 as well. Maybe this is a good thing better-off, but from a UI/UX standpoint it isn't "good".
+
+6: ANDI Report:
+
+The new page was rather simple to scan. There were 3 elements with no accessible names which were the form elements for selecting the birthday of the user. It seems like it should be a rather quick fix and I don't see that changing it would require a redesign.

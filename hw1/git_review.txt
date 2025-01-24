@@ -1,0 +1,30 @@
+4: Followed/Not Followed Principles:
+
+Github Old:
+
+Again, it is easy to find fault with old websites, so I will focus on a more design-failure rather than technical failure. That design-failure being the fact that pricing and sign-up is on the same site/functionality. It doesn't seem to match any particular mental model to have pricing and sign-up being the same link. It may lead users to assume that to sign-up for Github you may need to pay for Github, or that there are some features restricted if you don't pay. I would also like to point about that the font-size of any button element is drastically smaller and harder to find than the large greeting text.
+
+I did find the search public git repositories a useful feature. I assume it was there because in 2010, their goal was to convince users to use GitHub and that was done via having the search bar for projects in Github and a daily featured. Interestingly the 2010 project was grit which is irrelevant, but the founder of that project is still going on today and worked on projects like semver and was a founder for redwoodjs. Besides that, they made sure to differentiate the "sign-up" from all of the other links to ensure the user focuses on the sign-up button. Another part they did well on is understanding the users and having that inform design. They had a scrolling bar that showed all the companies currently using GitHub and all the features with it. I say this is usability because the designers acknowledge that their are enterprise and non-enterprise users, which some sites don't seem to get.  
+Github New:
+
+Github like many other sites that have user authentication removes excise task in a smart way. I don't think I mentioned this point in the roblox.com analysis, but most home pages i.e. githb.com show you two different screens depending on if you are loggined in or not. This allows many of the modern sites to really just display a sign-up screen to ensure they do so, but also allows them to short-cut user-flow. Also, in the newer version of Github, the sign-up is as big if not bigger than the heading text of the website. It is also colored green so its visually distinct from all of the other elements. Really the newer does a great job at making their point. All of the main features they want you to click have a button outline while the drop-downs are their at the top, but not visually distinct.
+
+They do have a glaring usability error though, which is their jarring ui flow once you scroll past the "sign-up" and "try copilot button". There is the set of buttons that show code, plan, collaborate, automate, and secure. Clicking on them changes the text and picture element, but the problem is when you click on a button to change the text and image, you have to scroll up to see the image in full. This adds a lot of friction if the planned idea was to have the user click through all 5 options, as they would need to click, scroll-up, scroll-down 5 timers over.
+
+5: Different Versions of the slides:
+
+Changes made for better or worse:
+
+Two things that changed from the old to the new GitHub design:
+
+Sign-up prominence: In the older version, the sign-up button was smaller and harder to find, blending in with the rest of the page. In the newer version, the sign-up button is visually distinct, larger, and green, making it more prominent and easier to locate for users.
+
+User-flow and login distinction: The old design had a more general approach, where both pricing and sign-up were tied to the same function, potentially causing confusion. The newer version smartly distinguishes between signed-in and not signed-in users, offering more targeted content and reducing friction in the user experience.
+
+Suggestion:
+
+To fix the jarring UI flow after scrolling past the sign-up and "try copilot" buttons, GitHub could make the content change more seamless. Instead of requiring users to scroll up and down to see the updated content, they could implement a smoother interaction (e.g., sticky elements or a sliding content panel) that ensures the user can easily view all options without additional scrolling.
+
+6: ANDI Report:
+
+0 accessibility warnings!
