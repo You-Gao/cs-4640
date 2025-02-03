@@ -1,0 +1,9 @@
+Overarching Idea:
+* 
+
+4 Functionalities:
+
+Asynchronous Operations:
+* Data Loading
+
+1 Database:
