@@ -93,7 +93,6 @@
 		  </div>
 		</div>
 	  </div>
-	  </div>
 
 	 <section class="row-carousel" style="margin-bottom: 50px; margin-top: 50px;">
 		<div style="width: 50%; height: 100%;">
@@ -154,7 +153,7 @@
 					 </div>
 					 	 <!-- Button trigger modal -->
 
-			 </div>
+			</div>
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 					click here for an ascii
 				</button>
@@ -204,21 +203,19 @@
 	
 
      </body>
- </html>
 
-<script>
-	var elem = document.getElementsByClassName("progress-bar")[0];
-	var width = 0;
-	var id = setInterval(frame, 1000);
-	function frame() {
-		if (width >= 100) {
-
-			clearInterval(id);
-		} else {
-			width++;
-			elem.style.width = width + "%";
+	 <script>
+		var elem = document.getElementsByClassName("progress-bar")[0];
+		var width = 0;
+		var id = setInterval(frame, 1000);
+		function frame() {
+			if (width >= 100) {
+	
+				clearInterval(id);
+			} else {
+				width++;
+				elem.style.width = width + "%";
+			}
 		}
-	}
-
-
-</script>
+	</script>
+ </html>
