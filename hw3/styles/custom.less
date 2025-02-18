@@ -1,0 +1,57 @@
+@margin-left-value: 0px;
+@zero: 0px;
+@charcoal: #bebebe;
+@black: #000000;
+@blue: #007bff;
+@white: #ffffff;
+@img-height: 200px;
+
+
+.row-flex {
+    width: 100%;
+    display: block !important;
+    margin-left: @margin-left-value !important;
+}
+
+[class*=col-] {
+    margin-left: @margin-left-value !important;
+
+}
+
+.nav-link {
+    padding: 0 .5rem !important;
+}
+
+.row-card .card > a > img {
+    height: @img-height;
+}
+
+.carousel-item > img {
+    height: @img-height * 1.75 !important;
+}
+
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: @black;
+    color: @white;
+}
+
+.card {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.card:hover {
+    background-color: @charcoal;
+    transform: scale(1.05);
+}
+
+.card-body > p {
+    color: @black;
+}
+
+.card-body > h3 {
+    color: @blue;
+}
