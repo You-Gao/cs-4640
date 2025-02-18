@@ -6,6 +6,9 @@
 @white: #ffffff;
 @img-height: 200px;
 
+.imgheightcalc(@scale: 1) {
+    height: @img-height * @scale;
+}
 
 .row-flex {
     width: 100%;
@@ -23,11 +26,13 @@
 }
 
 .row-card .card > a > img {
-    height: @img-height;
+    .imgheightcalc(1) !important;
+
 }
 
 .carousel-item > img {
-    height: @img-height * 1.75 !important;
+    .imgheightcalc(1.75) !important;
+
 }
 
 .carousel-inner > .item > img, .carousel-inner > .item > a > img {
