@@ -1,0 +1,28 @@
+/* Title Header */
+
+#title > * {
+    max-height: 100px;
+}
+
+#title img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+#title hr {
+    margin: 0;
+    border: 0;
+    width: 80%;
+    border-top: 5px solid #000000;
+}
+
+@media (max-width: 576px) {
+    #title img {
+        max-width: 75px;
+        max-height: 75px;
+    }
+
+    #title h1 {
+        margin-bottom: 0px;
+    }
+}
