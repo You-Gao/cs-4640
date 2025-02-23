@@ -40,3 +40,17 @@
 #sign-up {
     font-size: 1.5em;
 }
+
+/* Character Creation */
+
+#create img {
+	max-width: 350px;
+	max-height: 350px;
+}
+
+#create .col-2 .row div {
+	width: 75px;
+	height: 75px;
+	margin-bottom: 10px;
+	outline: solid;
+}
