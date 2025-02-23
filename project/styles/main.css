@@ -16,6 +16,15 @@
     border-top: 5px solid #000000;
 }
 
+#title h1:hover {
+    color: #5e5e5e
+}
+
+#title a {
+    text-decoration: none;
+    color: black;
+}
+
 @media (max-width: 576px) {
     #title img {
         max-width: 75px;
@@ -25,4 +34,9 @@
     #title h1 {
         margin-bottom: 0px;
     }
+}
+
+/* Sign Up Button */
+#sign-up {
+    font-size: 1.5em;
 }
