@@ -1,0 +1,73 @@
+ /*written by Owen Williams*/
+ 
+ .content {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+ }
+
+@media only screen and (max-width: 768px){
+.mobile_split_4{
+    width: 33.33%;
+    float: left;
+ }   
+}
+
+td, tr{
+   padding: 0px;
+   margin: 0px;
+}
+
+.col-border{
+   border: 5px solid black;
+}
+
+.n-item > a{
+   color:gray
+}
+
+a:hover {
+   font-size: large;
+   color: black;
+ }
+
+ .n-item:active {
+   border: 5px solid black;
+   border-radius: 15px;
+ }
+
+ input:hover{
+   background-color: rgb(225, 225, 225);
+ }
+
+/* friends.html css */
+
+#friend-row{
+   min-height: 500px;
+}
+
+.friend-item{
+   height: 40px;
+   border: 1px solid gray;
+   border-radius: 10px;
+}
+
+div.friend-item > h5 {
+   float: left;
+   font-family: "Sofia", sans-serif;
+}
+
+div.friend-item > form, #add-friends > .search-container {
+   float: right;
+   width: auto;
+}
+
+#add-friends > h2 {
+   width: auto;
+   float: left;
+}
+
+.friend-heading {
+   font-family: Georgia, serif;
+}
+
