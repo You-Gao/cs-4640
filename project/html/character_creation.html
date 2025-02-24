@@ -21,10 +21,41 @@
 	    
 	    <div class="col-2">
 		<div class="row flex-column align-items-end">
-			<div class="col-6"></div>
-			<div class="col-6"></div>
-			<div class="col-6"></div>
-			<div class="col-6"></div>
+            <div class="col-6" onclick="show_selection(event)">
+                <p>HATS</p>
+                <div id="selections" class="row justify-content-start">
+                    <div class="col-4 mx-2">hat 1</div>
+                    <div class="col-4 mx-2">hat 2</div>
+                    <div class="col-4 mx-2">hat 3</div>
+                    <div class="col-4 mx-2">hat 4</div>
+                    <div class="col-4 mx-2">hat 5</div>
+                    <div class="col-4 mx-2">hat 6</div>
+                </div>
+            </div>
+            <div class="col-6" onclick="show_selection(event)">
+                <p>SHIRTS</p>
+                <div id="selections" class="row justify-content-start">
+                    <div class="col-4 mx-2">shirt 1</div>
+                    <div class="col-4 mx-2">shirt 2</div>
+                    <div class="col-4 mx-2">shirt 3</div>
+                </div>
+            </div>
+            <div class="col-6" onclick="show_selection(event)">
+                <p>PANTS</p>
+                <div id="selections" class="row justify-content-start">
+                    <div class="col-4 mx-2">pants 1</div>
+                    <div class="col-4 mx-2">pants 2</div>
+                    <div class="col-4 mx-2">pants 3</div>
+                </div>
+            </div>
+            <div class="col-6" onclick="show_selection(event)">
+                <p>SHOES</p>
+                <div id="selections" class="row justify-content-start">
+                    <div class="col-4 mx-2">shoes 1</div>
+                    <div class="col-4 mx-2">shoes 2</div>
+                    <div class="col-4 mx-2">shoes 3</div>
+                </div>
+            </div>
 		</div>	
 	    </div>
 
@@ -32,10 +63,34 @@
 
 		<div class="col-2">
 			<div class="row flex-column align-items-start">
-				<div class="col-6"></div>
-				<div class="col-6"></div>
-				<div class="col-6"></div>
-				<div class="col-6"></div>
+				<div class="col-6" onclick="show_selection(event)">
+                    <p>WEP</p>
+                    <div id="selections">
+                        <div class="col-4 mx-2">sword</div>
+                        <div class="col-4 mx-2">stick #1</div>
+                        <div class="col-4 mx-2">rock</div>
+                    </div>
+                </div>
+				<div class="col-6" onclick="show_selection(event)">
+                    <p>OFF</p>
+                    <div id="selections">
+                        <div class="col-4 mx-2">money</div>
+                        <div class="col-4 mx-2">bird</div>
+                        <div class="col-4 mx-2">stick #2</div>
+                    </div>
+                </div>
+				<div class="col-6" onclick="show_selection(event)">
+                    <p>MISC</p>
+                    <div id="selections">
+                        <div>test</div>
+                    </div>
+                </div>
+				<div class="col-6" onclick="show_selection(event)">
+                    <p>MISC</p>
+                    <div id="selections">
+                        <div>test</div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	
@@ -50,5 +105,22 @@
         <a id="sign-up" href="sign-up.html" class="btn btn-primary col-6 p-2">[ OFF TO ADVENTURE!!! ]</a>
 
     </section>
+
+<script>
+    function show_selection(event){
+        let parent = event.target;
+        let selection = parent.querySelector("#selections");
+
+        document.querySelectorAll("#selections").forEach(function(element){
+            element.style.display = "none";
+        });
+
+        selection.style.display = "flex";
+        selection.addEventListener("click", function(){
+            selection.style.display = "none";
+        });
+    }
+
+</script>
 
 </body>

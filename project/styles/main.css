@@ -1,3 +1,4 @@
+/*! probably should refactor sometime maybe... */
 /* Title Header */
 
 #title > * {
@@ -41,6 +42,14 @@
     font-size: 1.5em;
 }
 
+@media (max-width: 576px) {
+    #sign-up {
+        font-size: 1em;
+        width: 70%;
+    }
+
+}
+
 /* Character Creation */
 
 #create img {
@@ -53,4 +62,58 @@
 	height: 75px;
 	margin-bottom: 10px;
 	outline: solid;
+    align-content: center;
+    text-align: center;
+}
+
+#create #selections {
+    display: none;
+    flex-wrap: wrap;
+    z-index: 1;
+    width: 275px;
+    outline: none;
+
+    /* sets any selection to always show up in the middle */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#create .row {
+    /* over-ride bootstrap's default margin */
+    /* messes with flex-end and flex-start */
+    margin: 0;
+}
+
+#create #selections div{
+    background: white;
+}
+
+#create p {
+    /* so box is still clickable */
+    margin: 0;
+    position: relative;
+    z-index: -100;
+}
+
+@media (max-width: 768px) {
+
+    #create img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    #create .col-2 .row div {
+        width: 50px;
+        height: 50px;
+    }
+
+    #create #selections {
+        width: 175px;
+    }
+
+    #create p {
+        font-size: .7em;
+    }
 }
