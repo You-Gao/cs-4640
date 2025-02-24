@@ -52,6 +52,10 @@
 
 /* Character Creation */
 
+#name input {
+    text-align: center;
+}
+
 #create img {
 	max-width: 350px;
 	max-height: 350px;
@@ -116,4 +120,41 @@
     #create p {
         font-size: .7em;
     }
+}
+
+/* Character Select */
+#characters hr {
+    margin: 0;
+    border: 0;
+    width: 50%;
+    border-top: 3px solid #000000;
+}
+
+#characters ul, #characters li {
+    list-style-type: none;
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+}
+
+#characters a {
+    text-decoration: none;
+    color: black;
+}
+
+#characters a li {
+    transform-origin: left center;
+}
+
+#characters a li:hover {
+    color: #5e5e5e;
+    transform: scale(1.1);
+}
+
+#characters #create a {
+    color: grey;
+}
+
+#characters #create a:hover {
+    color: rgb(226, 226, 226);
 }
