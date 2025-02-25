@@ -79,7 +79,7 @@
     align-items: center;
 }
 
-#create #selections {
+#create .selections {
     display: none;
     flex-wrap: wrap;
     z-index: 1;
@@ -99,7 +99,7 @@
     margin: 0;
 }
 
-#create #selections div{
+#create .selections div{
     background: white;
 }
 
@@ -122,7 +122,7 @@
         height: 50px;
     }
 
-    #create #selections {
+    #create .selections {
         width: 175px;
     }
 
@@ -151,7 +151,7 @@
         align-items: center !important;
     }
 
-    #create #selections {
+    #create .selections {
         width: 125px;
     }
 
@@ -184,11 +184,11 @@
     color: black;
 }
 
-#characters a li {
+#characters li a {
     transform-origin: left center;
 }
 
-#characters a li:hover {
+#characters li a:hover {
     color: #5e5e5e;
     transform: scale(1.1);
 }

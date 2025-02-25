@@ -4,7 +4,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../styles/main.css">
-    <meta author="You Gao">
+    <meta name="author" content="You Gao">
     <title>character creation | insert title here</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -23,7 +23,8 @@
         <div class="col-3 ">
             <input type="text" class="form-control" id="character-name" name="character-name" placeholder="-> make a cool name here <-" required>
         </div>
-
+    </section>
+    
     <section id="create" class="row justify-content-center mt-4">
 	    
 	    <div class="col-2">
@@ -41,7 +42,7 @@
             </div>
             <div onclick="show_selection(event)">
                 <p>SHIRTS</p>
-                <div id="selections" class="row justify-content-start">
+                <div class="row justify-content-start selections">
                     <div class="col-4 mx-2">shirt 1</div>
                     <div class="col-4 mx-2">shirt 2</div>
                     <div class="col-4 mx-2">shirt 3</div>
@@ -49,7 +50,7 @@
             </div>
             <div onclick="show_selection(event)">
                 <p>PANTS</p>
-                <div id="selections" class="row justify-content-start">
+                <div class="row justify-content-start selections">
                     <div class="col-4 mx-2">pants 1</div>
                     <div class="col-4 mx-2">pants 2</div>
                     <div class="col-4 mx-2">pants 3</div>
@@ -57,7 +58,7 @@
             </div>
             <div onclick="show_selection(event)">
                 <p>SHOES</p>
-                <div id="selections" class="row justify-content-start">
+                <div class="row justify-content-start selections">
                     <div class="col-4 mx-2">shoes 1</div>
                     <div class="col-4 mx-2">shoes 2</div>
                     <div class="col-4 mx-2">shoes 3</div>
@@ -66,13 +67,13 @@
 		</div>	
 	    </div>
 
-	<img class="col-6" src="../public/stick.jpg"/>
+	<img class="col-6" src="../public/stick.jpg" alt="stick man"/>
 
 		<div class="col-2">
 			<div class="row flex-column align-items-start">
 				<div onclick="show_selection(event)">
                     <p>WEP</p>
-                    <div id="selections">
+                    <div class="selections">
                         <div class="col-4 mx-2">sword</div>
                         <div class="col-4 mx-2">stick #1</div>
                         <div class="col-4 mx-2">rock</div>
@@ -80,7 +81,7 @@
                 </div>
 				<div onclick="show_selection(event)">
                     <p>OFF</p>
-                    <div id="selections">
+                    <div class="selections">
                         <div class="col-4 mx-2">money</div>
                         <div class="col-4 mx-2">bird</div>
                         <div class="col-4 mx-2">stick #2</div>
@@ -88,13 +89,13 @@
                 </div>
 				<div onclick="show_selection(event)">
                     <p>MISC</p>
-                    <div id="selections">
+                    <div class="selections">
                         <div>test</div>
                     </div>
                 </div>
 				<div onclick="show_selection(event)">
                     <p>MISC</p>
-                    <div id="selections">
+                    <div class="selections">
                         <div>test</div>
                     </div>
                 </div>
@@ -103,22 +104,16 @@
 	
     </section>
 
-    <section id="selections" class="row">
-
-    </section>
-
     <section id="register" class="row justify-content-center mt-4 text-center">
-
         <a id="sign-up" href="game.html" class="btn btn-primary col-6 p-2">[ OFF TO ADVENTURE!!! ]</a>
-
     </section>
 
 <script>
     function show_selection(event){
         let parent = event.target;
-        let selection = parent.querySelector("#selections");
+        let selection = parent.querySelector(".selections");
 
-        document.querySelectorAll("#selections").forEach(function(element){
+        document.querySelectorAll(".selections").forEach(function(element){
             element.style.display = "none";
         });
 
