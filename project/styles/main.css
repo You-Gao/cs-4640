@@ -79,7 +79,7 @@
     align-items: center;
 }
 
-#create .selections {
+#create .col-2 .row .selections{
     display: none;
     flex-wrap: wrap;
     z-index: 1;
