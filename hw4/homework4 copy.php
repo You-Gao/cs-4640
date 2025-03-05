@@ -40,16 +40,15 @@
     function gridCorners($width, $height) {
         $output = [];
         if ($width == 0 || $height == 0) {
-            return implode(", ", $output);;
+            return implode(", ", $output);
         }
         if ($width == 1 && $height == 1) {
             $output[] = 1;
-            return implode(", ", $output);;
+            return implode(", ", $output);
         }
-        if ($width <= 2 || $height <= 2) {
-            for ($i = 1; $i <= $width * $height; $i++) {
-                $output[] = $i;
-            }
+        if ($width == 1) {
+            $output[] = 1; 
+            $output[] = $height;
             return implode(", ", $output);
         }
         $output[] = 1; 
@@ -75,7 +74,7 @@
 
         // bottom right neighbors
         if ($height > 1) {
-            $output[] = $width * $height - 2 * $height + 1;
+            $output[] = $width * $height - $height;
         }
         if ($width > 1) {
             $output[] = $width * $height - $height + 2;
@@ -91,31 +90,25 @@
         // php has nice functions
         $output = array_unique($output);
         sort($output);
-        return implode(", ", $output);;
+        return implode(", ", $output);
     }
-
-    function combineShoppingLists(...$lists){
+    function combineShoppingLists($list1, $list2){
         $merged = [];
-        if (count($lists) == 0) {
-            return [];
+        foreach ($list1["list"] as $item) {
+            $merged[$item] = [$list1["user"]];
         }
-        foreach ($lists as $list) {
-            if (empty($list)) {
-                continue;
-            }
-            foreach ($list["list"] as $item) {
-                if (array_key_exists($item, $merged)) {
-                    $merged[$item][] = $list["user"];
-                } else {
-                    $merged[$item] = [$list["user"]];
-                }
+        foreach ($list2["list"] as $item) {
+            if (array_key_exists($item, $merged)) {
+                $merged[$item][] = $list2["user"];
+            } else {
+                $merged[$item] = [$list2["user"]];
             }
         }
-        return $merged;
+        return sort($merged);
     }
 
     function acronymSummary($acronyms, $searchString){
-        
+
         if (strlen($acronyms) == 0 || strlen($searchString) == 0) {
             return [];
         }

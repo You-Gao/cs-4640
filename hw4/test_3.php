@@ -17,6 +17,7 @@
 
 <h2>Problem 3</h2>
 <?php
+    // Test cases for combineShoppingLists function
      $list1 = [
         "user" => "Fred",
         "list" => ["frozen pizza", "bread", "apples", "oranges"]
@@ -77,6 +78,14 @@
 
     $result3 = combineShoppingLists($list5, $list6);
     assert($result3 == $expected3, 'Test Case 3 Failed');
+
+    // no list
+    $result4 = combineShoppingLists();
+    assert($result4 == [], 'Test Case 4 Failed');
+
+    // empty list
+    $result5 = combineShoppingLists([]);
+    assert($result5 == [], 'Test Case 5 Failed');
 
     echo "All test cases passed!";
 ?>
