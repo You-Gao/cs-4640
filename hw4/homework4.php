@@ -9,7 +9,7 @@
     // Your functions here
 
     // No closing php tag needed since there is only PHP in this file
-    function calculateAverage($scores, $drop = false) {
+    function calculateGrade($scores, $drop = false) {
         /** 
          * It is indexed by nums, but they contain arrays themselves
          * $scores = [ [ "score" => 55, "max_points" => 100 ], [ "score" => 55, "max_points" => 100 ] ];
@@ -26,9 +26,11 @@
          * (100 * total scored points / total available points) rounded to three decimal places.
         */
 
-        // 1 remove the array with the lowest percentage or 2 do some math to remove the lowest percentage
+        if (count($scores) == 0) {
+            return 0;
+        }
 
-        $lowest = 0;
+        $lowest = 100;
         $lowest_score = 0;
         $lowest_max = 0;
         $total_score = 0;
@@ -44,12 +46,10 @@
                 $lowest_max = $score["max_points"];
             }
         }
-        
         if ($drop) {
             $total_score -= $lowest_score;
             $total_max -= $lowest_max;
         }
-
         return round(100 * $total_score / $total_max, 3);
     }
     
@@ -71,13 +71,20 @@
         $output = [];
         for($i=0;$i<$width;$i++){
             for($j=0;$j<$height;$j++){
-                echo "($i, $j): $num\n";
                 // 4 corners
-                if ($i == 0 || $i == $width - 1) {
-                    if ($j == 0 || $j == $height - 1) {
-                        $output[] = $num;
-                    }
+                if ($i == 0 && $j == 0) {
+                    $output[] = $num;
                 }
+                if ($i == 0 && $j == $height - 1) {
+                    $output[] = $num;
+                }
+                if ($i == $width - 1 && $j == 0) {
+                    $output[] = $num;
+                }
+                if ($i == $width - 1 && $j == $height - 1) {
+                    $output[] = $num;
+                }
+
                 // (0,0) neighbors
                 if  ($i == 0 && $j == 1) {
                     $output[] = $num;
@@ -95,10 +102,10 @@
                 }
 
                 // (width, 0) neighbors
-                if  ($i == $width - 2 && $j == 1) {
+                if  ($i == $width - 1 && $j == 1) {
                     $output[] = $num;
                 }
-                if  ($i == $width - 1 && $j == 0) {
+                if  ($i == $width - 2 && $j == 0) {
                     $output[] = $num;
                 }
 
@@ -111,12 +118,14 @@
                 }
 
                 $num++;
+                echo "\n";
             }
         }
 
         // php has nice functions
         $output = array_unique($output);
-        return implode(",", $output);
+        sort($output);
+        return $output;
     }
     function combineShoppingLists($list1, $list2){
         $merged = [];
@@ -130,7 +139,7 @@
                 $merged[$item] = [$list2["user"]];
             }
         }
-        return var_dump($merged);
+        return sort($merged);
     }
 
     function acronymSummary($acronyms, $searchString){
@@ -167,6 +176,6 @@
                 }
             }
         }
-        return var_dump($output);
+        return $output;
     }
 ?>
