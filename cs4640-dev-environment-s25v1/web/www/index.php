@@ -3,6 +3,14 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+$word_bank_path = '/opt/src/word_bank.json';
+$words7_path = '/opt/src/words7.txt';
+$high_scores_path = '/opt/src/high_scores.json';
+
+// $word_bank_path = '/var/www/html/homework/word_bank.json';
+// $words7_path = '/var/www/html/homework/words7.txt';
+// $high_scores_path = '/djx3rn/hw5/high_scores.json';
+
 /*
 some quick documentation
 
@@ -126,13 +134,14 @@ class AnagramsGameController {
     }
 
     private function saveScores(){
-        $high_scores = json_decode(file_get_contents('/opt/src/high_scores.json'), true);
+        global $high_scores_path;
+        $high_scores = json_decode(file_get_contents($high_scores_path), true);
         $high_scores[] = ["name" => $_SESSION["user_name"], "score" => $_SESSION["score"], "words_remaining" => $_SESSION["words_remaining"], "word" => $_SESSION["word"]];
         usort($high_scores, function($a, $b) {
             return $b["score"] - $a["score"];
         });
         $high_scores = array_slice($high_scores, 0, 10);
-        file_put_contents('/opt/src/high_scores.json', json_encode($high_scores));
+        file_put_contents($high_scores_path, json_encode($high_scores));
     }
 
     private function handleGameOver() {
@@ -161,7 +170,8 @@ class AnagramsGameController {
     }
 
     private function setWordsRemaining() {
-        $word_bank = file_get_contents('/opt/src/word_bank.json');
+        global $word_bank_path;
+        $word_bank = file_get_contents($word_bank_path);
         $word_bank = json_decode($word_bank, true);
         $words_remaining = 0;
         for ($i = 1; $i < 7; $i++) {
@@ -178,7 +188,8 @@ class AnagramsGameController {
 
 
     private function setupGame() {
-        $words = file('/opt/src/words7.txt');
+        global $words7_path;
+        $words = file($words7_path);
         $word = $words[array_rand($words)];
         $_SESSION["word"] = strtoupper(trim($word));
         $word = strtoupper(trim($word));
@@ -213,7 +224,8 @@ class AnagramsGameController {
     }
 
     private function CheckGuessInBank($guess) {
-        $word_bank = file_get_contents('/opt/src/word_bank.json');
+        global $word_bank_path;
+        $word_bank = file_get_contents($word_bank_path);
         $word_bank = json_decode($word_bank, true);
         $guess = strtolower($guess);
         $guess_len = strlen($guess);
@@ -230,6 +242,9 @@ class AnagramsGameController {
     }
 
     private function checkGuess($guess) {
+        global $word_bank_path;
+        global $words7_path;
+
         if ($guess === 'undefined') {
             return FALSE;
         }
@@ -242,11 +257,11 @@ class AnagramsGameController {
             return FALSE;
         }
         if (strlen($guess) == 7) {
-            $words = file('/opt/src/words7.txt');
+            $words = file($words7_path);
             return in_array($guess, $words);
         }
         $scores_arr = [1 => 1, 2 => 2, 3 => 4, 4 => 5, 5 => 11, 6 => 11];
-        $word_bank = file_get_contents('/opt/src/word_bank.json');
+        $word_bank = file_get_contents($word_bank_path);
         $word_bank = json_decode($word_bank, true);
         $guess = strtolower($guess);
         // echo "guess: $guess";
