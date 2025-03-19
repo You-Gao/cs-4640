@@ -10,11 +10,11 @@
         } 
         </style>
     </head>
-    <body class="container-md">
+    <body class="container-lg">
         <section id="inputs" class="row justify-content-center">
             <h2 id="anagram-title" class="my-4"> lets play some anagram! </h1>
                 <div id="form container" class="col-6">
-                    <form action="/index.php" method="post">
+                    <form action="/index.php?command=welcome" method="post">
                         <div class="d-flex justify-content-between">
                             <div class="mb-3 col-5">
                                 <label class="form-label">name</label>

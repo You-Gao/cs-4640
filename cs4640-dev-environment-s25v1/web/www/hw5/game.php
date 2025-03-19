@@ -1,76 +1,176 @@
+<!DOCTYPE html>
 <?php
-function echoScore() {
-    if (isset($_SESSION["score"])){
+function echoScore()
+{
+    if (isset($_SESSION["score"])) {
         echo $_SESSION['score'];
-    }
-    else {
+    } else {
         echo "0";
     }
 }
 
-function echoName() {
-    if (isset($_SESSION["name"])){
-        echo $_SESSION['name'];
-    }
-    else {
+function echoName()
+{
+    if (isset($_SESSION["user_name"])) {
+        echo $_SESSION['user_name'];
+    } else {
         echo "something went wrong";
     }
 }
 
-function makeAnagramDisplay() {
-    if (isset($_SESSION["letters"])){
+function makeAnagramDisplay()
+{
+    if (isset($_SESSION["letters"])) {
         $letters = $_SESSION["letters"];
-        foreach ($letters as $letter) {
-            echo "<div class='mx-1'><h1>$letter</h1></div>";
+        for ($i = 0; $i < 7; $i++) {
+            echo "<div class='mx-1'><h1>$letters[$i]</h1></div>";
         }
     }
 }
 
+function makeGuesses()
+{
+    $guesses = $_SESSION["guesses"];
+    for ($i = 7; $i > 0; $i--) {
+        $filtered = array_filter($guesses, function ($guess) use ($i) {
+            return strlen($guess) == $i;
+        });
+        if (empty($filtered)) {
+            continue;
+        }
+        echo "<div id='$i-letter-words' class='d-flex align-items-center'>";
+        echo "<h2>$i" . "L" . ":</h2>";
+        foreach ($guesses as $guess) {
+            if (strlen($guess) == $i) {
+                echo "<h3>$guess</h3>";
+            }
+        }
+        echo "</div>";
+    }
+}
+
+function makeHR($correct = NULL)
+{
+    if ($correct) {
+        echo "<hr id='underline' class='mt-2 col-6 mx-auto' style='height: 5px; background-color: green;'/>";
+    } else if ($correct === FALSE) {
+        echo "<hr id='underline' class='mt-2 col-6 mx-auto' style='height: 5px; background-color: red;'/>";
+    } else {
+        echo "<hr id='underline' class='mt-2 col-6 mx-auto' style='height: 5px;'/>";
+    }
+}
+
 ?>
-<!DOCTYPE html>
 <html>
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-        <style>
-        #anagram-display div, #user-input div {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        #anagram-display #display div,
+        #user-input div {
             border: solid;
             height: 50px;
             width: 50px;
             text-align: center;
         }
-        input {
-            text-align: center;
-            font-size: calc(1.375rem + 1.5vw) !important;
+
+        [id$="-letter-words"] {
+            gap: 10px;
+            border-bottom: solid;
+            width: auto;
+            height: auto;
+            flex-wrap: wrap;
         }
-        </style>
-    </head>
-    <body class="container">
-        <h2><?php echoScore(); ?></h2> 
-        <section id="anagrams" class="row justify-content-center">
-            <div id="anagram-display" class="d-flex justify-content-center">
-                <?php makeAnagramDisplay(); ?>    
+
+        #score {
+            max-width: 100%;
+        }
+
+        #shuffle button {
+            border: none;
+            background-color: white;
+        }
+
+        #guess_form button {
+            border: none;
+            background-color: white;
+        }
+
+        hr {
+            margin-bottom: 0;
+        }
+        #guess_form {
+            display: flex;
+            align-items: flex-end;
+        }
+    </style>
+</head>
+
+<body class="container-lg mb-5">
+    <section id="anagrams" class="row justify-content-center mt-4">
+        <section id="anagram-title" class="d-flex col-12 align-items-baseline">
+            <div class="col-3">
             </div>
-            
-            <div id="anagram-guesses">
-
+            <h1 class="col-6 text-center">the anagrams game</h1>
+            <div class="col-3 d-flex justify-content-end ">
+                <h2 class="mb-0"><?php echoName(); ?></h2>
             </div>
-
-            <div id="user-input" class="d-flex justify-content-center"></div>
-            <hr id="underline" class="mt-2 col-8" style="height: 5px;"/>
-            <form id="guess_form" action="/index.php?command=game" method="post">
-                     <div class="mb-3 col">
-                        <input type="hidden" name="guess" class="form-control" required>
-                    </div> 
-                </form>
-
         </section>
-    </body>
+        <hr class="col-12 mx-auto mb-3" style="height: 5px;" />
+        <section id="anagram-display" class="d-flex justify-content-between align-items-baseline mb-3">
+            <div id="score" class="col-3">
+                <h2>Score: <?php echoScore(); ?></h2>
+            </div>
+            <div id="display" class="d-flex col-6 justify-content-center">
+                <?php makeAnagramDisplay(); ?>
+            </div>
+            <div id="shuffle" class="d-flex mb-0 col-3 justify-content-end">
+                <form action="/index.php?command=game" method="post">
+                    <input type="hidden" name="shuffle" value="true">
+                    <button class="d-flex align-items-end" type="submit">
+                        <h2 class="mb-0">shuffle</h2>
+                    </button>
+                </form>
+                <form action="/index.php?command=game_over" method="post">
+                    <button class="d-flex align-items-end" type="submit">
+                        <h2 class="mb-0">give up?</h2>
+                    </button>
+                </form>
+            </div>
+        </section>
 
-    <script>
-    function getGuess(){
+        <section id="anagram-guesses" class="d-flex flex-wrap flex-column">
+            <?php makeGuesses(); ?>
+        </section>
+
+        <section id="input-line" class="d-flex mt-3 justify-content-center">
+            <div class="col-3 d-flex align-items-end">
+                <?php echo "<h2 class='mb-0'>".$_SESSION["words_remaining"]." words left"."</h2>" ?>
+            </div>
+            <div id="user-input" class="d-flex col-6 justify-content-center mb-0" style="height: 50px"></div>
+            <form id="guess_form" action="/index.php?command=game" method="post" class="col-3 mb-0">
+                <div class="col">
+                    <input type="hidden" name="guess" class="form-control" required>
+                    <button type="submit" style="";>
+                        <h2 class="mb-0">^submit</h2>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section id="name-email" style="position: fixed; bottom: 0; right: 0;">
+            <p><?php echo "here just for the requirements (i like just the username) "; echo $_SESSION["name"]; echo " "; echo $_SESSION["email"]; ?></p>
+        </section>
+        
+        <?php makeHR($correct_guess); ?>
+    </section>
+</body>
+
+<script>
+    function getGuess() {
         const inputDiv = document.getElementById("user-input");
 
         let guess_string = "";
@@ -78,18 +178,20 @@ function makeAnagramDisplay() {
         for (let child of inputDiv.children) {
             guess_string += child.textContent;
         }
-
+        return guess_string;
     }
-    function handleInput(event){
+
+    function handleInput(event) {
         const key = event.key;
         const inputDiv = document.getElementById("user-input")
-        
-       
+
         if (key === "Backspace") {
+            event.stopPropagation();
+            event.preventDefault();
             const lastDiv = inputDiv.lastElementChild;
             if (lastDiv) {
                 inputDiv.removeChild(lastDiv);
-            } 
+            }
             return 0;
         }
 
@@ -97,8 +199,8 @@ function makeAnagramDisplay() {
             const form = document.getElementById("guess_form");
             const hiddenInput = form.querySelector('input[type="hidden"][name="guess"]');
             hiddenInput.value = getGuess();
-
             form.submit();
+            return 0;
         }
 
         if (inputDiv.childElementCount >= 7) {
@@ -107,13 +209,13 @@ function makeAnagramDisplay() {
 
         if (key.match(/^[a-zA-Z]$/)) {
             const newDiv = document.createElement('div');
-            newDiv.classList.add('mx-1');  
+            newDiv.classList.add('mx-1');
             newDiv.innerHTML = `<h1>${key.toUpperCase()}</h1>`;
             inputDiv.appendChild(newDiv);
-        } 
-        
+        }
+
     }
     window.addEventListener('keydown', handleInput);
+</script>
 
-    </script>
-</html> 
+</html>
