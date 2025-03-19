@@ -60,6 +60,9 @@ class AnagramsGameController {
     }
 
     private function handleDefault() {
+        if (isset($_POST["logout"])) {
+            session_destroy();
+        }
         if (isset($_SESSION["letters"])) {
             $this->getGamePage();
         } else {
@@ -69,13 +72,19 @@ class AnagramsGameController {
 
     private function handleGame() {
         if (!empty($_POST)) {
+            if (isset($_POST["play_again"])) {
+                $this->setupNewGame();
+                $this->getGamePage();
+                return;
+            }
+
             if (isset($_POST["shuffle"])) {
                 $this->shuffleWord();
                 $this->getGamePage();
                 return;
             }
             if ((isset($_POST["guess"]) && !is_null($_POST["guess"]))) {
-                var_dump($_POST);
+                // var_dump($_POST);
                 $guess = $_POST["guess"];
                 if ($guess === ''){
                     $this->getGamePage();
@@ -83,6 +92,7 @@ class AnagramsGameController {
                 }
                 // echo $guess;
                 if ($guess === $_SESSION["word"]) {
+                    $this->saveScores();
                     $this->getGameOverPage();
                     return;
                 }
@@ -92,7 +102,7 @@ class AnagramsGameController {
                 }
                 else {
                     $message = "already guessed!";
-                    if (strlen($_POST["guess"] === 7) &&  !($guess === $_SESSION["word"])))){
+                    if (((strlen($_POST["guess"] === 7) &&  !($guess === $_SESSION["word"])))){
                         $message = "try a better 7 letter";
                         return $this->getGamePage(FALSE, $message);
                     }
@@ -100,9 +110,10 @@ class AnagramsGameController {
                         $message = "letter not in guess";
                         return $this->getGamePage(FALSE, $message);
                     }
+                    // echo "guess: $guess";
                     if (!($this->CheckGuessInBank($guess))) {
                         $message = "letter not in bank";
-                        return $this->CheckGuessInBank(FALSE, $message);
+                        return $this->getGamePage(FALSE, $message);
                     }
                     // check if the guess is already made
                     $this->getGamePage(FALSE, $message);
@@ -114,16 +125,19 @@ class AnagramsGameController {
         $this->getGamePage();
     }
 
+    private function saveScores(){
+        $high_scores = json_decode(file_get_contents('/opt/src/high_scores.json'), true);
+        $high_scores[] = ["name" => $_SESSION["user_name"], "score" => $_SESSION["score"], "words_remaining" => $_SESSION["words_remaining"], "word" => $_SESSION["word"]];
+        usort($high_scores, function($a, $b) {
+            return $b["score"] - $a["score"];
+        });
+        $high_scores = array_slice($high_scores, 0, 10);
+        file_put_contents('/opt/src/high_scores.json', json_encode($high_scores));
+    }
+
     private function handleGameOver() {
-        if (isset($_POST["play_again"])) {
-            $this->setupNewGame();
-            $this->getGamePage();
-            return;
-        }
-        if (isset($_POST["logout"])) {
-            session_destroy();
-            $this->getWelcomePage();
-            return;
+        if (isset($_POST["give_up"])) {
+            $this->saveScores();
         }
         $this->getGameOverPage();
     }
@@ -202,9 +216,9 @@ class AnagramsGameController {
         $word_bank = file_get_contents('/opt/src/word_bank.json');
         $word_bank = json_decode($word_bank, true);
         $guess = strtolower($guess);
-        // echo "guess: $guess";
-        // echo "len: " . strlen($guess);
-        if (in_array($guess, $word_bank[strlen($guess)])) {
+        $guess_len = strlen($guess);
+        $word_bank = $word_bank[$guess_len];
+        if (in_array($guess, $word_bank)) {
             return TRUE;
         }
         return FALSE;

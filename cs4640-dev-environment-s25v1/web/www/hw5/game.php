@@ -149,6 +149,7 @@ function makeHR($correct = NULL)
                     </button>
                 </form>
                 <form action="/index.php?command=game_over" method="post">
+                    <input type="hidden" name="give_up" value="true">
                     <button class="d-flex align-items-end" type="submit">
                         <h2 class="mb-0">give up?</h2>
                     </button>
