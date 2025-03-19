@@ -74,8 +74,13 @@ class AnagramsGameController {
                 $this->getGamePage();
                 return;
             }
-            if (isset($_POST["guess"])) {
+            if ((isset($_POST["guess"]) && !is_null($_POST["guess"]))) {
+                var_dump($_POST);
                 $guess = $_POST["guess"];
+                if ($guess === ''){
+                    $this->getGamePage();
+                    return;
+                }
                 // echo $guess;
                 if ($guess === $_SESSION["word"]) {
                     $this->getGameOverPage();
@@ -86,9 +91,19 @@ class AnagramsGameController {
                     return;
                 }
                 else {
-                    // check if the guess is invalid
-                    $message = "Invalid guess";
-                    
+                    $message = "already guessed!";
+                    if (strlen($_POST["guess"] === 7) &&  !($guess === $_SESSION["word"])))){
+                        $message = "try a better 7 letter";
+                        return $this->getGamePage(FALSE, $message);
+                    }
+                    if (!($this->checkGuessInWord($guess))) {
+                        $message = "letter not in guess";
+                        return $this->getGamePage(FALSE, $message);
+                    }
+                    if (!($this->CheckGuessInBank($guess))) {
+                        $message = "letter not in bank";
+                        return $this->CheckGuessInBank(FALSE, $message);
+                    }
                     // check if the guess is already made
                     $this->getGamePage(FALSE, $message);
                     return;
@@ -117,7 +132,7 @@ class AnagramsGameController {
         include 'hw5/welcome.php';
     }
 
-    private function getGamePage($correct_guess = NULL) {
+    private function getGamePage($correct_guess = NULL, $alert = NULL) {
         include 'hw5/game.php';
     }
 
@@ -181,6 +196,18 @@ class AnagramsGameController {
             unset($letters_copy[$key]);
         }
         return TRUE;
+    }
+
+    private function CheckGuessInBank($guess) {
+        $word_bank = file_get_contents('/opt/src/word_bank.json');
+        $word_bank = json_decode($word_bank, true);
+        $guess = strtolower($guess);
+        // echo "guess: $guess";
+        // echo "len: " . strlen($guess);
+        if (in_array($guess, $word_bank[strlen($guess)])) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     private function checkGuessinGuesses($guess) {

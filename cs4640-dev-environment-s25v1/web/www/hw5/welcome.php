@@ -22,7 +22,7 @@
                             </div>
                             <div class="mb-3 col-6">
                                 <label class="form-label">display name</label>
-                                <input type="name" name="user_name" class="form-control" required>
+                                <input type="name" name="user_name" class="form-control" maxlength="12" required>
                             </div> 
                         </div>
                         <div class="mb-3">

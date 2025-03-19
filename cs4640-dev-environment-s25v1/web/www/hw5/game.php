@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <?php
+function makeAlert($alert = NULL) {
+    if (!is_null($alert) && isset($_POST["guess"])){
+        echo "<div class='alert alert-danger col-6 mt-3' role='alert'>";
+        echo "<h5 class='mb-0' style='text-align:center'>$alert</h5>";
+        echo "</div>";
+    }
+else if (isset($_POST["guess"]) && (!($_POST["guess"] == ""))) {
+        echo "<div class='alert alert-success col-6 mt-3' role='alert'>";
+        echo "<h5 class='mb-0' style='text-align:center'>you got it right</h5>";
+        echo "</div>";
+        return;
+    }
+}
+
 function echoScore()
 {
     if (isset($_SESSION["score"])) {
@@ -38,7 +52,7 @@ function makeGuesses()
         if (empty($filtered)) {
             continue;
         }
-        echo "<div id='$i-letter-words' class='d-flex align-items-center'>";
+        echo "<div id='$i-letter-words' class='d-flex align-items-center mt-2'>";
         echo "<h2>$i" . "L" . ":</h2>";
         foreach ($guesses as $guess) {
             if (strlen($guess) == $i) {
@@ -145,6 +159,8 @@ function makeHR($correct = NULL)
         <section id="anagram-guesses" class="d-flex flex-wrap flex-column">
             <?php makeGuesses(); ?>
         </section>
+        
+        <?php makeAlert($alert); ?>
 
         <section id="input-line" class="d-flex mt-3 justify-content-center">
             <div class="col-3 d-flex align-items-end">
