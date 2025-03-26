@@ -29,10 +29,6 @@
                             <label class="form-label">email</label>
                             <input type="email" name="email" class="form-control"required> 
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">password</label>
-                            <input type="password" name="password" class="form-control"required> 
-                        </div>
                         <div class="d-grid mx-auto">
                             <button type="submit" class="btn btn-primary col-6 mx-auto">onwards to anagrams</button>
                         </div>

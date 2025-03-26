@@ -1,15 +1,24 @@
 <?php
+
+// Sources
+// https://www.w3schools.com/php/
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript
+// https://www.php.net/manual/en/
+// https://getbootstrap.com/docs/5.3/
+//
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$word_bank_path = '/opt/src/word_bank.json';
-$words7_path = '/opt/src/words7.txt';
-$high_scores_path = '/opt/src/high_scores.json';
+// https://cs4640.cs.virginia.edu/djx3rn/hw5/
 
-// $word_bank_path = '/var/www/html/homework/word_bank.json';
-// $words7_path = '/var/www/html/homework/words7.txt';
-// $high_scores_path = '/djx3rn/hw5/high_scores.json';
+/*$word_bank_path = '/opt/src/word_bank.json';*/
+/*$words7_path = '/opt/src/words7.txt';*/
+/*$high_scores_path = '/opt/src/high_scores.json';*/
+
+$word_bank_path = '/var/www/html/homework/word_bank.json';
+$words7_path = '/var/www/html/homework/words7.txt';
+$high_scores_path = '/djx3rn/hw5/high_scores.json';
 
 /*
 some quick documentation
@@ -24,65 +33,8 @@ variables used in $_SESSION
     email: email of player
     score: score of player
 */
-class Config {
-    public static $db = [
-        "host" => "db",
-        "port" => 5432,
-        "user" => "localuser",
-        "pass" => "cs4640LocalUser!",
-        "database" => "example"
-    ];
-}
-
-class Database {
-    private $dbConnector;
-
-    /**
-     * Constructor
-     *
-     * Connects to PostgresSQL
-     */
-    public function __construct() {
-        $host = Config::$db["host"];
-        $user = Config::$db["user"];
-        $database = Config::$db["database"];
-        $password = Config::$db["pass"];
-        $port = Config::$db["port"];
-
-        $this->dbConnector = pg_connect("host=$host port=$port dbname=$database user=$user password=$password");
-    }
-
-    /**
-     * Query
-     *
-     * Makes a query to posgres and returns an array of the results.
-     * The query must include placeholders for each of the additional
-     * parameters provided.
-     */
-    public function query($query, ...$params) {
-        $res = pg_query_params($this->dbConnector, $query, $params);
-
-        if ($res === false) {
-            echo pg_last_error($this->dbConnector);
-            return false;
-        }
-
-        return pg_fetch_all($res);
-    }
-}
 
 class AnagramsGameController {
-
-    private $db;
-
-    /**
-     * Constructor
-     */
-    public function __construct($input) {
-        $this->db = new Database(new Config());
-    }
-
-
     public function dispatchCommand($command = null) {
         // var_dump($_SESSION);
         if (empty($_SESSION)){
@@ -107,7 +59,7 @@ class AnagramsGameController {
     }
 
     private function handleWelcome() {
-        if (!empty($_POST) && isset($_POST["name"]) && isset($_POST["user_name"]) && isset($_POST["email"]) && isset($_POST["password"])) {
+        if (!empty($_POST) && isset($_POST["name"]) && isset($_POST["user_name"]) && isset($_POST["email"])) {
             if (isset($_POST["name"])) {
                 $_SESSION["name"] = $_POST["name"];
             }
@@ -116,9 +68,6 @@ class AnagramsGameController {
             }
             if (isset($_POST["email"])) {
                 $_SESSION["email"] = $_POST["email"];
-            }
-            if (isset($_POST["password"])) {
-                $_SESSION["password"] = $_POST["password"];
             }
             $this->setupGame();
             $this->getGamePage();
@@ -130,6 +79,8 @@ class AnagramsGameController {
     private function handleDefault() {
         if (isset($_POST["logout"])) {
             session_destroy();
+            $this->getWelcomePage();
+            return;
         }
         if (isset($_SESSION["letters"])) {
             $this->getGamePage();
