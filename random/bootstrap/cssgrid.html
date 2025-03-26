@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard</title>
+    <style>
+        * {
+            border: 1px solid black;
+        }
+
+        .scoreboard {
+            display: grid;
+            grid-template-columns: auto 1fr; /* Label column and content column */
+            gap: 10px; /* Space between label and words */
+            align-items: start;
+        }
+
+        .scoreboard .label {
+            font-weight: bold;
+        }
+
+        .scoreboard .words {
+            display: flex;
+            flex-wrap: wrap; /* Allow words to wrap */
+            gap: 5px; /* Space between words */
+        }
+    </style>
+</head>
+
+<body>
+    <section class="scoreboard">
+        <div class="label">1 word:</div>
+        <div class="words">
+            <span>word</span>
+            <span>word</span>
+            <span>word</span>
+        </div>
+
+        <div class="label">2 word:</div>
+        <div class="words">
+            <span>word</span>
+        </div>
+    </section>
+</body>
+
+</html>
