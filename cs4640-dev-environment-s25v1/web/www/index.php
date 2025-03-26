@@ -24,8 +24,65 @@ variables used in $_SESSION
     email: email of player
     score: score of player
 */
+class Config {
+    public static $db = [
+        "host" => "db",
+        "port" => 5432,
+        "user" => "localuser",
+        "pass" => "cs4640LocalUser!",
+        "database" => "example"
+    ];
+}
+
+class Database {
+    private $dbConnector;
+
+    /**
+     * Constructor
+     *
+     * Connects to PostgresSQL
+     */
+    public function __construct() {
+        $host = Config::$db["host"];
+        $user = Config::$db["user"];
+        $database = Config::$db["database"];
+        $password = Config::$db["pass"];
+        $port = Config::$db["port"];
+
+        $this->dbConnector = pg_connect("host=$host port=$port dbname=$database user=$user password=$password");
+    }
+
+    /**
+     * Query
+     *
+     * Makes a query to posgres and returns an array of the results.
+     * The query must include placeholders for each of the additional
+     * parameters provided.
+     */
+    public function query($query, ...$params) {
+        $res = pg_query_params($this->dbConnector, $query, $params);
+
+        if ($res === false) {
+            echo pg_last_error($this->dbConnector);
+            return false;
+        }
+
+        return pg_fetch_all($res);
+    }
+}
 
 class AnagramsGameController {
+
+    private $db;
+
+    /**
+     * Constructor
+     */
+    public function __construct($input) {
+        $this->db = new Database(new Config());
+    }
+
+
     public function dispatchCommand($command = null) {
         // var_dump($_SESSION);
         if (empty($_SESSION)){
@@ -50,7 +107,7 @@ class AnagramsGameController {
     }
 
     private function handleWelcome() {
-        if (!empty($_POST) && isset($_POST["name"]) && isset($_POST["user_name"]) && isset($_POST["email"])) {
+        if (!empty($_POST) && isset($_POST["name"]) && isset($_POST["user_name"]) && isset($_POST["email"]) && isset($_POST["password"])) {
             if (isset($_POST["name"])) {
                 $_SESSION["name"] = $_POST["name"];
             }
@@ -59,6 +116,9 @@ class AnagramsGameController {
             }
             if (isset($_POST["email"])) {
                 $_SESSION["email"] = $_POST["email"];
+            }
+            if (isset($_POST["password"])) {
+                $_SESSION["password"] = $_POST["password"];
             }
             $this->setupGame();
             $this->getGamePage();
