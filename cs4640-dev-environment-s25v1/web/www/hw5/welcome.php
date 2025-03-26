@@ -36,6 +36,11 @@
                         <div class="d-grid mx-auto">
                             <button type="submit" class="btn btn-primary col-6 mx-auto">onwards to anagrams</button>
                         </div>
+                        <?php if (isset($alert)): ?>
+                            <div class="alert alert-danger mt-3" role="alert">
+                                <?php echo $alert; ?>
+                            </div>
+                        <?php endif ?>
                     </form>
                 </div>
         </section>

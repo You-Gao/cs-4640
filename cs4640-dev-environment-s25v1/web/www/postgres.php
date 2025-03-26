@@ -20,14 +20,21 @@ if ($dbHandle) {
 $res  = pg_query($dbHandle, "drop sequence if exists word_seq cascade;");
 $res  = pg_query($dbHandle, "drop sequence if exists user_seq cascade;");
 $res  = pg_query($dbHandle, "drop sequence if exists userwords_seq cascade;");
+$res  = pg_query($dbHandle, "drop sequence if exists userstats_seq cascade;");
+$res  = pg_query($dbHandle, "drop sequence if exists stats_seq cascade;");
+
 $res  = pg_query($dbHandle, "drop table if exists word;");
 $res  = pg_query($dbHandle, "drop table if exists users;");
 $res  = pg_query($dbHandle, "drop table if exists userwords;");
+$res  = pg_query($dbHandle, "drop table if exists userstats;");
+$res  = pg_query($dbHandle, "drop table if exists stats;");
 
 // Create sequences
 $res  = pg_query($dbHandle, "create sequence word_seq;");
 $res  = pg_query($dbHandle, "create sequence user_seq;");
 $res  = pg_query($dbHandle, "create sequence userwords_seq;");
+$res  = pg_query($dbHandle, "create sequence userstats_seq;");
+$res  = pg_query($dbHandle, "create sequence stats_seq;");
 
 // Create tables
 $res  = pg_query($dbHandle, "create table word (
@@ -45,6 +52,17 @@ $res  = pg_query($dbHandle, "create table userwords (
     id int primary key default nextval('userwords_seq'),
     user_id int,
     word_id int);"); 
+$res  = pg_query($dbHandle, "create table userstats (
+    id int primary key default nextval('userstats_seq'),
+    user_id int,
+    stat_id int,
+    word_id int);");
+$res  = pg_query($dbHandle, "create table stats (
+    id int primary key default nextval('stats_seq'),
+    score int,
+    win int,
+    words_remaining int
+    );");
 
 echo " | Done setting up db";
 

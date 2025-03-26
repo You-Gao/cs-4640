@@ -69,6 +69,50 @@ class Database {
 
         return pg_fetch_all($res);
     }
+//  if (isset($_POST["name"])) {
+//                 $_SESSION["name"] = $_POST["name"];
+//             }
+//             if (isset($_POST["user_name"])) {
+//                 $_SESSION["user_name"] = $_POST["user_name"];
+//             }
+//             if (isset($_POST["email"])) {
+//                 $_SESSION["email"] = $_POST["email"];
+//             }
+//             if (isset($_POST["password"])) {
+//                 $_SESSION["password"] = $_POST["password"];
+//             }
+
+    public function checkUser($email) {
+        $query = "SELECT * FROM users WHERE email = $1";
+        $res = $this->query($query, $email);
+        return count($res) > 0;
+    }
+
+    public function checkPassword($email, $password) {
+        $query = "SELECT password FROM users WHERE email = $1";
+        $res = $this->query($query, $email);
+        return password_verify($password, $res[0]["password"]);
+    }
+
+    public function getUserID($email) {
+        $query = "SELECT id FROM users WHERE email = $1";
+        $res = $this->query($query, $email);
+        return $res[0]["id"];
+    }
+
+    public function storeUserWords($user_id, $word) {
+        $query = "INSERT INTO userwords (user_id, word_id) VALUES ($1, $2)";
+        $res = $this->query($query, $user_id, $word);
+    }
+
+    public function createUser($name, $user_name, $email, $password) {
+        $query = "INSERT INTO users (name, email, password, display, score) VALUES ($1, $2, $3, $4, $5)";
+        $res = $this->query($query, $name, $email, $this->hashPassword($password), $user_name, 0);
+    }
+
+    public function hashPassword($password) {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
 }
 
 class AnagramsGameController {
@@ -78,7 +122,7 @@ class AnagramsGameController {
     /**
      * Constructor
      */
-    public function __construct($input) {
+    public function __construct() {
         $this->db = new Database(new Config());
     }
 
@@ -106,20 +150,35 @@ class AnagramsGameController {
         }
     }
 
+    private function storeUserSession() {
+        if (isset($_POST["name"])) {
+            $_SESSION["name"] = $_POST["name"];
+        }
+        if (isset($_POST["user_name"])) {
+            $_SESSION["user_name"] = $_POST["user_name"];
+        }
+        if (isset($_POST["email"])) {
+            $_SESSION["email"] = $_POST["email"];
+        }
+    }
+
     private function handleWelcome() {
         if (!empty($_POST) && isset($_POST["name"]) && isset($_POST["user_name"]) && isset($_POST["email"]) && isset($_POST["password"])) {
-            if (isset($_POST["name"])) {
-                $_SESSION["name"] = $_POST["name"];
+            if ($this->db->checkUser($_POST["email"])) {
+                if ($this->db->checkPassword($_POST["email"], $_POST["password"])) {
+                    $_SESSION["user_id"] = $this->db->getUserID($_POST["email"]);
+                    $this->storeUserSession();
+                    $this->setupGame();
+                    $this->getGamePage();
+                }
+                else {
+                    $this->getWelcomePage("incorrect password");
+                }
+                return;
             }
-            if (isset($_POST["user_name"])) {
-                $_SESSION["user_name"] = $_POST["user_name"];
-            }
-            if (isset($_POST["email"])) {
-                $_SESSION["email"] = $_POST["email"];
-            }
-            if (isset($_POST["password"])) {
-                $_SESSION["password"] = $_POST["password"];
-            }
+            $this->db->createUser($_POST["name"], $_POST["user_name"], $_POST["email"], $_POST["password"]);
+            $this->storeUserSession();
+            $_SESSION["user_id"] = $this->db->getUserID($_POST["email"]);
             $this->setupGame();
             $this->getGamePage();
             return;
@@ -129,6 +188,8 @@ class AnagramsGameController {
 
     private function handleDefault() {
         if (isset($_POST["logout"])) {
+            $this->saveScores();
+            session_unset();
             session_destroy();
         }
         if (isset($_SESSION["letters"])) {
@@ -139,6 +200,7 @@ class AnagramsGameController {
     }
 
     private function handleGame() {
+        // var_dump($_POST);
         if (!empty($_POST)) {
             if (isset($_POST["play_again"])) {
                 $this->setupNewGame();
@@ -194,24 +256,24 @@ class AnagramsGameController {
     }
 
     private function saveScores(){
-        global $high_scores_path;
-        $high_scores = json_decode(file_get_contents($high_scores_path), true);
-        $high_scores[] = ["name" => $_SESSION["user_name"], "score" => $_SESSION["score"], "words_remaining" => $_SESSION["words_remaining"], "word" => $_SESSION["word"]];
-        usort($high_scores, function($a, $b) {
-            return $b["score"] - $a["score"];
-        });
-        $high_scores = array_slice($high_scores, 0, 10);
-        file_put_contents($high_scores_path, json_encode($high_scores));
+        // if unset return, which occurs when the user gives up and gets sent to log-out
+        if (!isset($_SESSION["score_id"])) {
+            return;
+        }
+        $this->db->query("INSERT INTO userstats (user_id, stat_id, word_id) VALUES ($1, $2, $3)", $_SESSION["user_id"], $_SESSION["score_id"], $_SESSION["word_id"]);
     }
 
     private function handleGameOver() {
         if (isset($_POST["give_up"])) {
             $this->saveScores();
         }
-        $this->getGameOverPage();
+
+        $query = "SELECT * FROM userstats LEFT JOIN stats ON userstats.stat_id = stats.id LEFT JOIN word ON userstats.word_id = word.id WHERE userstats.user_id = $1";
+        $all_games = $this->db->query($query, $_SESSION["user_id"]);
+        $this->getGameOverPage($all_games);
     }
 
-    private function getWelcomePage() {
+    private function getWelcomePage($alert = NULL) {
         include 'hw5/welcome.php';
     }
 
@@ -219,7 +281,7 @@ class AnagramsGameController {
         include 'hw5/game.php';
     }
 
-    private function getGameOverPage() {
+    private function getGameOverPage($games = NULL) {
         include 'hw5/gameover.php';
     }
 
@@ -244,15 +306,36 @@ class AnagramsGameController {
             }
         }
         $_SESSION["words_remaining"] = $words_remaining;
+        $this->db->query("UPDATE stats SET words_remaining = $1 WHERE id = $2", $words_remaining, $_SESSION["score_id"]);
     }
 
 
     private function setupGame() {
         global $words7_path;
+
+        $this->db->query("INSERT INTO stats (score) VALUES (0)");
+        // grabs the most recent score id
+        $_SESSION["score_id"] = $this->db->query("SELECT id FROM stats ORDER BY id DESC LIMIT 1")[0]["id"];
+
         $words = file($words7_path);
+        $existing_words = $this->db->query("SELECT word_id FROM userwords WHERE user_id = $1", $_SESSION["user_id"]);
+        $words = array_filter($words, function ($word) use ($existing_words) {
+            $word = trim($word);
+            foreach ($existing_words as $existing_word) {
+                if ($word === $existing_word["word_id"]) {
+                    return FALSE;
+                }
+            }
+            return TRUE;
+        });
         $word = $words[array_rand($words)];
-        $_SESSION["word"] = strtoupper(trim($word));
         $word = strtoupper(trim($word));
+        
+        $this->db->query("INSERT INTO word (word) VALUES ($1)", $word);
+        $this->db->storeUserWords($_SESSION["user_id"], $this->db->query("SELECT id FROM word WHERE word = $1", $word)[0]["id"]);
+        $_SESSION["word"] = strtoupper(trim($word));
+        $_SESSION["word_id"] = $this->db->query("SELECT id FROM word WHERE word = $1", $word)[0]["id"];
+
         $word = str_shuffle($word);
         $letters = str_split($word);
         $_SESSION["letters"] = $letters;
@@ -330,6 +413,7 @@ class AnagramsGameController {
             // echo "correct guess";
             $_SESSION["guesses"][] = $guess;
             $_SESSION["score"] += $scores_arr[strlen($guess)];
+            $this->db->query("UPDATE stats SET score = $1 WHERE id = $2", $_SESSION["score"], $_SESSION["score_id"]);
             $_SESSION["words_remaining"] = $_SESSION["words_remaining"] - 1;
             return TRUE;
         }

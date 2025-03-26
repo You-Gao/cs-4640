@@ -127,6 +127,10 @@ function makeHR($correct = NULL)
     <section id="anagrams" class="row justify-content-center mt-4">
         <section id="anagram-title" class="d-flex col-12 align-items-baseline">
             <div class="col-3">
+                <form action="/index.php?command=default" method="post">
+                    <input type="hidden" name="logout" value="true">
+                    <button type="submit"><h2>log-out</h2></button>
+                </form>
             </div>
             <h1 class="col-6 text-center">the anagrams game</h1>
             <div class="col-3 d-flex justify-content-end ">
