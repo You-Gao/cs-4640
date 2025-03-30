@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 include_once("/opt/src/example/Config.php");
 include_once("/opt/src/example/Database.php");
-include_once("/opt/src/example/GameController.php");
+include_once("/opt/src/project/GameController.php");
 
 echo "project set-up";
 

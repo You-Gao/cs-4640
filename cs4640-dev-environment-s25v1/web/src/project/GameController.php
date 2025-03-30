@@ -35,6 +35,9 @@ class GameController {
       case "login": 
         $this->login();
         break;
+      case "signup":
+        $this->signup();
+        break;
       case "game":
         $this->showGame();
         break;
@@ -124,6 +127,33 @@ class GameController {
     $this->showWelcome("Name or email missing");
   }
 
+  public function signup($message = "") {
+
+    // Form validation
+    if (isset($_POST) && !empty($_POST["name"]) && !empty($_POST["password"]) && !empty($_POST["email"])) {
+      $email = $this->db->query("select * from sprint3_users where email = $1;", $_POST["email"]);
+      $name = $this->db->query("select * from sprint3_users where username = $1;", $_POST["name"]);
+      if (!empty($email)) {
+        $message = "Email already exists. Please choose a different email.";
+      } elseif (!empty($name)) {
+        $message = "Name already exists. Please choose a different name.";
+      } else {
+        $result = $this->db->query("insert into sprint3_users (username, email, password) values ($1, $2, $3);",
+          $_POST["name"],
+          $_POST["email"],
+          password_hash($_POST["password"], PASSWORD_DEFAULT));
+        $_SESSION["user_id"] = $this->db->getLastInsertId("sprint3_users_seq");
+        $_SESSION["name"] = $_POST["name"];
+        $_SESSION["email"] = $_POST["email"];
+        header("Location: ?command=welcome");
+        return;
+      }
+    }
+    include_once("html/sign-up.php");
+
+    return;
+  }    
+
   public function showWelcome($message = "") {
     
   }
@@ -137,7 +167,8 @@ class GameController {
   }
 
   public function showCreation($message = ""){
-    
+    include_once("html/character_creation.php");
+    return;
   }
 
   public function showInventory(){
@@ -153,7 +184,39 @@ class GameController {
   }
 
   public function createCharater(){
-    
+    // Form validation
+    $results = $this->db->query("select * from sprint3_characters where name = $1;", $_POST["name"]);
+    if (!empty($results)) {
+      $this->showCreation("Character name already exists. Please choose a different name.");
+      return;
+    }
+    elseif (!isset($_POST["name"]) || $_POST["name"] == null || $_POST["name"] == "") {
+      $this->showCreation("Please enter a character name.");
+      return;
+    }
+
+    // Storing the character in the database
+    if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null && $this->isNumeric($_SESSION["user_id"])) {
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 0, 0, 0, 0, 0, $2, $3, $4, $5);",
+        $_POST["name"],
+        $_POST["hat_id"],
+        $_POST["shirt_id"],
+        $_POST["pant_id"],
+        $_POST["shoe_id"]);
+    }
+    else {
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
+        $_SESSION["user_id"],
+        $_POST["name"],
+        $_POST["hat_id"],
+        $_POST["shirt_id"],
+        $_POST["pant_id"],
+        $_POST["shoe_id"]);
+    }
+    $_SESSION["character_id"] = $this->db->getLastInsertId("sprint3_characters_seq");
+
+    header("Location: ?command=game");
+    return;
   }
 
   public function equip(){
