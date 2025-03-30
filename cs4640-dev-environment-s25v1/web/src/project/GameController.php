@@ -235,12 +235,23 @@ class GameController {
     
   }
 
+  // Endpoint: ?command=searchF&name=some_name
   public function searchFriend(){
-    
+    if (!isset($_GET["name"])) {
+      echo json_encode([]); // figuring out how to return a JSON response
+      return;
+    }
+    $search = $_GET["name"];
+    $results = $this->db->query("select * from sprint3_users where username like $1;", "%$search%");
+    echo json_encode($results);
+    return;
   }
 
   public function acceptFreind(){
     
   }
 
+  public function isNumeric($var) {
+    return preg_match("/^[0-9]+$/", $var);
+  }    
 }
