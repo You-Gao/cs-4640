@@ -25,7 +25,7 @@
             <section id="login" class="row mt-4 mx-1">
                 <h4>Login</h4>
 
-                <form action="home_logged_in.html" method="post" onsubmit="redirectToHome(event)">
+                <form action="?command=login" method="post">
                     <div class="mb-2">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" required>
@@ -36,14 +36,8 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
-                
-                <!-- mocked redirect for now -->
-                <script>
-                    function redirectToHome(event) {
-                        event.preventDefault(); 
-                        window.location.href = 'home_logged_in.html';
-                    }
-                </script>
+
+                <a href="?command=signup" class="btn btn-secondary col-11 mx-2 mt-2">Sign Up</a>
 
             </section>
         </div>

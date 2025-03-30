@@ -36,6 +36,9 @@ class GameController {
       case "login": 
         $this->login();
         break;
+      case "signup":
+        $this->signup();
+        break;
       case "character_creation":
         $this->showCharacter();
         break;
@@ -201,6 +204,40 @@ class GameController {
         $_POST["shoe_id"]);
     }
     $_SESSION["character_id"] = $this->db->getLastInsertId("sprint3_characters_seq");
+
+    header("Location: ?command=game");
+    return;
+  }
+
+  /**
+   * Show the signup page
+   * Parameters: $message (optional), $_POST["name"], $_POST["password"], $_POST["email"]
+   * Returns: HTML for the signup page or redirect to the welcome page
+   */
+  public function signup($message = "") {
+
+    // Form validation
+    if (isset($_POST) && !empty($_POST["name"]) && !empty($_POST["password"]) && !empty($_POST["email"])) {
+      $email = $this->db->query("select * from sprint3_users where email = $1;", $_POST["email"]);
+      $name = $this->db->query("select * from sprint3_users where username = $1;", $_POST["name"]);
+      if (!empty($email)) {
+        $message = "Email already exists. Please choose a different email.";
+      } elseif (!empty($name)) {
+        $message = "Name already exists. Please choose a different name.";
+      } else {
+        $result = $this->db->query("insert into sprint3_users (username, email, password) values ($1, $2, $3);",
+          $_POST["name"],
+          $_POST["email"],
+          password_hash($_POST["password"], PASSWORD_DEFAULT));
+        $_SESSION["user_id"] = $this->db->getLastInsertId("sprint3_users_seq");
+        $_SESSION["name"] = $_POST["name"];
+        $_SESSION["email"] = $_POST["email"];
+        header("Location: ?command=welcome");
+        return;
+      }
+    }
+    include_once("html/sign-up.php");
+
     return;
   }
 
