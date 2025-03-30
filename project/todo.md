@@ -1,0 +1,1 @@
+### friends json, character page, database set-up
