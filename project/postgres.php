@@ -65,6 +65,7 @@ pg_query($dbHandle, "create table friends (
 pg_query($dbHandle, "create table items (
     id int primary key default nextval('items_seq'),
     name text,
+    type text,
     atk int,
     def int,
     hp int
@@ -74,6 +75,7 @@ pg_query($dbHandle, "create table character_items (
     char_id int references characters(id),
     item_id int references items(id),
     item_count int,
+    equiped bit,
     primary key (char_id, item_id)
 );");
 
