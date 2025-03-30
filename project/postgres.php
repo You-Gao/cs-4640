@@ -65,6 +65,7 @@ pg_query($dbHandle, "create table sprint3_friends (
 pg_query($dbHandle, "create table sprint3_items (
     id int primary key default nextval('sprint3_items_seq'),
     name text,
+    type text,
     atk int,
     def int,
     hp int
@@ -74,6 +75,7 @@ pg_query($dbHandle, "create table sprint3_character_items (
     char_id int references sprint3_characters(id),
     item_id int references sprint3_items(id),
     item_count int,
+    equiped bit,
     primary key (char_id, item_id)
 );");
 
