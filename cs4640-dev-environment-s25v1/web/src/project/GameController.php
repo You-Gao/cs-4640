@@ -180,7 +180,8 @@ class GameController {
   }
 
   public function logout(){
-    
+    session_destroy();
+    session_start();
   }
 
   public function createCharater(){
