@@ -41,4 +41,20 @@ class Database {
 
         return pg_fetch_all($res);
     }
+
+    /**
+     * Get the last inserted ID from a given sequence.
+     */
+
+    public function getLastInsertId($sequence) {
+        $res = pg_query($this->dbConnector, "SELECT currval('$sequence') as id;");
+
+        if ($res === false) {
+            echo pg_last_error($this->dbConnector);
+            return false;
+        }
+
+        $row = pg_fetch_assoc($res);
+        return $row["id"];
+    }
 }

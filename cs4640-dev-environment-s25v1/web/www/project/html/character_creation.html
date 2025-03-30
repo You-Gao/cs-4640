@@ -48,22 +48,8 @@
                     <div class="col-4 mx-2">shirt 3</div>
                 </div>
             </div>
-            <div onclick="show_selection(event)">
-                <p>PANTS</p>
-                <div class="selections">
-                    <div class="col-4 mx-2">pants 1</div>
-                    <div class="col-4 mx-2">pants 2</div>
-                    <div class="col-4 mx-2">pants 3</div>
-                </div>
-            </div>
-            <div onclick="show_selection(event)">
-                <p>SHOES</p>
-                <div class="selections">
-                    <div class="col-4 mx-2">shoes 1</div>
-                    <div class="col-4 mx-2">shoes 2</div>
-                    <div class="col-4 mx-2">shoes 3</div>
-                </div>
-            </div>
+
+
 		</div>	
 	    </div>
 
@@ -72,7 +58,7 @@
 		<div class="col-2">
 			<div class="row flex-column align-items-start">
 				<div onclick="show_selection(event)">
-                    <p>WEP</p>
+                    <p>SHOES</p>
                     <div class="selections">
                         <div class="col-4 mx-2">sword</div>
                         <div class="col-4 mx-2">stick #1</div>
@@ -80,32 +66,28 @@
                     </div>
                 </div>
 				<div onclick="show_selection(event)">
-                    <p>OFF</p>
+                    <p>PANTS</p>
                     <div class="selections">
                         <div class="col-4 mx-2">money</div>
                         <div class="col-4 mx-2">bird</div>
                         <div class="col-4 mx-2">stick #2</div>
                     </div>
                 </div>
-				<div onclick="show_selection(event)">
-                    <p>MISC</p>
-                    <div class="selections">
-                        <div>test</div>
-                    </div>
-                </div>
-				<div onclick="show_selection(event)">
-                    <p>MISC</p>
-                    <div class="selections">
-                        <div>test</div>
-                    </div>
-                </div>
+
 			</div>
 		</div>
 	
     </section>
 
     <section id="register" class="row justify-content-center mt-4 text-center">
-        <a id="sign-up" href="game.html" class="btn btn-primary col-6 p-2">[ OFF TO ADVENTURE!!! ]</a>
+        <form action="?command=make_character" method="POST" class="col-12">
+            <input type="hidden" name="hat" id="hat" value="">
+            <input type="hidden" name="shirt" id="shirt" value="">
+            <input type="hidden" name="shoes" id="shoes" value="">
+            <input type="hidden" name="pants" id="pants" value="">
+            <input type="hidden" name="character-name" id="hidden-character-name" value="">
+            <button type="submit" class="btn btn-primary p-2 col-6">[ OFF TO ADVENTURE!!! ]</button>
+        </form>
     </section>
 
 <script>
@@ -118,9 +100,17 @@
         });
 
         selection.style.display = "flex";
-        selection.addEventListener("click", function(){
+        selection.addEventListener("click", function(event){
+            let selected = event.target.innerText;
+            let type = parent.querySelector("p").innerText.toLowerCase();
+            document.getElementById(type).value = selected;
             selection.style.display = "none";
         });
+    }
+
+    function set_character_name(event){
+        let character_name = document.getElementById("character-name").value;
+        document.getElementById("hidden-character-name").value = character_name;
     }
 
 </script>

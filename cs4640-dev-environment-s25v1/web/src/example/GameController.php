@@ -4,7 +4,7 @@
 class GameController {
 
   private $db;
-
+  private $input;
   private $errorMessage = "";
 
   /**
@@ -26,29 +26,24 @@ class GameController {
    */
   public function run() {
     // Get the command
+    var_dump($this->input);
     $command = "welcome";
-    if (isset($this->input["command"]) && (
-      $this->input["command"] == "login" || isset($_SESSION["name"])))
+    if (isset($this->input["command"])){
       $command = $this->input["command"];
+    }     
 
     switch($command) {
       case "login": 
         $this->login();
         break;
-      case "answer":
-        $this->answerQuestion();
+      case "character_creation":
+        $this->showCharacter();
         break;
-      case "scramble":
-        $this->scramble();
+      case "make_character":
+        $this->makeCharacter();
         break;
-      case "new":
-        $this->newQuestion();
-        break;
-      case "gameover":
-        $this->showGameover();
-        break;
-      case "question":
-        $this->showQuestion();
+      case "user_search":
+        $this->getUserSearch();
         break;
       case "logout": 
         $this->logout(); // notice no break 
@@ -139,11 +134,66 @@ class GameController {
    * Retrieve users from the database and match them to the search string
    * Parameters: $_GET["name"] (string)
    * Returns: JSON array of users that match the search string
+   * ^ figure out how to send as a JSON response instead of HTML
    */
-  public function user_search() {
+  public function getUserSearch() {
+    if (!isset($_GET["name"])) {
+      echo json_encode([]);
+      return;
+    }
     $search = $_GET["name"];
-    $results = $this->db->query("select * from sprint3_users where name like $1;", "%$search%");
+    $results = $this->db->query("select * from sprint3_users where username like $1;", "%$search%");
     echo json_encode($results);
+    return;
+  }
+
+  /**
+   * Use Regex to check if variable is numeric
+   * Parameters: $var (string)
+   */
+  public function isNumeric($var) {
+    return preg_match("/^[0-9]+$/", $var);
+  }
+
+
+  /**
+   * Show the character page
+   */
+  public function showCharacter($message = "") {
+    include_once("html/character_creation.html");
+    return;
+  }
+
+  /**
+   * Make a new character and redirect to the game page
+   * Parameters: $_POST["name"], $_POST["hat_id"], $_POST["shirt_id"], $_POST["pant_id"], $_POST["shoes_id"]
+   * Returns: Redirect to the game page
+   */
+  public function makeCharacter() {
+    $results = $this->db->query("select * from sprint3_characters where name = $1;", $_POST["name"]);
+    if (!empty($results)) {
+      $this->showCharacter("Character name already exists. Please choose a different name.");
+      return;
+    }
+    if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null && $this->isNumeric($_SESSION["user_id"])) {
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 0, 0, 0, 0, 0, $2, $3, $4, $5);",
+        $_POST["name"],
+        $_POST["hat_id"],
+        $_POST["shirt_id"],
+        $_POST["pant_id"],
+        $_POST["shoes_id"]);
+    }
+    else {
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
+        $_SESSION["user_id"],
+        $_POST["name"],
+        $_POST["hat_id"],
+        $_POST["shirt_id"],
+        $_POST["pant_id"],
+        $_POST["shoes_id"]);
+    }
+    $_SESSION["character_id"] = $this->db->getLastInsertId("sprint3_characters_seq");
+    return;
   }
 
   /**
@@ -154,5 +204,6 @@ class GameController {
    */
   public function showWelcome($message = "") {
     include_once("html/index.html");
+    return;
   }
 }
