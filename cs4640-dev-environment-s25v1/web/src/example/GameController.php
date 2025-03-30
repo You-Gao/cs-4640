@@ -181,7 +181,7 @@ class GameController {
         $_POST["hat_id"],
         $_POST["shirt_id"],
         $_POST["pant_id"],
-        $_POST["shoes_id"]);
+        $_POST["shoe_id"]);
     }
     else {
       $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
@@ -190,7 +190,7 @@ class GameController {
         $_POST["hat_id"],
         $_POST["shirt_id"],
         $_POST["pant_id"],
-        $_POST["shoes_id"]);
+        $_POST["shoe_id"]);
     }
     $_SESSION["character_id"] = $this->db->getLastInsertId("sprint3_characters_seq");
     return;

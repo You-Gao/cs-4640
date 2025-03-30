@@ -21,7 +21,7 @@
 
     <section id="name" class="row justify-content-center mt-4">
         <div class="col-3 ">
-            <input type="text" class="form-control" id="character-name" name="character-name" placeholder="-> make a cool name here <-" required>
+            <input type="text" class="form-control" id="character-name" name="character-name" placeholder="-> make a cool name here <-" required oninput="set_character_name(event)">
         </div>
     </section>
     
@@ -35,9 +35,6 @@
                     <div class="col-4 mx-2">hat 1</div>
                     <div class="col-4 mx-2">hat 2</div>
                     <div class="col-4 mx-2">hat 3</div>
-                    <div class="col-4 mx-2">hat 4</div>
-                    <div class="col-4 mx-2">hat 5</div>
-                    <div class="col-4 mx-2">hat 6</div>
                 </div>
             </div>
             <div onclick="show_selection(event)">
@@ -60,17 +57,17 @@
 				<div onclick="show_selection(event)">
                     <p>SHOES</p>
                     <div class="selections">
-                        <div class="col-4 mx-2">sword</div>
-                        <div class="col-4 mx-2">stick #1</div>
-                        <div class="col-4 mx-2">rock</div>
+                        <div class="col-4 mx-2">shoe 1</div>
+                        <div class="col-4 mx-2">shoe 2</div>
+                        <div class="col-4 mx-2">shoe 3</div>
                     </div>
                 </div>
 				<div onclick="show_selection(event)">
                     <p>PANTS</p>
                     <div class="selections">
-                        <div class="col-4 mx-2">money</div>
-                        <div class="col-4 mx-2">bird</div>
-                        <div class="col-4 mx-2">stick #2</div>
+                        <div class="col-4 mx-2">pant 1</div>
+                        <div class="col-4 mx-2">pant 2</div>
+                        <div class="col-4 mx-2">pant 3</div>
                     </div>
                 </div>
 
@@ -81,11 +78,11 @@
 
     <section id="register" class="row justify-content-center mt-4 text-center">
         <form action="?command=make_character" method="POST" class="col-12">
-            <input type="hidden" name="hat" id="hat" value="">
-            <input type="hidden" name="shirt" id="shirt" value="">
-            <input type="hidden" name="shoes" id="shoes" value="">
-            <input type="hidden" name="pants" id="pants" value="">
-            <input type="hidden" name="character-name" id="hidden-character-name" value="">
+            <input type="hidden" name="hat_id" id="hat" value="null">
+            <input type="hidden" name="shirt_id" id="shirt" value="null">
+            <input type="hidden" name="shoe_id" id="shoe" value="null">
+            <input type="hidden" name="pant_id" id="pant" value="null">
+            <input type="hidden" name="name" id="hidden-character-name" value="null">
             <button type="submit" class="btn btn-primary p-2 col-6">[ OFF TO ADVENTURE!!! ]</button>
         </form>
     </section>
@@ -93,20 +90,31 @@
 <script>
     function show_selection(event){
         let parent = event.target;
+        console.log("parent", parent);
         let selection = parent.querySelector(".selections");
+        console.log("selection", selection);
 
         document.querySelectorAll(".selections").forEach(function(element){
             element.style.display = "none";
         });
 
+        // if clicked on inner div return (js is weird)
+        if (selection == null){
+            return;
+        }
+
         selection.style.display = "flex";
-        selection.addEventListener("click", function(event){
-            let selected = event.target.innerText;
-            let type = parent.querySelector("p").innerText.toLowerCase();
-            document.getElementById(type).value = selected;
-            selection.style.display = "none";
+        selection.querySelectorAll("div").forEach(function(element){
+            element.addEventListener("click", function(event){
+            let div_text = event.target.innerText;
+            let first_word = div_text.split(" ")[0];
+            let last_word = div_text.split(" ")[1];
+            document.getElementById(first_word).value = last_word;
+            console.log("hat", document.getElementById("hat").value);
+            });
         });
     }
+
 
     function set_character_name(event){
         let character_name = document.getElementById("character-name").value;
