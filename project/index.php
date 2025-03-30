@@ -10,6 +10,10 @@ include_once("/opt/src/example/GameController.php");
 echo "project set-up";
 
 $controller = new GameController($_GET);
-$controller->run();
+// $controller->run();
+
+
+// testing functions
+$controller->user_search();
 
 ?>

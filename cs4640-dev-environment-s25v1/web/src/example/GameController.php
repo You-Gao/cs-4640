@@ -134,4 +134,25 @@ class GameController {
     session_destroy();
     session_start();
   }
+
+  /**
+   * Retrieve users from the database and match them to the search string
+   * Parameters: $_POST["search"]
+   * Returns: JSON array of users that match the search string
+   */
+  public function user_search() {
+    $search = $_POST["search"];
+    $results = $this->db->query("select * from sprint3_users where name like $1;", "%$search%");
+    echo json_encode($results);
+  }
+
+  /**
+   * Show the welcome page
+   * Parameters: $message (optional)
+   * Returns: HTML for the welcome page 
+   * ^ converting to php, but setting up general structure
+   */
+  public function showWelcome($message = "") {
+    include_once("html/index.html");
+  }
 }
