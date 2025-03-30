@@ -1,0 +1,37 @@
+[
+  {
+    "name": " Wood Sword",
+    "type": "hand",
+    "atk": 1,
+    "def": 0,
+    "hp" : 0
+  },
+  {
+    "name": "Wood Shield",
+    "type": "offhand",
+    "atk": 0,
+    "def": 1,
+    "hp" : 0
+  },
+  {
+    "name": "Wood Shirt",
+    "type": "shirt",
+    "atk": 0,
+    "def": 1,
+    "hp" : 10
+  },
+  {
+    "name": "Wood Pants",
+    "type": "pants",
+    "atk": 0,
+    "def": 1,
+    "hp" : 10
+  }
+    {
+    "name": "Wood Hat",
+    "type": "helmet",
+    "atk": 0,
+    "def": 1,
+    "hp" : 5
+  }
+]
