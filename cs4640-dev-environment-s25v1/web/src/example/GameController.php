@@ -137,11 +137,11 @@ class GameController {
 
   /**
    * Retrieve users from the database and match them to the search string
-   * Parameters: $_POST["search"]
+   * Parameters: $_GET["name"] (string)
    * Returns: JSON array of users that match the search string
    */
   public function user_search() {
-    $search = $_POST["search"];
+    $search = $_GET["name"];
     $results = $this->db->query("select * from sprint3_users where name like $1;", "%$search%");
     echo json_encode($results);
   }
