@@ -160,7 +160,7 @@ class GameController {
    * Show the character page
    */
   public function showCharacter($message = "") {
-    include_once("html/character_creation.html");
+    include_once("html/character_creation.php");
     return;
   }
 
@@ -170,11 +170,19 @@ class GameController {
    * Returns: Redirect to the game page
    */
   public function makeCharacter() {
+
+    // Form validation
     $results = $this->db->query("select * from sprint3_characters where name = $1;", $_POST["name"]);
     if (!empty($results)) {
       $this->showCharacter("Character name already exists. Please choose a different name.");
       return;
     }
+    elseif (!isset($_POST["name"]) || $_POST["name"] == null || $_POST["name"] == "") {
+      $this->showCharacter("Please enter a character name.");
+      return;
+    }
+
+    // Storring the character in the database
     if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null && $this->isNumeric($_SESSION["user_id"])) {
       $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 0, 0, 0, 0, 0, $2, $3, $4, $5);",
         $_POST["name"],

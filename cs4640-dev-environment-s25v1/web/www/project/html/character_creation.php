@@ -19,6 +19,15 @@
         <hr class="mt-2"/>
     </section>
 
+    <?php 
+    if (isset($message) && $message != "") { ?>
+        <section id="error" class="row justify-content-center mt-4 text-center">
+            <div class="col-6 alert alert-danger" role="alert">
+                <?php echo $message; ?>
+            </div>
+        </section>
+    <?php } ?>
+
     <section id="name" class="row justify-content-center mt-4">
         <div class="col-3 ">
             <input type="text" class="form-control" id="character-name" name="character-name" placeholder="-> make a cool name here <-" required oninput="set_character_name(event)">
