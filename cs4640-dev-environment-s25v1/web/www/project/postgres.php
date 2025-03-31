@@ -47,6 +47,7 @@ pg_query($dbHandle, "create table sprint3_characters (
     atk int,
     def int,
     hp int,
+    stat_points int,
     monsters_killed int,
     quest_id int,
     hat_id int,
