@@ -84,37 +84,25 @@ class GameController {
   }
 
   public function login() {
-    if (isset($_POST["fullname"]) && isset($_POST["email"]) &&
-      isset($_POST["password"]) && !empty($_POST["password"]) &&
-      !empty($_POST["fullname"]) && !empty($_POST["email"])) {
+    if (isset($_POST["email"]) && isset($_POST["password"]) && !empty($_POST["password"]) && !empty($_POST["email"])) {
       // TODO: check that email looks right!
-
-      $results = $this->db->query("select * from hw6_users where email = $1;", $_POST["email"]);
+      $results = $this->db->query("select * from sprint3_users where email = $1;", $_POST["email"]);
 
       if (empty($results)) {
         // create the user account
-        $result = $this->db->query("insert into hw6_users 
-          (name, email, password, max_score, total_score, average_score, games_won, games_played, win_percent) 
-          values ($1, $2, $3, 0,0,0,0,0,0);",
-          $_POST["fullname"], $_POST["email"], 
-          password_hash($_POST["password"], PASSWORD_DEFAULT));
-        
-        $_SESSION["name"] = $_POST["fullname"];
-        $_SESSION["email"] = $_POST["email"];
-        
-        header("Location: ?command=new");
-        return;
+        $message = "<p class='alert alert-danger'>Sign up to create an account</p>"; 
       } else {
         // check that the user's password is correct
         $hashed_password = $results[0]["password"];
         $correct = password_verify($_POST["password"], $hashed_password);
         if ($correct) {
           // Success!
-          $_SESSION["name"] = $_POST["fullname"];
+          $_SESSION["user_id"] = $results[0]["id"];
+          $_SESSION["name"] = $results[0]["username"];
           $_SESSION["email"] = $_POST["email"];
           // call showQuestion OR ...
           // redirect with a header to the question screen
-          header("Location: ?command=new");
+          header("Location: ?command=game");
           return;
         } else {
          $message = "<p class='alert alert-danger'>Incorrect password!</p>"; 
@@ -145,38 +133,56 @@ class GameController {
         $_SESSION["user_id"] = $this->db->getLastInsertId("sprint3_users_seq");
         $_SESSION["name"] = $_POST["name"];
         $_SESSION["email"] = $_POST["email"];
-        header("Location: ?command=welcome");
+        header("Location: ?command=creation");
         return;
       }
     }
-    include_once("html/sign-up.php");
+    include_once("templates/sign-up.php");
 
     return;
   }    
 
   public function showWelcome($message = "") {
-    
+    if (isset($_SESSION["name"]) && !empty($_SESSION["name"])){
+      $characters = $this->db->query("select name, id from sprint3_characters where user_id = $1;", $_SESSION["user_id"]);
+      $character_ids = [];
+      $character_names = [];
+      for ($x = 0; $x <= count($characters); $x++) {
+        $character_ids[] = $characters[$x]["id"];
+        $character_names[] = $characters[$x]["name"];
+      }
+      include_once("templates/home_logged_in.php")
+      return;
+    }
+    else {
+      include_once("templates/home.php");
+      return;
+    }
   }
 
   public function showGame($message = ""){
-    
+    include_once("templates/game.php");
+    return;
   }
 
   public function showFreinds($message = ""){
-    
+    include_once("templates/friends.php");
+    return;
   }
 
   public function showCreation($message = ""){
-    include_once("html/character_creation.php");
+    include_once("templates/character_creation.php");
     return;
   }
 
   public function showInventory(){
-    
+    include_once("templates/inventory.php");
+    return;
   }
 
   public function showSettings(){
-    
+    include_once("templates/settings.php");
+    return;
   }
 
   public function logout(){
@@ -229,7 +235,10 @@ class GameController {
   }
 
   public function heal(){
-    
+    $results = $this->db->query("select hp from sprint3_characters where id = $1;", $_SESSION["character_id"]);
+    $_SESSION["health"] = $results[0]["hp"];
+    header("Location: ?command=game");
+    return;
   }
 
   public function addFriend(){
