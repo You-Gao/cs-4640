@@ -159,7 +159,7 @@ class GameController {
               $this->db->query("update sprint3_characters set user_id = $1 where id = $2;", $_SESSION["user_id"], $existing_ids[$x]);
             }
             unset($_COOKIE["character_ids"]);
-            setcookie("character_ids", "", time() - 3600, "/"); // empty value and old timestamp
+            setcookie("character_ids", "", time() - 3600);
             return;
         }
         else{
@@ -179,10 +179,15 @@ class GameController {
   }
 
   public function showHome($message = "") {
-      $characters = $this->db->query("select name, id from sprint3_characters where user_id = $1;", $_SESSION["user_id"]);
+      if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null) {
+        header("Location: ?command=welcome");
+        return;
+      }
+
+      $characters = $this->db->query("select name, id, user_id from sprint3_characters where user_id = $1;", $_SESSION["user_id"]);
       $character_ids = [];
       $character_names = [];
-      for ($x = 0; $x <= count($characters); $x++) {
+      for ($x = 0; $x < count($characters); $x++) {
         $character_ids[] = $characters[$x]["id"];
         $character_names[] = $characters[$x]["name"];
       }

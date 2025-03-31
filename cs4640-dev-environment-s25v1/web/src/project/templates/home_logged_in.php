@@ -63,9 +63,18 @@
             <h5>Select to Play</h5>
             <hr/>
             <div>
-                <ul>
-                    <li><a href="game.html">wizardman123</a></li>
-                </ul>
+            <?php
+            for ($x = 0; $x < count($characters); $x++) {
+                echo "<ul>";
+                echo "<li>";
+                echo "<form method='POST' action='?command=game' style='display: inline;'>";
+                echo "<input type='hidden' name='character_id' value='{$characters[$x]["id"]}'>";
+                echo "<a href='#' onclick='this.closest(\"form\").submit(); return false;'>{$characters[$x]["name"]}</a>";
+                echo "</form>";
+                echo "</li>";
+                echo "</ul>";
+            }
+            ?>
             </div>
             <div id="create" class="my-5">
                 <a href="character_creation.html">Create New Character</a>
@@ -75,12 +84,6 @@
             <h2>Statistics</h2>
             <div>
                 <ul>
-                    <li>Characters Created: 1</li>
-                    <li>Potions Made: 0</li>
-                    <li>Enemies Defeated: 0</li>
-                    <li>Gold Collected: 0</li>
-                    <li>Time Played: 0</li>
-
                 </ul>
             </div>
         </section>
