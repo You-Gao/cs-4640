@@ -11,11 +11,11 @@
 
 <body class="container">
     <section id="title" class="row justify-content-center align-items-end">
-        <img src="../project/public/mage.png" alt="placeholder" class="img-fluid col-2">
+        <img src="../project/assets/mage.png" alt="placeholder" class="img-fluid col-2">
         <div class="col-auto text-center">
             <a href="index.html"><h1>insert title here</h1></a>
         </div>
-        <img src="../project/public/warrior.png" alt="placeholder" class="img-fluid col-2">
+        <img src="../project/assets/warrior.png" alt="placeholder" class="img-fluid col-2">
         <hr class="mt-2"/>
     </section>
 
@@ -59,7 +59,7 @@
 		</div>	
 	    </div>
 
-	<img class="col-6" src="../project/public/stick.jpg" alt="stick man"/>
+	<img class="col-6" src="../project/assets/stick.jpg" alt="stick man"/>
 
 		<div class="col-2">
 			<div class="row flex-column align-items-start">

@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="main game page">
         <meta property="og:type" content="website">
-        <meta property="og:img" content="../project/public/mage.png">
+        <meta property="og:img" content="../project/assets/mage.png">
         <meta property="og:url" content="https://cs4640.cs.virginia.edu/yourid/hw2/index.html">
         <meta property="og:description" content="text based video game rpg">
         <meta property="og:site_name" content="Video Game Name">
@@ -50,19 +50,19 @@
                 <form action="/action_page.php" method="get">
                 <table class = "content">
                     <tr>
-                      <td><input type="image" src="../project/public/Town.png" alt="andi placeholder"></td>
-                      <td><img src = "../project/public/empty.png" alt="andi placeholder"></td>
-                      <td><input type="image" src="../project/public/Plains.png" alt="andi placeholder"/></td>
+                      <td><input type="image" src="../project/assets/Town.png" alt="andi placeholder"></td>
+                      <td><img src = "../project/assets/empty.png" alt="andi placeholder"></td>
+                      <td><input type="image" src="../project/assets/Plains.png" alt="andi placeholder"/></td>
                     </tr>
                     <tr>
-                      <td><img src = "../project/public/empty.png" alt="andi placeholder"></td>
-                      <td><input type="image" src="../project/public/Forest.png" alt="andi placeholder"/></td>
-                      <td><img src = "../project/public/empty.png" alt="andi placeholder"></td>
+                      <td><img src = "../project/assets/empty.png" alt="andi placeholder"></td>
+                      <td><input type="image" src="../project/assets/Forest.png" alt="andi placeholder"/></td>
+                      <td><img src = "../project/assets/empty.png" alt="andi placeholder"></td>
                     </tr>
                     <tr>
-                      <td><input type="image" src="../project/public/Mountains.png" alt="andi placeholder"/></td>
-                      <td><img src = "../project/public/empty.png" alt="andi placeholder"></td>
-                      <td><input type="image" src="../project/public/Castle.png" alt="andi placeholder"/></td>
+                      <td><input type="image" src="../project/assets/Mountains.png" alt="andi placeholder"/></td>
+                      <td><img src = "../project/assets/empty.png" alt="andi placeholder"></td>
+                      <td><input type="image" src="../project/assets/Castle.png" alt="andi placeholder"/></td>
                     </tr>
                   </table>
                 </form>
@@ -70,7 +70,7 @@
             <div class = 'float-md-end col-md-2 col-border clearfix'>
                 <div class = 'mobile_split_4'>
                     <h2>
-                        <img src = "../project/public/mage.png" alt = "charater icon">
+                        <img src = "../project/assets/mage.png" alt = "charater icon">
                     </h2>
                 </div>
                 <div class = 'mobile_split_4'>

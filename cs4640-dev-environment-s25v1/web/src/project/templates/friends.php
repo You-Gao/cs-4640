@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="main game page">
         <meta property="og:type" content="website">
-        <meta property="og:img" content="../project/public/mage.png">
+        <meta property="og:img" content="../project/assets/mage.png">
         <meta property="og:url" content="https://cs4640.cs.virginia.edu/yourid/hw2/index.html">
         <meta property="og:description" content="text based video game rpg">
         <meta property="og:site_name" content="Video Game Name">
