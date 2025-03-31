@@ -427,14 +427,14 @@ class GameController {
       $_SESSION["location"] = "won";
       //give items and experience
       $_SESSION["exp_gain"] = $_SESSION["monster_exp"];
-      $levelpoints = array(10,30,75,180,400,1000,1000000000000);
+      $levelpoints = array(0,10,30,75,180,400,1000,1000000000000);
       $start = count($levelpoints);
       $end = 0;
       for ($x = 0; $x < count($levelpoints); $x++) {
-        if($exp <= $levelpoints[$x]){
+        if($exp >= $levelpoints[$x]){
           $end = $x;
         }
-        if($exp + $_SESSION["exp_gain"] <= $levelpoints[$x]){
+        if($exp + $_SESSION["exp_gain"] >= $levelpoints[$x]){
           $start = $x;
         }
       }
