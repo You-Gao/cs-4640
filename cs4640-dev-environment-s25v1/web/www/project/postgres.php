@@ -77,6 +77,15 @@ pg_query($dbHandle, "create table sprint3_character_items (
     item_count int,
     primary key (char_id, item_id)
 );");
+//TODO change for sever deployment
+$items = json_decode(file_get_contents("/opt/src/project/data/items.json"), true);
+
+$res = pg_prepare($dbHandle, "myinsert", "insert into sprint3_items (name, atk, def, hp) values 
+($1, $2, $3, $4);");
+foreach ($items as $item) {
+    $res = pg_execute($dbHandle, "myinsert", [$item["name"], $item["atk"], $item["def"], $item["hp"]]);
+    echo "Added item: {$item["name"]}<br>\n";
+}
 
 echo " | Done setting up db";
 
