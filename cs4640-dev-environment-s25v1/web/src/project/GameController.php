@@ -153,12 +153,13 @@ class GameController {
         $_SESSION["user_id"] = $this->db->getLastInsertId("sprint3_users_seq");
         $_SESSION["name"] = $_POST["name"];
         $_SESSION["email"] = $_POST["email"];
-        if (isset($_COOKIE["charater_ids"]) && !empty($_COOKIE["charater_ids"])){
-            for ($x = 0; $x < count($_COOKIE["charater_ids"]); $x++) {
-              $this->db->query("update sprint3_characters set user_id = $1 where charater_id = $2;", $_SESSION["user_id"], $_COOKIE["charater_ids"][$x]);
+        if (isset($_COOKIE["character_ids"]) && !empty($_COOKIE["character_ids"])){
+            $existing_ids = json_decode($_COOKIE["character_ids"], true);
+            for ($x = 0; $x < count($existing_ids); $x++) {
+              $this->db->query("update sprint3_characters set user_id = $1 where id = $2;", $_SESSION["user_id"], $existing_ids[$x]);
             }
-            unset($_COOKIE["charater_id"]);
-            header("Location: ?command=home");
+            unset($_COOKIE["character_ids"]);
+            setcookie("character_ids", "", time() - 3600, "/"); // empty value and old timestamp
             return;
         }
         else{
@@ -349,8 +350,6 @@ class GameController {
         $_POST["shirt_id"],
         $_POST["pant_id"],
         $_POST["shoe_id"]);
-
-        echo json_encode($results);
       
         if(isset($_COOKIE["character_ids"]) && !empty($_COOKIE["character_ids"])){
           $existing_ids = json_decode($_COOKIE["character_ids"], true);
@@ -359,7 +358,6 @@ class GameController {
         }
         else{
           $character_ids = [$this->db->getLastInsertId("sprint3_characters_seq")];
-          var_dump($character_ids);
           setcookie("character_ids", json_encode($character_ids), time() + 604800);
         }
     }
