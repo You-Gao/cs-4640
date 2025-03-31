@@ -22,18 +22,21 @@
                   <h2> Game title</h2>
                 </a>
                 <div class="n-item">
-                <a href="game.html">Map</a>
+                    <form action="?command=game" method="post">
+                        <input type="hidden" name="location" value="main">
+                        <button type="submit">Map</button>
+                    </form> 
                 </div>
                 <div class="n-item">
-                <a href="inventory.html">Inventory</a>
+                <a href="?command=inventory">Inventory</a>
                 </div>
                 <div class="n-item">
-                <a href="friends.html">Friends</a>
+                <a href="?command=friends">Friends</a>
                 </div>
                 <div class="n-item">
-                <a href="settings.html">Settings</a>
+                <a href="?command=settings">Settings</a>
                 </div>
-                <a class="nav-item align-right btn" href="index.html">
+                <a class="nav-item align-right btn" href="?command=logout">
                     <h3> Log out</h3>
                 </a>
             </nav>
@@ -42,31 +45,59 @@
             <div class = "col-md-2 float-md-end col-border clearfix">
                 <h4>Recent Anoucments</h4>
                 <p>
-                    Anoucments placeholder
+                    Sprint 3 completed
                 </p>
             </div>
             <div class = 'col-md-8 float-md-end col-border clearfix'>
                 <h4 class = "content">Game map</h4>
-                <form action="/action_page.php" method="get">
                 <table class = "content">
                     <tr>
-                      <td><input type="image" src="../project/assets/Town.png" alt="andi placeholder"></td>
-                      <td><img src = "../project/assets/empty.png" alt="andi placeholder"></td>
-                      <td><input type="image" src="../project/assets/Plains.png" alt="andi placeholder"/></td>
+                      <td>
+                          <form action="?command=game" method="post">
+                              <button type="submit" name="location" value="town">
+                                  <img src="../assets/town.png" alt="town image">
+                              </button>
+                          </form>
+                      </td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td>
+                          <form action="?command=game" method="post">
+                              <button type="submit" name="location" value="forest">
+                                  <img src="../assets/forest.png" alt="forest image">
+                              </button>
+                          </form>
+                      </td>
                     </tr>
                     <tr>
-                      <td><img src = "../project/assets/empty.png" alt="andi placeholder"></td>
-                      <td><input type="image" src="../project/assets/Forest.png" alt="andi placeholder"/></td>
-                      <td><img src = "../project/assets/empty.png" alt="andi placeholder"></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td>
+                          <form action="?command=game" method="post">
+                              <button type="submit" name="location" value="plains">
+                                  <img src="../assets/plains.png" alt="plains image">
+                              </button>
+                          </form>
+                      </td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
                     </tr>
                     <tr>
-                      <td><input type="image" src="../project/assets/Mountains.png" alt="andi placeholder"/></td>
-                      <td><img src = "../project/assets/empty.png" alt="andi placeholder"></td>
-                      <td><input type="image" src="../project/assets/Castle.png" alt="andi placeholder"/></td>
+                      <td>
+                          <form action="?command=game" method="post">
+                              <button type="submit" name="location" value="mountains">
+                                  <img src="../assets/mountains.png" alt="mountians image">
+                              </button>
+                          </form>
+                      </td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td>
+                          <form action="?command=game" method="post">
+                              <button type="submit" name="location" value="boss">
+                                  <img src="../assets/castle.png" alt="castle image">
+                              </button>
+                          </form>
+                      </td>
                     </tr>
                   </table>
-                </form>
-                </div>
+            </div>
             <div class = 'float-md-end col-md-2 col-border clearfix'>
                 <div class = 'mobile_split_4'>
                     <h2>
@@ -106,11 +137,11 @@
         <div class="container">
             <footer class="py-3 my-4">
               <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="home.html" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Game</a></li>
-                <li class="nav-item"><a href="inventory.html" class="nav-link px-2 text-body-secondary">Inventory</a></li>
-                <li class="nav-item"><a href="friends.html" class="nav-link px-2 text-body-secondary">Friends</a></li>
-                <li class="nav-item"><a href="settings.html" class="nav-link px-2 text-body-secondary">Settings</a></li>
+                <li class="nav-item"><a href="?command=logout" class="nav-link px-2 text-body-secondary">Home</a></li>
+                <li class="nav-item"><a href="?command=game" class="nav-link px-2 text-body-secondary">Game</a></li>
+                <li class="nav-item"><a href="?command=inventory" class="nav-link px-2 text-body-secondary">Inventory</a></li>
+                <li class="nav-item"><a href="?command=friends" class="nav-link px-2 text-body-secondary">Friends</a></li>
+                <li class="nav-item"><a href="?command=settings" class="nav-link px-2 text-body-secondary">Settings</a></li>
               </ul>
               <small class="copyright">&copy; copyright 2025 video game name</small>
             </footer>
