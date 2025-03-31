@@ -74,6 +74,9 @@ class GameController {
       case "attack":
         $this->attack();
         break;
+      case "allocate_stats":
+        $this->allocate_stats();
+        break;
       case "addF":
         $this->addFriend();
         break;
@@ -116,7 +119,7 @@ class GameController {
           // redirect with a header to the question screen
           if (isset($_COOKIE["charater_ids"]) && !empty($_COOKIE["charater_ids"])){
             for ($x = 0; $x < count($_COOKIE["charater_ids"]); $x++) {
-              $this->db->query("update sprint3_characters set user_id = $1 where charater_id = $2;", $_SESSION["user_id"], $_COOKIE["charater_ids"][$x]);
+              $this->db->query("update sprint3_characters set user_id = $1 where id = $2;", $_SESSION["user_id"], $_COOKIE["charater_ids"][$x]);
             }
             unset($_COOKIE["charater_id"]);
           }
@@ -191,6 +194,7 @@ class GameController {
     $_SESSION["moster_hp"] = 5;
     $_SESSION["moster_atk"] = 2;
     $_SESSION["moster_def"] = 1;
+    $_SESSION["moster_name"] = "Tree";
     header("Location: ?command=game");
     return;
   }
@@ -199,6 +203,7 @@ class GameController {
     $_SESSION["moster_hp"] = 20;
     $_SESSION["moster_atk"] = 2;
     $_SESSION["moster_def"] = 1;
+    $_SESSION["moster_name"] = "Ox";
     header("Location: ?command=game");
     return;
   }
@@ -207,6 +212,7 @@ class GameController {
     $_SESSION["moster_hp"] = 50;
     $_SESSION["moster_atk"] = 2;
     $_SESSION["moster_def"] = 1;
+    $_SESSION["moster_name"] = "Big Rock";
     header("Location: ?command=game");
     return;
   }
@@ -215,6 +221,7 @@ class GameController {
     $_SESSION["moster_hp"] = 100;
     $_SESSION["moster_atk"] = 2;
     $_SESSION["moster_def"] = 1;
+    $_SESSION["moster_name"] = "Boss";
     header("Location: ?command=game");
     return;
   }
@@ -235,23 +242,39 @@ class GameController {
       $location = "main";
     }
     
-    $results = $this->db->query("select * from sprint3_characters where character_id = $1;", $_SESSION["character_id"]);
+    $results = $this->db->query("select * from sprint3_characters where id = $1;", $_SESSION["character_id"]);
+    $items = $this->db->query("select * from sprint3_items where item_id = (select item_id from sprint3_character_items where char_id = $1);", $_SESSION["character_id"]);
     $character_name = $results[0]["name"];
     $exp = $results[0]["exp"];
     $atk = $results[0]["atk"];
     $def = $results[0]["def"];
+    $max_hp = $results[0]["hp"];
+    for ($x = 0; $x < count($items); $x++) {
+      $max_hp += $items[$x]["hp"];
+      $atk += $items[$x]["atk"];
+      $def += $items[$x]["def"];
+    }
     if(isset($_SESSION["hp"]) && !empty($_SESSION["hp"])){
       $hp = $_SESSION["hp"];
     }
     else{
       $hp = $results[0]["hp"];
+      for ($x = 0; $x < count($items); $x++) {
+        $hp += $items[$x]["hp"];
+      }
     }
     if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountians" || $_SESSION["location"] === "boss" ){
       $monster_hp = $_SESSION["monster_hp"];
       $monster_atk = $_SESSION["monster_atk"];
       $monster_def = $_SESSION["monster_def"];
+      $monster_name = $_SESSION["monster_name"];
     }
-    $max_hp = $results[0]["hp"];
+    elseif($_SESSION["location"] === "won"){
+      $monster_name = $_SESSION["monster_name"];
+      $recived_items = $_SESSION["recived"];
+      $exp_gain = $_SESSION["exp_gain"];
+      $levelup = $_SESSION["level_up"];
+    }
     $stat_points = $results[0]["stat_points"];
     $quest_id = $results[0]["quest_id"];
     $hat_id = $results[0]["hat_id"];
@@ -273,7 +296,7 @@ class GameController {
   }
 
   public function showInventory(){
-    $items = $this->db->query("select * from sprint3_character_items where character_id = $1;", $_SESSION["character_id"]);
+    $items = $this->db->query("select * from sprint3_items where item_id = (select item_id from sprint3_character_items where char_id = $1);", $_SESSION["character_id"]);
     include_once("templates/inventory.php");
     return;
   }
@@ -332,16 +355,48 @@ class GameController {
   }
 
   public function equip(){
-    
+    //make sure hp does not become more then max
+    if(isset($_POST) && isset($_POST["item_id"]) && !empty($_POST["item_id"])){
+      $items = $this->db->query("select * from sprint3_items where item_id = (select item_id from sprint3_character_items where char_id = $1);", $_SESSION["character_id"]);
+    }
+    header("Location: ?command=inventory");
+    return;
   }
 
   public function attack(){
     
   }
 
+  public function allocate_stats(){
+    if(isset($_POST) && isset($_POST["stat"]) && !empty($_POST["stat"])){
+      $results = $this->db->query("select stat_points, hp, def, atk from sprint3_characters where id = $1;", $_SESSION["character_id"]);
+      if(results[0]["stat_points"] > 0){
+        switch($_POST["stat"]) {
+          case "hp":
+            $this->db->query("update sprint3_characters set stat_points = $1, hp = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["hp"]+5, $_SESSION["character_id"]);
+            $_SESSION["hp"] += 5;
+            break;
+          case "def":
+            $this->db->query("update sprint3_characters set stat_points = $1, def = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["def"]+1, $_SESSION["character_id"]);
+            break;
+          case "atk":
+            $this->db->query("update sprint3_characters set stat_points = $1, atk = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["atk"]+3, $_SESSION["character_id"]);
+            break;
+        }
+      }
+    }
+    header("Location: ?command=game");
+    return;
+    
+  }
+
   public function heal(){
+    $items = $this->db->query("select * from sprint3_items where item_id = (select item_id from sprint3_character_items where char_id = $1);", $_SESSION["character_id"]);
     $results = $this->db->query("select hp from sprint3_characters where id = $1;", $_SESSION["character_id"]);
-    $_SESSION["health"] = $results[0]["hp"];
+    $_SESSION["hp"] = $results[0]["hp"];
+    for ($x = 0; $x < count($items); $x++) {
+         $_SESSION["hp"] += $items[$x]["hp"];
+    }
     header("Location: ?command=game");
     return;
   }
