@@ -37,6 +37,9 @@ class GameController {
       case "signup":
         $this->signup();
         break;
+      case  "delete":
+        $this->deleteCharacter();
+        break;
       case "forest":
         $this->forest();
         break;
@@ -172,6 +175,14 @@ class GameController {
 
     return;
   }    
+
+  public function deleteCharacter(){
+    if (isset($_POST) && isset($_POST["character_id"]) && !empty($_POST["character_id"])){
+      $this->db->query("delete from sprint3_characters where id = $1;", $_POST["character_id"]);
+      header("Location: ?command=home");
+      return;
+    }
+  }
 
   public function showWelcome($message = "") {
       include_once("templates/home.php");
