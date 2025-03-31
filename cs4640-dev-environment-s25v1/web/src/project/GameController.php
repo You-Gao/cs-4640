@@ -27,9 +27,9 @@ class GameController {
   public function run() {
     // Get the command
     $command = "welcome";
-    if (isset($this->input["command"]) && (
-      $this->input["command"] == "login" || isset($_SESSION["name"])))
-      $command = $this->input["command"];
+    if (isset($this->input["command"]) && !empty($this->input["command"])) {
+      $command = $this->input["command"]; # used for href ?command and form action
+    }
 
     switch($command) {
       case "login": 
@@ -165,7 +165,7 @@ class GameController {
         }
       }
     }
-    include_once("templates/sign-up.php");
+    include_once("templates/sign_up.php");
 
     return;
   }    
