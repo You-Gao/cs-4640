@@ -111,7 +111,11 @@ class GameController {
           $_SESSION["email"] = $_POST["email"];
           // call showQuestion OR ...
           // redirect with a header to the question screen
-          header("Location: ?command=game");
+          if (isset($_COOKIE["charater_id"]) && !empty($_COOKIE["charater_id"])){
+            $this->db->query("update sprint3_characters set user_id = $1 where charater_id = $2;", $_SESSION["user_id"], $_COOKIE["charater_id"]);
+            unset($_COOKIE["charater_id"]);
+          }
+          header("Location: ?command=welcome");
           return;
         } else {
          $message = "<p class='alert alert-danger'>Incorrect password!</p>"; 
@@ -142,8 +146,16 @@ class GameController {
         $_SESSION["user_id"] = $this->db->getLastInsertId("sprint3_users_seq");
         $_SESSION["name"] = $_POST["name"];
         $_SESSION["email"] = $_POST["email"];
+        if (isset($_COOKIE["charater_id"]) && !empty($_COOKIE["charater_id"])){
+            $this->db->query("update sprint3_characters set user_id = $1 where charater_id = $2;", $_SESSION["user_id"], $_COOKIE["charater_id"]);
+            unset($_COOKIE["charater_id"]);
+            header("Location: ?command=welcome");
+            return;
+        }
+        else{
         header("Location: ?command=creation");
         return;
+        }
       }
     }
     include_once("templates/sign-up.php");
@@ -287,6 +299,7 @@ class GameController {
         $_POST["shirt_id"],
         $_POST["pant_id"],
         $_POST["shoe_id"]);
+        setcookie(“character_id”, $this->db->getLastInsertId("sprint3_characters_seq"), 604800);
     }
     else {
       $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
