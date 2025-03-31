@@ -42,8 +42,9 @@
             <div class = "col-12" id = "add-friends">
                 <h2 class = "friend-heading"> Add Friends</h2>
                 <div class="search-container">
-                    <form action="/action_page.php" method="post">
-                        <input type="text" placeholder="Search for usernames" name="search">
+                    <form method="get">
+                        <input type="hidden" name="command" value="searchF">
+                        <input type="text" placeholder="Search for usernames" name="name">
                         <button type="submit">Search</button>
                     </form>
                 </div>

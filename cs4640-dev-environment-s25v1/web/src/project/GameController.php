@@ -387,7 +387,7 @@ class GameController {
         $_POST["shoe_id"]);
     }
     $_SESSION["character_id"] = $this->db->getLastInsertId("sprint3_characters_seq");
-
+    header("Location: ?command=home");
     return;
   }
 
@@ -513,6 +513,21 @@ class GameController {
     return;
   }
 
+  public function showFriends(){
+    $results = $this->db->query("select * from sprint3_friends where user_id0 = $1 or user_id1 = $2;", $_SESSION["user_id"], $_SESSION["user_id"]);
+    $friends = [];
+    for ($x = 0; $x < count($results); $x++) {
+      if($results[$x]["user_id0"] == $_SESSION["user_id"]){
+        $friends[] = $this->db->query("select * from sprint3_users where id = $1;", $results[$x]["user_id1"]);
+      }
+      else{
+        $friends[] = $this->db->query("select * from sprint3_users where id = $1;", $results[$x]["user_id0"]);
+      }
+    }
+    include_once("templates/friends.php");
+    return;
+  }
+
   public function addFriend(){
     
   }
@@ -521,11 +536,28 @@ class GameController {
   public function searchFriend(){
     header("Content-Type: application/json");
     if (!isset($_GET["name"])) {
-      echo json_encode([]); // figuring out how to return a JSON response
+      echo json_encode(["error" => "No name provided"]); // are there better error messages?
       return;
     }
     $search = $_GET["name"];
-    $results = $this->db->query("select * from sprint3_users where username like $1;", "%$search%");
+    $user_characters_all = [];
+    $matching = $this->db->query("select username,id from sprint3_users where username like $1;", "%$search%");
+    if (empty($matching)) {
+      echo json_encode(["error" => "No matching users found"]); // are there better error messages?
+      return;
+    }
+
+    for ($x = 0; $x < count($matching); $x++) {
+      $user_characters = $this->db->query("select * from sprint3_characters where user_id = $1;", $matching[$x]["id"]);
+      $user_characters_all[] = [
+        "username" => $matching[$x]["username"],
+        "characters" => $user_characters
+      ];
+    }
+    $results = [
+      "user_characters" => $user_characters_all,
+      "search" => $search
+    ];
     echo json_encode($results);
     return;
   }
