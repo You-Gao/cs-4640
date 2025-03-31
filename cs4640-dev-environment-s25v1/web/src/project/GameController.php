@@ -175,7 +175,7 @@ class GameController {
       return;
   }
 
-    public function showHome($message = "") {
+  public function showHome($message = "") {
       $characters = $this->db->query("select name, id from sprint3_characters where user_id = $1;", $_SESSION["user_id"]);
       $character_ids = [];
       $character_names = [];
@@ -183,7 +183,7 @@ class GameController {
         $character_ids[] = $characters[$x]["id"];
         $character_names[] = $characters[$x]["name"];
       }
-      include_once("templates/home_logged_in.php")
+      include_once("templates/home_logged_in.php");
       return;
   }
 
@@ -352,6 +352,7 @@ class GameController {
 
   // Endpoint: ?command=searchF&name=some_name
   public function searchFriend(){
+    header("Content-Type: application/json");
     if (!isset($_GET["name"])) {
       echo json_encode([]); // figuring out how to return a JSON response
       return;

@@ -7,8 +7,6 @@ include_once("/opt/src/example/Config.php");
 include_once("/opt/src/example/Database.php");
 include_once("/opt/src/project/GameController.php");
 
-echo "project set-up";
-
 $controller = new GameController($_GET);
 $controller->run();
 
