@@ -161,6 +161,35 @@ class GameController {
   }
 
   public function showGame($message = ""){
+    if (isset($_POST) && isset($_POST["location"]) && !empty($_POST["location"])){
+      $location = $_POST["location"];
+      $_SESSION["location"] = $_POST["location"];
+    }
+    elseif(isset($_SESSION["location"]) && !empty($_SESSION["location"])){
+      $location = $_SESSION["location"];
+    }
+    else{
+      $_SESSION["location"] = "main";
+      $location = "main";
+    }
+    $results = $this->db->query("select * from sprint3_characters where character_id = $1;", $_SESSION["character_id"]);
+    $character_name = $results[0]["name"];
+    $exp = $results[0]["exp"];
+    $atk = $results[0]["atk"];
+    $def = $results[0]["def"];
+    if(isset($_SESSION["hp"]) && !empty($_SESSION["hp"])){
+      $hp = $_SESSION["hp"];
+    }
+    else{
+      $hp = $results[0]["hp"];
+    }
+    $max_hp = $results[0]["hp"];
+    $stat_points = $results[0]["stat_points"];
+    $quest_id = $results[0]["quest_id"];
+    $hat_id = $results[0]["hat_id"];
+    $shirt_id = $results[0]["shirt_id"];
+    $pants_id = $results[0]["pants_id"];
+    $shoes_id = $results[0]["shoes_id"];
     include_once("templates/game.php");
     return;
   }
@@ -212,7 +241,7 @@ class GameController {
         $_POST["shoe_id"]);
     }
     else {
-      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
         $_SESSION["user_id"],
         $_POST["name"],
         $_POST["hat_id"],
