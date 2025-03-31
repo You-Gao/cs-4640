@@ -343,18 +343,24 @@ class GameController {
 
     // Storing the character in the database
     if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null && $this->isNumeric($_SESSION["user_id"])) {
-      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 0, 0, 0, 0, 0, $2, $3, $4, $5);",
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 0, 0, 0, 0, 0, 0, $2, $3, $4, $5);",
         $_POST["name"],
         $_POST["hat_id"],
         $_POST["shirt_id"],
         $_POST["pant_id"],
         $_POST["shoe_id"]);
-        if(isset($_COOKIE["charater_ids"]) && !empty($_COOKIE["charater_ids"])){
-          $_COOKIE["character_ids"][] = $this->db->getLastInsertId("sprint3_characters_seq");
-          setcookie(“character_ids”, $_COOKIE["character_ids"], time() + 604800);
+
+        echo json_encode($results);
+      
+        if(isset($_COOKIE["character_ids"]) && !empty($_COOKIE["character_ids"])){
+          $existing_ids = json_decode($_COOKIE["character_ids"], true);
+          $existing_ids[] = $this->db->getLastInsertId("sprint3_characters_seq");
+          setcookie("character_ids", json_encode($existing_ids), time() + 604800);
         }
         else{
-          setcookie(“character_ids”, array($this->db->getLastInsertId("sprint3_characters_seq")), time() + 604800);
+          $character_ids = [$this->db->getLastInsertId("sprint3_characters_seq")];
+          var_dump($character_ids);
+          setcookie("character_ids", json_encode($character_ids), time() + 604800);
         }
     }
     else {
@@ -368,7 +374,6 @@ class GameController {
     }
     $_SESSION["character_id"] = $this->db->getLastInsertId("sprint3_characters_seq");
 
-    header("Location: ?command=game");
     return;
   }
 
@@ -407,7 +412,7 @@ class GameController {
     $exp = $results[0]["exp"];
     $atk = $results[0]["atk"];
     $def = $results[0]["def"];
-    $stat_points = = $results[0]["stat_points"];
+    $stat_points == $results[0]["stat_points"];
     for ($x = 0; $x < count($items); $x++) {
       $atk += $items[$x]["atk"];
       $def += $items[$x]["def"];

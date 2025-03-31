@@ -83,7 +83,7 @@
             </section>
 
             <section id="register" class="row justify-content-center mt-4 text-center">
-                <a id="sign-up" href="?command=character_creation" class="btn btn-primary col-6 p-2">[ MAKE A CHARACTER!!! ]</a>
+                <a id="sign-up" href="?command=creation" class="btn btn-primary col-6 p-2">[ MAKE A CHARACTER!!! ]</a>
                 <p>*No Sign-up Required*</p>
             </section>
 

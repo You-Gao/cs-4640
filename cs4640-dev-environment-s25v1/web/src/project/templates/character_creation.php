@@ -86,12 +86,12 @@
     </section>
 
     <section id="register" class="row justify-content-center mt-4 text-center">
-        <form action="?command=make_character" method="POST" class="col-12">
-            <input type="hidden" name="hat_id" id="hat" value="null">
-            <input type="hidden" name="shirt_id" id="shirt" value="null">
-            <input type="hidden" name="shoe_id" id="shoe" value="null">
-            <input type="hidden" name="pant_id" id="pant" value="null">
-            <input type="hidden" name="name" id="hidden-character-name" value="null">
+        <form action="?command=create" method="POST" class="col-12">
+            <input type="hidden" name="hat_id" id="hat" value="1">
+            <input type="hidden" name="shirt_id" id="shirt" value="1">
+            <input type="hidden" name="shoe_id" id="shoe" value="1">
+            <input type="hidden" name="pant_id" id="pant" value="1">
+            <input type="hidden" name="name" id="hidden-character-name" value="1">
             <button type="submit" class="btn btn-primary p-2 col-6">[ OFF TO ADVENTURE!!! ]</button>
         </form>
     </section>
