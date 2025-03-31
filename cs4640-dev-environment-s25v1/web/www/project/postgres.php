@@ -75,6 +75,7 @@ pg_query($dbHandle, "create table sprint3_character_items (
     char_id int references sprint3_characters(id),
     item_id int references sprint3_items(id),
     item_count int,
+    equiped bit,
     primary key (char_id, item_id)
 );");
 //TODO change for sever deployment
