@@ -38,8 +38,17 @@ class GameController {
       case "signup":
         $this->signup();
         break;
-      case "game":
-        $this->showGame();
+      case "forest":
+        $this->forest();
+        break;
+      case "plains":
+        $this->plains();
+        break;
+      case "mountains":
+        $this->mountains();
+        break;
+      case "boss":
+        $this->boss();
         break;
       case "friends":
         $this->showFriends();
@@ -160,6 +169,38 @@ class GameController {
     }
   }
 
+  public function forest(){
+    $_SESSION["moster_hp"] = 5;
+    $_SESSION["moster_atk"] = 2;
+    $_SESSION["moster_def"] = 1;
+    header("Location: ?command=game");
+    return;
+  }
+
+  public function plains(){
+    $_SESSION["moster_hp"] = 20;
+    $_SESSION["moster_atk"] = 2;
+    $_SESSION["moster_def"] = 1;
+    header("Location: ?command=game");
+    return;
+  }
+
+  public function mountians(){
+    $_SESSION["moster_hp"] = 50;
+    $_SESSION["moster_atk"] = 2;
+    $_SESSION["moster_def"] = 1;
+    header("Location: ?command=game");
+    return;
+  }
+  
+  public function boss(){
+    $_SESSION["moster_hp"] = 100;
+    $_SESSION["moster_atk"] = 2;
+    $_SESSION["moster_def"] = 1;
+    header("Location: ?command=game");
+    return;
+  }
+
   public function showGame($message = ""){
     if (isset($_POST) && isset($_POST["location"]) && !empty($_POST["location"])){
       $location = $_POST["location"];
@@ -172,6 +213,7 @@ class GameController {
       $_SESSION["location"] = "main";
       $location = "main";
     }
+    
     $results = $this->db->query("select * from sprint3_characters where character_id = $1;", $_SESSION["character_id"]);
     $character_name = $results[0]["name"];
     $exp = $results[0]["exp"];
@@ -182,6 +224,11 @@ class GameController {
     }
     else{
       $hp = $results[0]["hp"];
+    }
+    if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountians" || $_SESSION["location"] === "boss" ){
+      $monster_hp = $_SESSION["monster_hp"];
+      $monster_atk = $_SESSION["monster_atk"];
+      $monster_def = $_SESSION["monster_def"];
     }
     $max_hp = $results[0]["hp"];
     $stat_points = $results[0]["stat_points"];
@@ -205,6 +252,7 @@ class GameController {
   }
 
   public function showInventory(){
+    $items = $this->db->query("select * from sprint3_character_items where character_id = $1;", $_SESSION["character_id"]);
     include_once("templates/inventory.php");
     return;
   }
