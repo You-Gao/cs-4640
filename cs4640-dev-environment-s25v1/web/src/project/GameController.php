@@ -83,6 +83,9 @@ class GameController {
       case "acceptF":
         $this->acceptFriend();
         break;
+      case "home":
+        $this->showHome();
+        break;
       case "logout": 
         $this->logout(); // notice no break 
       case "welcome":
@@ -111,11 +114,13 @@ class GameController {
           $_SESSION["email"] = $_POST["email"];
           // call showQuestion OR ...
           // redirect with a header to the question screen
-          if (isset($_COOKIE["charater_id"]) && !empty($_COOKIE["charater_id"])){
-            $this->db->query("update sprint3_characters set user_id = $1 where charater_id = $2;", $_SESSION["user_id"], $_COOKIE["charater_id"]);
+          if (isset($_COOKIE["charater_ids"]) && !empty($_COOKIE["charater_ids"])){
+            for ($x = 0; $x < count($_COOKIE["charater_ids"]); $x++) {
+              $this->db->query("update sprint3_characters set user_id = $1 where charater_id = $2;", $_SESSION["user_id"], $_COOKIE["charater_ids"][$x]);
+            }
             unset($_COOKIE["charater_id"]);
           }
-          header("Location: ?command=welcome");
+          header("Location: ?command=home");
           return;
         } else {
          $message = "<p class='alert alert-danger'>Incorrect password!</p>"; 
@@ -146,10 +151,12 @@ class GameController {
         $_SESSION["user_id"] = $this->db->getLastInsertId("sprint3_users_seq");
         $_SESSION["name"] = $_POST["name"];
         $_SESSION["email"] = $_POST["email"];
-        if (isset($_COOKIE["charater_id"]) && !empty($_COOKIE["charater_id"])){
-            $this->db->query("update sprint3_characters set user_id = $1 where charater_id = $2;", $_SESSION["user_id"], $_COOKIE["charater_id"]);
+        if (isset($_COOKIE["charater_ids"]) && !empty($_COOKIE["charater_ids"])){
+            for ($x = 0; $x < count($_COOKIE["charater_ids"]); $x++) {
+              $this->db->query("update sprint3_characters set user_id = $1 where charater_id = $2;", $_SESSION["user_id"], $_COOKIE["charater_ids"][$x]);
+            }
             unset($_COOKIE["charater_id"]);
-            header("Location: ?command=welcome");
+            header("Location: ?command=home");
             return;
         }
         else{
@@ -164,7 +171,11 @@ class GameController {
   }    
 
   public function showWelcome($message = "") {
-    if (isset($_SESSION["name"]) && !empty($_SESSION["name"])){
+      include_once("templates/home.php");
+      return;
+  }
+
+    public function showHome($message = "") {
       $characters = $this->db->query("select name, id from sprint3_characters where user_id = $1;", $_SESSION["user_id"]);
       $character_ids = [];
       $character_names = [];
@@ -174,11 +185,6 @@ class GameController {
       }
       include_once("templates/home_logged_in.php")
       return;
-    }
-    else {
-      include_once("templates/home.php");
-      return;
-    }
   }
 
   public function forest(){
@@ -214,6 +220,9 @@ class GameController {
   }
 
   public function showGame($message = ""){
+    if (isset($_POST) && isset($_POST["character_id"]) && !empty($_POST["character_id"])){
+      $_SESSION["character_id"] = $_POST["character_id"];
+    }
     if (isset($_POST) && isset($_POST["location"]) && !empty($_POST["location"])){
       $location = $_POST["location"];
       $_SESSION["location"] = $_POST["location"];
@@ -299,7 +308,13 @@ class GameController {
         $_POST["shirt_id"],
         $_POST["pant_id"],
         $_POST["shoe_id"]);
-        setcookie(“character_id”, $this->db->getLastInsertId("sprint3_characters_seq"), 604800);
+        if(isset($_COOKIE["charater_ids"]) && !empty($_COOKIE["charater_ids"])){
+          $_COOKIE["character_ids"][] = $this->db->getLastInsertId("sprint3_characters_seq");
+          setcookie(“character_ids”, $_COOKIE["character_ids"], time() + 604800);
+        }
+        else{
+          setcookie(“character_ids”, [$this->db->getLastInsertId("sprint3_characters_seq")], time() + 604800);
+        }
     }
     else {
       $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
