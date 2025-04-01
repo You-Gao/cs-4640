@@ -201,9 +201,10 @@ class GameController {
         $characters = $this->db->query("select name, id, user_id from sprint3_characters where user_id = $1;", $_SESSION["user_id"]);
       }
       else{
+        $character_ids = json_decode($_COOKIE["character_ids"], true);
         $characters = [];
-        for($x = 0; count($_COOKIE["character_ids"]); $x++){
-          $characters[] = $this->db->query("select name, id from sprint3_characters where id = $1;", $_COOKIE["character_ids"][$x])[0];
+        for($x = 0; count($character_ids); $x++){
+          $characters[] = $this->db->query("select name, id from sprint3_characters where id = $1;", $character_ids[$x])[0];
         }
       }
       $character_ids = [];
