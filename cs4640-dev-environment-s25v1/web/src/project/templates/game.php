@@ -209,7 +209,7 @@ else{
                         }
                     echo "Level = ".$end+1;
                     echo "<p>";
-                    echo "exp = ".$exp-$levelpoints[.$end]."/".$levelpoints[.$end+1]-$levelpoints[.$end];
+                    echo "exp = ".$exp-$levelpoints[$end]."/".$levelpoints[$end+1]-$levelpoints[$end];
                     echo "</p>";
                     ?>
                     <h2>
