@@ -49,12 +49,104 @@
                 </p>
             </div>
             <div class = 'col-md-8 float-md-end col-border clearfix'>
-                <h4 class = "content">Game map</h4>
+                <?php
+if($location === "town"){
+                    echo '<h4 class = "content">Town</h4>
+                <table class = "content">
+                    <tr>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                    </tr>
+                    <tr>
+                      <td><p>quest giver place holder</p></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td>
+                          <form action = "?command=heal" method = "post">
+                            <button type="submit">
+                              <p>healing well place holder</p>
+                            </button>
+                          </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td>
+                          <form action="?command=game" method="post">
+                              <input type="hidden" name="location" value="main">
+                              <button type="submit" class="btn btn-primary">Back</button>
+                          </form>
+                      </td>
+                    </tr>
+                  </table>';
+}
+elseif($location === "won"){
+                    echo '
+                <table class = "content">
+                    <tr>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><p>You defeated '.$monster_name.'.
+                      <p>You got '.$exp_gain.' exp.
+                      </p></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                    </tr>
+                    <tr>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><p>You recived 1 '.$recived[0]["name"].'.</p></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                    </tr>
+                    <tr>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td>
+                          <form action="?command=game" method="post">
+                              <input type="hidden" name="location" value="main">
+                              <button type="submit" class="btn btn-primary">Back</button>
+                          </form>
+                      </td>
+                    </tr>
+                  </table>';
+}
+elseif($location === "forest" || $location === "plains" || $location === "mountains" || $location === "boss"){
+                    echo '<h4 class = "content">'.ucfirst($location).'</h4>
+                <table class = "content">
+                    <tr>
+                      <td><p>Health = '.$hp.'/'.$max_hp.'</p></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><p>Monster Health = '.$monster_hp.'</p></td>
+                    </tr>
+                    <tr>
+                      <td><p>character image place holder</p></td>
+                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><p>'.$monster_name.' image place holder</p></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">';
+                    if(isset($damage_dealt) && !empty($damage_dealt)){
+                        echo '<p>You dealt '.$damage_dealt.' to '.$monster_name.'.
+                        <p>'.$monster_name.' dealt '.$damage_taken.' to you.
+                        </p>';
+                    }
+                echo'</td>
+                      <td>
+                          <a href="?command=attack" class="btn btn-danger">Attack</a>
+                          <form action="?command=game" method="post">
+                              <input type="hidden" name="location" value="main">
+                              <button type="submit" class="btn btn-primary">Run</button>
+                          </form>
+                      </td>
+                    </tr>
+                  </table>';
+}
+else{
+                echo '<h4 class = "content">Game map</h4>
                 <table class = "content">
                     <tr>
                       <td>
                           <form action="?command=game" method="post">
-                              <button type="submit" name="location" value="town">
+                              <input  type="hidden" name="location" value="town">
+                              <button type="submit">
                                   <img src="../assets/town.png" alt="town image">
                               </button>
                           </form>
@@ -62,7 +154,8 @@
                       <td><img src = "../assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action="?command=game" method="post">
-                              <button type="submit" name="location" value="forest">
+                              <input  type="hidden" name="location" value="forest">
+                              <button type="submit">
                                   <img src="../assets/forest.png" alt="forest image">
                               </button>
                           </form>
@@ -72,7 +165,8 @@
                       <td><img src = "../assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action="?command=game" method="post">
-                              <button type="submit" name="location" value="plains">
+                              <input  type="hidden" name="location" value="plains">
+                              <button type="submit">
                                   <img src="../assets/plains.png" alt="plains image">
                               </button>
                           </form>
@@ -82,7 +176,8 @@
                     <tr>
                       <td>
                           <form action="?command=game" method="post">
-                              <button type="submit" name="location" value="mountains">
+                              <input  type="hidden" name="location" value="mountains">
+                              <button type="submit">
                                   <img src="../assets/mountains.png" alt="mountians image">
                               </button>
                           </form>
@@ -90,36 +185,61 @@
                       <td><img src = "../assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action="?command=game" method="post">
-                              <button type="submit" name="location" value="boss">
+                              <input  type="hidden" name="location" value="boss">
+                              <button type="submit">
                                   <img src="../assets/castle.png" alt="castle image">
                               </button>
                           </form>
                       </td>
                     </tr>
-                  </table>
+                  </table>';
+}
+                ?>
             </div>
             <div class = 'float-md-end col-md-2 col-border clearfix'>
                 <div class = 'mobile_split_4'>
+                    <?php
+                    echo "<p>";
+                        $levelpoints = array(0,10,30,75,180,400,1000,1000000000000);
+                        $end = 0;
+                        for ($x = 0; $x < count($levelpoints); $x++) {
+                            if($exp >= $levelpoints[$x]){
+                              $end = min($x, 6);
+                            }
+                        }
+                    echo "Level = ".$end+1;
+                    echo "<p>";
+                    echo "exp = ".$exp-$levelpoints[.$end]."/".$levelpoints[.$end+1]-$levelpoints[.$end];
+                    echo "</p>";
+                    ?>
                     <h2>
-                        <img src = "../project/assets/mage.png" alt = "charater icon">
+                        <p>
+                            placehould for hat with id = <?=$hat_id?>
+                        <p>
+                            placehould for shirt with id = <?=$shirt_id?>
+                        <p>
+                            placehould for pants with id = <?=$pants_id?>
+                        <p>
+                            placehould for shoes with id = <?=$shoes_id?>
+                        </p>
                     </h2>
                 </div>
                 <div class = 'mobile_split_4'>
                     <p>
-                        Basic stats
+                        Stats
                     <p>
-                        Health = 20/20
+                        Health = <?=$hp?>/<?=$max_hp?>
                     <p>
-                        Defence = 5
+                        Defence = <?=$def?>
                     <p>
-                        Attack = 10
+                        Attack = <?=$atk?>
                     </p>
                 </div>
                 <div class = 'mobile_split_4'>
                     <p>
                         Quests:
                     <p>
-                        Do Something
+                        placeholder for quest with id = <?=$quest_id?>
                     </p>
                 </div>
             </div>
