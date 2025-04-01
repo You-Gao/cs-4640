@@ -336,7 +336,7 @@ class GameController {
     }
     elseif($_SESSION["location"] === "won"){
       $monster_name = $_SESSION["monster_name"];
-      $recived_items = $_SESSION["recived"];
+      $recived = $_SESSION["recived"];
       $exp_gain = $_SESSION["exp_gain"];
       $levelup = $_SESSION["level_up"];
     }
@@ -469,6 +469,7 @@ class GameController {
       $_SESSION["location"] = "won";
       //give items and experience
       $_SESSION["exp_gain"] = $_SESSION["monster_exp"];
+      $this->db->query("update sprint3_characters set exp = $1 where id = $2;", $exp + $_SESSION["exp_gain"], $_SESSION["character_id"]);
       $levelpoints = array(0,10,30,75,180,400,1000,1000000000000);
       $start = count($levelpoints);
       $end = 0;
