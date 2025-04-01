@@ -387,7 +387,7 @@ class GameController {
 
     // Storing the character in the database
     if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null && $this->isNumeric($_SESSION["user_id"])) {
-      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 0, 0, 0, 0, 0, 0, $2, $3, $4, $5);",
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 3, 1, 10, 0, 0, 0, $2, $3, $4, $5);",
         $_POST["name"],
         $_POST["hat_id"],
         $_POST["shirt_id"],
@@ -405,7 +405,7 @@ class GameController {
         }
     }
     else {
-      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 3, 1, 10, 0, 0, 0, $3, $4, $5, $6);",
         $_SESSION["user_id"],
         $_POST["name"],
         $_POST["hat_id"],
