@@ -21,6 +21,14 @@
     </section>
     
     <div class="row" id="content">
+	        <?php
+            if (isset($message) && $message != "") { ?>
+                <section id="error" class="row justify-content-center mt-4 text-center">
+                    <div class="col-6 alert alert-danger" role="alert">
+                        <?php echo $message; ?>
+                    </div>
+                </section>
+            <?php } ?>
         <div class="col-sm-12 col-md-2" id="side-content">
             <section id="login" class="row mt-4 mx-1">
                 <h4>Login</h4>
