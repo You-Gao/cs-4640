@@ -88,6 +88,9 @@ class GameController {
       case "acceptF":
         $this->acceptFriend();
         break;
+      case "removeF":
+        $this->removeFriend();
+        break;
       case "home":
         $this->showHome();
         break;
@@ -602,6 +605,15 @@ class GameController {
   public function acceptFriend(){
     if (isset($_POST) && isset($_POST["friend_id"]) && !empty($_POST["friend_id"])){
       $this->db->query("update sprint3_friends set status = 'accepted' where user_id1 = $1 and user_id0 = $2;", $_SESSION["user_id"], $_POST["friend_id"]);
+      header("Location: ?command=friends");
+      return;
+    }
+  }
+
+  public function removeFriend(){
+    if (isset($_POST) && isset($_POST["friend_id"]) && !empty($_POST["friend_id"])){
+      $this->db->query("delete from sprint3_friends where user_id1 = $1 and user_id0 = $2;", $_SESSION["user_id"], $_POST["friend_id"]);
+      $this->db->query("delete from sprint3_friends where user_id0 = $1 and user_id1 = $2;", $_SESSION["user_id"], $_POST["friend_id"]);
       header("Location: ?command=friends");
       return;
     }
