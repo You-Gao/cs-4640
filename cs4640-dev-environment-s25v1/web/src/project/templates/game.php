@@ -153,7 +153,7 @@ else{
                       </td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
-                          <form action="?command=game" method="post">
+                          <form action="?command=forest" method="post">
                               <input  type="hidden" name="location" value="forest">
                               <button type="submit">
                                   <img src="../project/assets/forest.png" alt="forest image">
@@ -164,7 +164,7 @@ else{
                     <tr>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
-                          <form action="?command=game" method="post">
+                          <form action="?command=plains" method="post">
                               <input  type="hidden" name="location" value="plains">
                               <button type="submit">
                                   <img src="../project/assets/plains.png" alt="plains image">
@@ -175,7 +175,7 @@ else{
                     </tr>
                     <tr>
                       <td>
-                          <form action="?command=game" method="post">
+                          <form action="?command=mountains" method="post">
                               <input  type="hidden" name="location" value="mountains">
                               <button type="submit">
                                   <img src="../project/assets/mountains.png" alt="mountians image">
@@ -184,7 +184,7 @@ else{
                       </td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
-                          <form action="?command=game" method="post">
+                          <form action="?command=boss" method="post">
                               <input  type="hidden" name="location" value="boss">
                               <button type="submit">
                                   <img src="../project/assets/castle.png" alt="castle image">
