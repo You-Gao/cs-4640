@@ -231,6 +231,8 @@ else{
                         Defence = <?=$def?>
                     <p>
                         Attack = <?=$atk?>
+                    <p>
+                        Unused Stat Points = <?=$stat_points?>
                     </p>
                 </div>
                 <div class = 'mobile_split_4'>
