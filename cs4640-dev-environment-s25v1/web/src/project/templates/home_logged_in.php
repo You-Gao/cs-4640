@@ -73,7 +73,7 @@
                 echo "</form>";
                 echo "<form method='POST' action='?command=delete' style='display: inline;'>";
                 echo "<input type='hidden' name='character_id' value='{$characters[$x]["id"]}'>";
-                echo "<button type='submit' class='btn btn-danger btn-sm mx-2' style='height:30%; padding:0.1rem; line-height: 1; font-size: .75rem'>x</button>";
+                echo "<button type='submit' class='btn btn-danger btn-sm mx-2' style='height:20px; padding:0.1rem; line-height: 1; font-size: .75rem'>x</button>";
                 echo "</form>";
 
                 echo "</li>";
