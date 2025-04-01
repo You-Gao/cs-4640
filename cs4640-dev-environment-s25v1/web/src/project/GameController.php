@@ -37,6 +37,9 @@ class GameController {
       case "signup":
         $this->signup();
         break;
+      case "game":
+        $this->showGame();
+        break;
       case  "delete":
         $this->deleteCharacter();
         break;
