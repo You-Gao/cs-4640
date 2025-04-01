@@ -212,7 +212,6 @@ else{
                     echo "exp = ".$exp-$levelpoints[$end]."/".$levelpoints[$end+1]-$levelpoints[$end];
                     echo "</p>";
                     ?>
-                    <h2>
                         <p>
                             placehould for hat with id = <?=$hat_id?>
                         <p>
@@ -222,7 +221,6 @@ else{
                         <p>
                             placehould for shoes with id = <?=$shoes_id?>
                         </p>
-                    </h2>
                 </div>
                 <div class = 'mobile_split_4'>
                     <p>
