@@ -326,7 +326,7 @@ class GameController {
       $damage_dealt = $_SESSION["damage_dealt"]; 
     }
     if(isset($_SESSION["damage_taken"]) && !empty($_SESSION["damage_taken"])){
-      $damage_dealt = $_SESSION["damage_taken"]; 
+      $damage_taken = $_SESSION["damage_taken"]; 
     }
     if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountains" || $_SESSION["location"] === "boss" ){
       $monster_hp = $_SESSION["monster_hp"];
