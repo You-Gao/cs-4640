@@ -54,13 +54,13 @@ if($location === "town"){
                     echo '<h4 class = "content">Town</h4>
                 <table class = "content">
                     <tr>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                     </tr>
                     <tr>
                       <td><p>quest giver place holder</p></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action = "?command=heal" method = "post">
                             <button type="submit">
@@ -70,8 +70,8 @@ if($location === "town"){
                       </td>
                     </tr>
                     <tr>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action="?command=game" method="post">
                               <input type="hidden" name="location" value="main">
@@ -85,20 +85,20 @@ elseif($location === "won"){
                     echo '
                 <table class = "content">
                     <tr>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td><p>You defeated '.$monster_name.'.
                       <p>You got '.$exp_gain.' exp.
                       </p></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                     </tr>
                     <tr>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td><p>You recived 1 '.$recived[0]["name"].'.</p></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                     </tr>
                     <tr>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action="?command=game" method="post">
                               <input type="hidden" name="location" value="main">
@@ -113,12 +113,12 @@ elseif($location === "forest" || $location === "plains" || $location === "mounta
                 <table class = "content">
                     <tr>
                       <td><p>Health = '.$hp.'/'.$max_hp.'</p></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td><p>Monster Health = '.$monster_hp.'</p></td>
                     </tr>
                     <tr>
                       <td><p>character image place holder</p></td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td><p>'.$monster_name.' image place holder</p></td>
                     </tr>
                     <tr>
@@ -147,47 +147,47 @@ else{
                           <form action="?command=game" method="post">
                               <input  type="hidden" name="location" value="town">
                               <button type="submit">
-                                  <img src="../assets/town.png" alt="town image">
+                                  <img src="../project/assets/town.png" alt="town image">
                               </button>
                           </form>
                       </td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action="?command=game" method="post">
                               <input  type="hidden" name="location" value="forest">
                               <button type="submit">
-                                  <img src="../assets/forest.png" alt="forest image">
+                                  <img src="../project/assets/forest.png" alt="forest image">
                               </button>
                           </form>
                       </td>
                     </tr>
                     <tr>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action="?command=game" method="post">
                               <input  type="hidden" name="location" value="plains">
                               <button type="submit">
-                                  <img src="../assets/plains.png" alt="plains image">
+                                  <img src="../project/assets/plains.png" alt="plains image">
                               </button>
                           </form>
                       </td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                     </tr>
                     <tr>
                       <td>
                           <form action="?command=game" method="post">
                               <input  type="hidden" name="location" value="mountains">
                               <button type="submit">
-                                  <img src="../assets/mountains.png" alt="mountians image">
+                                  <img src="../project/assets/mountains.png" alt="mountians image">
                               </button>
                           </form>
                       </td>
-                      <td><img src = "../assets/empty.png" alt="empty location"></td>
+                      <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action="?command=game" method="post">
                               <input  type="hidden" name="location" value="boss">
                               <button type="submit">
-                                  <img src="../assets/castle.png" alt="castle image">
+                                  <img src="../project/assets/castle.png" alt="castle image">
                               </button>
                           </form>
                       </td>
