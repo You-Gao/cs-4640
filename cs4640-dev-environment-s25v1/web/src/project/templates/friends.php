@@ -39,6 +39,14 @@
             </nav>
         </header>
         <div class="row">
+            <?php
+            if (isset($message) && $message != "") { ?>
+                <section id="error" class="row justify-content-center mt-4 text-center">
+                    <div class="col-6 alert alert-danger" role="alert">
+                        <?php echo $message; ?>
+                    </div>
+                </section>
+            <?php } ?>
             <div class = "col-12" id = "add-friends">
                 <h2 class = "friend-heading"> Add Friends</h2>
                 <div class="search-container">
@@ -49,14 +57,37 @@
                     </form>
                 </div>
             </div>
+
+            <div class = "col-12" id = "mocked-friends">
+                    <form action="?command=addF" method="post">
+                        <input type="text" placeholder="enter friend's username" name="username">
+                        <button type="submit">add someone (will be replaced w/ js)</button>
+                    </form>
+            </div>
+
             <div class="col-12">
                 <h3 class = "friend-heading">Friend Requests</h3>
-                <div class = "col-12 friend-item">
-                    <h5>username_4</h5>
-                    <form action="/action_page.php">
-                        <button type="submit" value="Submit">Accept Request</button>
-                    </form>
-                </div>
+                <?php
+                for ($x = 0; $x < count($friend_requests_out); $x++) {
+                    echo "<div class = 'col-12 friend-item'>";
+                    echo "<h5>{$friend_requests_out[$x]["username"]}</h5>";
+                    echo "<form>";
+                    echo "<button type='submit' class='btn btn-secondary'>Pending</button>";
+                    echo "</form>";
+                    echo "</div>";
+                }
+                ?>
+                <?php
+                for ($x = 0; $x < count($friend_requests_in); $x++) {
+                    echo "<div class = 'col-12 friend-item'>";
+                    echo "<h5>{$friend_requests_in[$x]["username"]}</h5>";
+                    echo "<form method='POST' action='?command=acceptF'>";
+                    echo "<input type='hidden' name='friend_id' value='{$friend_requests_in[$x]["id"]}'>";
+                    echo "<button type='submit' class='btn btn-primary'>Accept</button>";
+                    echo "</form>";
+                    echo "</div>";
+                }
+                ?>
             </div>
         </div>
         <div id = "friend-row">

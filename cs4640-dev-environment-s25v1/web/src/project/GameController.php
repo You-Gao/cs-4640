@@ -513,23 +513,58 @@ class GameController {
     return;
   }
 
-  public function showFriends(){
+  public function showFriends($message = ""){
     $results = $this->db->query("select * from sprint3_friends where user_id0 = $1 or user_id1 = $2;", $_SESSION["user_id"], $_SESSION["user_id"]);
     $friends = [];
     for ($x = 0; $x < count($results); $x++) {
-      if($results[$x]["user_id0"] == $_SESSION["user_id"]){
+      if($results[$x]["user_id0"] == $_SESSION["user_id"]){ # user_id0 is the one who sent the request
         $friends[] = $this->db->query("select * from sprint3_users where id = $1;", $results[$x]["user_id1"]);
       }
-      else{
+      else{ # user_id0 is the one who received the request
         $friends[] = $this->db->query("select * from sprint3_users where id = $1;", $results[$x]["user_id0"]);
       }
     }
+    $friend_requests_out = $this->db->query("
+    select * from sprint3_friends 
+    join sprint3_users on sprint3_friends.user_id1 = sprint3_users.id  
+    where user_id0 = $1 and status = $2;",
+     $_SESSION["user_id"], "pending");
+
+    $friend_requests_in = $this->db->query("
+    select * from sprint3_friends
+    join sprint3_users on sprint3_friends.user_id0 = sprint3_users.id  
+    where user_id1 = $1 and status = $2;",
+     $_SESSION["user_id"], "pending");
+    
     include_once("templates/friends.php");
     return;
   }
 
   public function addFriend(){
-    
+     if(isset($_POST) && isset($_POST["username"]) && !empty($_POST["username"])){
+      $results = $this->db->query("select * from sprint3_users where username = $1;", $_POST["username"]);
+      if (empty($results)) {
+        $this->showFriends("User not found.");
+        return;
+      }
+      $friend_id = $results[0]["id"];
+      if ($friend_id == $_SESSION["user_id"]){
+        $this->showFriends("You cannot add yourself as a friend.");
+        return;
+      }
+      $results = $this->db->query("select * from sprint3_friends where user_id0 = $1 and user_id1 = $2;", $_SESSION["user_id"], $friend_id);
+      if (!empty($results)) {
+        $this->showFriends("Friend request already sent.");
+        return;
+      }
+      else{
+        $this->db->query("insert into sprint3_friends (user_id0, user_id1, status) values ($1, $2, 'pending');", $_SESSION["user_id"], $friend_id);
+        header("Location: ?command=friends");
+        return;
+      }
+    }
+    $this->showFriends("Please enter a username.");
+    return;
   }
 
   // Endpoint: ?command=searchF&name=some_name
