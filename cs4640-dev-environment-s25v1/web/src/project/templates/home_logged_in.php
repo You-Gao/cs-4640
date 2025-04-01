@@ -82,7 +82,7 @@
             ?>
             </div>
             <div id="create" class="my-5">
-                <a href="character_creation.html">Create New Character</a>
+                <a href="?command=creation">Create New Character</a>
             </div>
         </section>
         <section id="statistics" class="col-sm-12 col-md-4">
