@@ -234,11 +234,12 @@ class GameController {
   }
 
   public function forest(){
-    $_SESSION["moster_hp"] = 5;
-    $_SESSION["moster_atk"] = 2;
-    $_SESSION["moster_def"] = 1;
+    $_SESSION["monster_hp"] = 5;
+    $_SESSION["monster_atk"] = 2;
+    $_SESSION["monster_def"] = 1;
     $_SESSION["monster_exp"] = 2;
-    $_SESSION["moster_name"] = "Tree";
+    $_SESSION["monster_name"] = "Tree";
+    $_SESSION["location"] = "forest";
     unset($_SESSION["damage_dealt"]);
     unset($_SESSION["damage_taken"]);
     header("Location: ?command=game");
@@ -246,23 +247,25 @@ class GameController {
   }
 
   public function plains(){
-    $_SESSION["moster_hp"] = 20;
-    $_SESSION["moster_atk"] = 2;
-    $_SESSION["moster_def"] = 1;
+    $_SESSION["monster_hp"] = 20;
+    $_SESSION["monster_atk"] = 2;
+    $_SESSION["monster_def"] = 1;
     $_SESSION["monster_exp"] = 10;
-    $_SESSION["moster_name"] = "Ox";
+    $_SESSION["monster_name"] = "Ox";
+    $_SESSION["location"] = "plains";
     unset($_SESSION["damage_dealt"]);
     unset($_SESSION["damage_taken"]);
     header("Location: ?command=game");
     return;
   }
 
-  public function mountians(){
-    $_SESSION["moster_hp"] = 50;
-    $_SESSION["moster_atk"] = 2;
-    $_SESSION["moster_def"] = 1;
+  public function mountains(){
+    $_SESSION["monster_hp"] = 50;
+    $_SESSION["monster_atk"] = 2;
+    $_SESSION["monster_def"] = 1;
     $_SESSION["monster_exp"] = 100;
-    $_SESSION["moster_name"] = "Big Rock";
+    $_SESSION["monster_name"] = "Big Rock";
+    $_SESSION["location"] = "mountains";
     unset($_SESSION["damage_dealt"]);
     unset($_SESSION["damage_taken"]);
     header("Location: ?command=game");
@@ -270,11 +273,12 @@ class GameController {
   }
   
   public function boss(){
-    $_SESSION["moster_hp"] = 100;
-    $_SESSION["moster_atk"] = 2;
-    $_SESSION["moster_def"] = 1;
-    $_SESSION["moster_name"] = "Boss";
+    $_SESSION["monster_hp"] = 100;
+    $_SESSION["monster_atk"] = 2;
+    $_SESSION["monster_def"] = 1;
+    $_SESSION["monster_name"] = "Boss";
     $_SESSION["monster_exp"] = 1000;
+    $_SESSION["location"] = "boss";
     unset($_SESSION["damage_dealt"]);
     unset($_SESSION["damage_taken"]);
     header("Location: ?command=game");
@@ -324,7 +328,7 @@ class GameController {
     if(isset($_SESSION["damage_taken"]) && !empty($_SESSION["damage_taken"])){
       $damage_dealt = $_SESSION["damage_taken"]; 
     }
-    if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountians" || $_SESSION["location"] === "boss" ){
+    if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountains" || $_SESSION["location"] === "boss" ){
       $monster_hp = $_SESSION["monster_hp"];
       $monster_atk = $_SESSION["monster_atk"];
       $monster_def = $_SESSION["monster_def"];
