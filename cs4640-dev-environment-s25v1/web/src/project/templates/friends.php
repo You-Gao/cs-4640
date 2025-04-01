@@ -33,7 +33,7 @@
                 <div class="n-item">
                 <a href="settings.html">Settings</a>
                 </div>
-                <a class="nav-item align-right btn" href="home.html">
+                <a class="nav-item align-right btn" href="?command=logout" id="logout">
                     <h3> Log out</h3>
                 </a>
             </nav>
@@ -90,26 +90,19 @@
                 ?>
             </div>
         </div>
-        <div id = "friend-row">
-            <h2 class = "friend-heading">Friends</h2>
-                    <div class = "col-12 friend-item">
-                        <h5>username_1</h5>
-                        <form action="/action_page.php">
-                            <button type="submit" value="Submit">View Page</button>
-                        </form>
-                    </div>
-                    <div class = "col-12 friend-item">
-                        <h5>username_2</h5>
-                        <form action="/action_page.php">
-                            <button type="submit" value="Submit">View Page</button>
-                        </form>                        
-                    </div>
-                    <div class = "col-12 friend-item">
-                        <h5>username_3</h5>
-                        <form action="/action_page.php">
-                            <button type="submit" value="Submit">View Page</button>
-                        </form>
-                    </div>
+        <div id="friend-row">
+            <h2 class="friend-heading">Friends</h2>
+            <?php 
+            foreach ($friends as $friend) {
+                echo "<div class='col-12 friend-item'>";
+                echo "<h5>{$friend[0]["username"]}</h5>";
+                echo "<form method='POST' action='?command=removeF'>";
+                echo "<input type='hidden' name='friend_id' value='{$friend[0]["id"]}'>";
+                echo "<button type='submit' class='btn btn-danger'>Remove</button>";
+                echo "</form>";
+                echo "</div>";
+            }
+            ?>
         </div>
 
         <div class="container">
