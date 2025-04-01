@@ -68,7 +68,7 @@ class GameController {
         $this->showCreation();
         break;
       case "create":
-        $this->createCharater();
+        $this->createCharacter();
         break;
       case "heal":
         $this->heal();
@@ -122,11 +122,11 @@ class GameController {
           $_SESSION["email"] = $_POST["email"];
           // call showQuestion OR ...
           // redirect with a header to the question screen
-          if (isset($_COOKIE["charater_ids"]) && !empty($_COOKIE["charater_ids"])){
-            for ($x = 0; $x < count($_COOKIE["charater_ids"]); $x++) {
-              $this->db->query("update sprint3_characters set user_id = $1 where id = $2;", $_SESSION["user_id"], $_COOKIE["charater_ids"][$x]);
+          if (isset($_COOKIE["character_ids"]) && !empty($_COOKIE["character_ids"])){
+            for ($x = 0; $x < count($_COOKIE["character_ids"]); $x++) {
+              $this->db->query("update sprint3_characters set user_id = $1 where id = $2;", $_SESSION["user_id"], $_COOKIE["character_ids"][$x]);
             }
-            unset($_COOKIE["charater_id"]);
+            unset($_COOKIE["character_id"]);
           }
           header("Location: ?command=home");
           return;
@@ -193,12 +193,19 @@ class GameController {
   }
 
   public function showHome($message = "") {
-      if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null) {
+      if ((!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null) && (!isset($_COOKIE["character_ids"]))) {
         header("Location: ?command=welcome");
         return;
       }
-
-      $characters = $this->db->query("select name, id, user_id from sprint3_characters where user_id = $1;", $_SESSION["user_id"]);
+      if(isset($_SESSION["user_id"])){
+        $characters = $this->db->query("select name, id, user_id from sprint3_characters where user_id = $1;", $_SESSION["user_id"]);
+      }
+      else{
+        $characters = [];
+        for($x = 0; count($_COOKIE["character_ids"]); $x++){
+          $characters[] = $this->db->query("select name, id from sprint3_characters where id = $1;", $_COOKIE["character_ids"][$x])[0];
+        }
+      }
       $character_ids = [];
       $character_names = [];
       for ($x = 0; $x < count($characters); $x++) {
@@ -349,7 +356,7 @@ class GameController {
     session_start();
   }
 
-  public function createCharater(){
+  public function createCharacter(){
     // Form validation
     $results = $this->db->query("select * from sprint3_characters where name = $1;", $_POST["name"]);
     if (!empty($results)) {
