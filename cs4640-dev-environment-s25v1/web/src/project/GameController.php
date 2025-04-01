@@ -340,7 +340,7 @@ class GameController {
     $quest_id = $results[0]["quest_id"];
     $hat_id = $results[0]["hat_id"];
     $shirt_id = $results[0]["shirt_id"];
-    $pants_id = $results[0]["pants_id"];
+    $pants_id = $results[0]["pant_id"];
     $shoes_id = $results[0]["shoes_id"];
     include_once("templates/game.php");
     return;
