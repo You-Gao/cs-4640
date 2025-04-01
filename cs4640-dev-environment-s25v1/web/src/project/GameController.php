@@ -483,7 +483,7 @@ class GameController {
       }
       $_SESSION["level_up"] = $start - $end;
       if($_SESSION["level_up"] > 0){
-        $this->db->query("update sprint3_character set stat_points = $1 where id = $2;", $stat_points+$_SESSION["level_up"], $_SESSION["character_id"]);
+        $this->db->query("update sprint3_characters set stat_points = $1 where id = $2;", $stat_points+$_SESSION["level_up"], $_SESSION["character_id"]);
       }
       if($_SESSION["monster_name"] === "Tree"){
         $item_id = rand(0,4);        
