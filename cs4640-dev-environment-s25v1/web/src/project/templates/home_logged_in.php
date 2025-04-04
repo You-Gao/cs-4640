@@ -18,6 +18,14 @@
         <img src="../project/assets/warrior.png" alt="placeholder" class="img-fluid col-2">
         <hr class="mt-2"/>
     </section>
+        <?php
+            if (isset($message) && $message != "") { ?>
+                <section id="error" class="row justify-content-center mt-4 text-center">
+                    <div class="col-6 alert alert-danger" role="alert">
+                        <?php echo $message; ?>
+                    </div>
+                </section>
+            <?php } ?>
 
     <section id="leaderboard" class="row mt-4 justify-content-center">
         <div class="col-sm-12 col-md-8">

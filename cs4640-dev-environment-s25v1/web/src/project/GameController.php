@@ -234,11 +234,12 @@ class GameController {
   }
 
   public function forest(){
-    $_SESSION["moster_hp"] = 5;
-    $_SESSION["moster_atk"] = 2;
-    $_SESSION["moster_def"] = 1;
+    $_SESSION["monster_hp"] = 5;
+    $_SESSION["monster_atk"] = 2;
+    $_SESSION["monster_def"] = 1;
     $_SESSION["monster_exp"] = 2;
-    $_SESSION["moster_name"] = "Tree";
+    $_SESSION["monster_name"] = "Tree";
+    $_SESSION["location"] = "forest";
     unset($_SESSION["damage_dealt"]);
     unset($_SESSION["damage_taken"]);
     header("Location: ?command=game");
@@ -246,23 +247,25 @@ class GameController {
   }
 
   public function plains(){
-    $_SESSION["moster_hp"] = 20;
-    $_SESSION["moster_atk"] = 2;
-    $_SESSION["moster_def"] = 1;
+    $_SESSION["monster_hp"] = 20;
+    $_SESSION["monster_atk"] = 2;
+    $_SESSION["monster_def"] = 1;
     $_SESSION["monster_exp"] = 10;
-    $_SESSION["moster_name"] = "Ox";
+    $_SESSION["monster_name"] = "Ox";
+    $_SESSION["location"] = "plains";
     unset($_SESSION["damage_dealt"]);
     unset($_SESSION["damage_taken"]);
     header("Location: ?command=game");
     return;
   }
 
-  public function mountians(){
-    $_SESSION["moster_hp"] = 50;
-    $_SESSION["moster_atk"] = 2;
-    $_SESSION["moster_def"] = 1;
+  public function mountains(){
+    $_SESSION["monster_hp"] = 50;
+    $_SESSION["monster_atk"] = 2;
+    $_SESSION["monster_def"] = 1;
     $_SESSION["monster_exp"] = 100;
-    $_SESSION["moster_name"] = "Big Rock";
+    $_SESSION["monster_name"] = "Big Rock";
+    $_SESSION["location"] = "mountains";
     unset($_SESSION["damage_dealt"]);
     unset($_SESSION["damage_taken"]);
     header("Location: ?command=game");
@@ -270,11 +273,12 @@ class GameController {
   }
   
   public function boss(){
-    $_SESSION["moster_hp"] = 100;
-    $_SESSION["moster_atk"] = 2;
-    $_SESSION["moster_def"] = 1;
-    $_SESSION["moster_name"] = "Boss";
+    $_SESSION["monster_hp"] = 100;
+    $_SESSION["monster_atk"] = 2;
+    $_SESSION["monster_def"] = 1;
+    $_SESSION["monster_name"] = "Boss";
     $_SESSION["monster_exp"] = 1000;
+    $_SESSION["location"] = "boss";
     unset($_SESSION["damage_dealt"]);
     unset($_SESSION["damage_taken"]);
     header("Location: ?command=game");
@@ -322,9 +326,9 @@ class GameController {
       $damage_dealt = $_SESSION["damage_dealt"]; 
     }
     if(isset($_SESSION["damage_taken"]) && !empty($_SESSION["damage_taken"])){
-      $damage_dealt = $_SESSION["damage_taken"]; 
+      $damage_taken = $_SESSION["damage_taken"]; 
     }
-    if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountians" || $_SESSION["location"] === "boss" ){
+    if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountains" || $_SESSION["location"] === "boss" ){
       $monster_hp = $_SESSION["monster_hp"];
       $monster_atk = $_SESSION["monster_atk"];
       $monster_def = $_SESSION["monster_def"];
@@ -332,7 +336,7 @@ class GameController {
     }
     elseif($_SESSION["location"] === "won"){
       $monster_name = $_SESSION["monster_name"];
-      $recived_items = $_SESSION["recived"];
+      $recived = $_SESSION["recived"];
       $exp_gain = $_SESSION["exp_gain"];
       $levelup = $_SESSION["level_up"];
     }
@@ -340,7 +344,7 @@ class GameController {
     $quest_id = $results[0]["quest_id"];
     $hat_id = $results[0]["hat_id"];
     $shirt_id = $results[0]["shirt_id"];
-    $pants_id = $results[0]["pants_id"];
+    $pants_id = $results[0]["pant_id"];
     $shoes_id = $results[0]["shoes_id"];
     include_once("templates/game.php");
     return;
@@ -387,7 +391,7 @@ class GameController {
 
     // Storing the character in the database
     if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] == null && $this->isNumeric($_SESSION["user_id"])) {
-      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 0, 0, 0, 0, 0, 0, $2, $3, $4, $5);",
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values (null, $1, 0, 3, 1, 10, 0, 0, 0, $2, $3, $4, $5);",
         $_POST["name"],
         $_POST["hat_id"],
         $_POST["shirt_id"],
@@ -405,7 +409,7 @@ class GameController {
         }
     }
     else {
-      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 0, 0, 0, 0, 0, 0, $3, $4, $5, $6);",
+      $results = $this->db->query("insert into sprint3_characters (user_id, name, exp, atk, def, hp, stat_points, monsters_killed, quest_id, hat_id, shirt_id, pant_id, shoes_id) values ($1, $2, 0, 3, 1, 10, 0, 0, 0, $3, $4, $5, $6);",
         $_SESSION["user_id"],
         $_POST["name"],
         $_POST["hat_id"],
@@ -465,6 +469,7 @@ class GameController {
       $_SESSION["location"] = "won";
       //give items and experience
       $_SESSION["exp_gain"] = $_SESSION["monster_exp"];
+      $this->db->query("update sprint3_characters set exp = $1 where id = $2;", $exp + $_SESSION["exp_gain"], $_SESSION["character_id"]);
       $levelpoints = array(0,10,30,75,180,400,1000,1000000000000);
       $start = count($levelpoints);
       $end = 0;
@@ -478,7 +483,7 @@ class GameController {
       }
       $_SESSION["level_up"] = $start - $end;
       if($_SESSION["level_up"] > 0){
-        $this->db->query("update sprint3_character set stat_points = $1 where id = $2;", $stat_points+$_SESSION["level_up"], $_SESSION["character_id"]);
+        $this->db->query("update sprint3_characters set stat_points = $1 where id = $2;", $stat_points+$_SESSION["level_up"], $_SESSION["character_id"]);
       }
       if($_SESSION["monster_name"] === "Tree"){
         $item_id = rand(0,4);        
