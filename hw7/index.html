@@ -219,6 +219,7 @@
                 console.log('Valid guess:', guess);
                 const correct = await checkGuess(guess);
                 if (correct && !alreadyGuessed(guess)) {
+                    updateScore(guess);
                     storeGuess(guess);
                     initGuesses(); // Update the guesses display
                     const alertDiv = document.getElementById("alert");
@@ -232,6 +233,12 @@
                     alertDiv.classList.add("alert-danger");
                     alertDiv.textContent = `Incorrect! ${guess} is not a valid word.`;
                 }
+            }
+            else {
+                const alertDiv = document.getElementById("alert");
+                alertDiv.classList.remove("alert-success");
+                alertDiv.classList.add("alert-danger");
+                alertDiv.textContent = `Invalid guess! ${guess} is not a valid guess.`;
             }
             return;
         }
@@ -281,6 +288,29 @@
             return guess_string;
         }
 
+        function updateScore(guess) {
+            const score = JSON.parse(localStorage.getItem("score")) || 0;
+            const scoreDiv = document.getElementById("score");
+            const wordLength = guess.length;
+            if (wordLength == 6) {
+                localStorage.setItem("score", score + 30);
+            } else if (wordLength == 5) {
+                localStorage.setItem("score", score + 15);
+            } else if (wordLength == 4) {
+                localStorage.setItem("score", score + 8);
+            } else if (wordLength == 3) {
+                localStorage.setItem("score", score + 4);
+            } else if (wordLength == 2) {
+                localStorage.setItem("score", score + 2);
+            } else if (wordLength == 1) {
+                localStorage.setItem("score", score + 1);
+            }
+            const newScore = JSON.parse(localStorage.getItem("score"));
+            const scoreH2 = document.createElement('h2');
+            scoreH2.textContent = `Score: ${newScore}`;
+            scoreDiv.innerHTML = ''; // Clear previous score
+            scoreDiv.appendChild(scoreH2);
+        }
         function handleInput(event) {
             const key = event.key;
             console.log('Key pressed:', key);
@@ -351,7 +381,6 @@
                 <h2>Score: [score]</h2>
             </div>
             <div id="display" class="d-flex col-6 justify-content-center">
-                <?php makeAnagramDisplay(); ?>
             </div>
             <div id="shuffle" class="d-flex mb-0 col-3 justify-content-end">
                 <button class="d-flex align-items-end" type="submit" onclick="shuffle()">
@@ -372,8 +401,8 @@
             </div>
         </section>
 
-        <div id="alert" class='alert alert-success col-6 mt-3' role='alert'>
-            <h5 class='mb-0'>[alert]</h5>
+        <div id="alert" class='alert col-6 mt-3' role='alert'>
+            <h5 class='mb-0'></h5>
         </div>
 
         <section id="input-line" class="d-flex mt-3 justify-content-center">
