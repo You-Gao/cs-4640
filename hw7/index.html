@@ -75,6 +75,7 @@
             await initWord();
             initGuesses();
             initScore();
+            initStatistics();
         }
 
         async function getWord() {
@@ -127,6 +128,21 @@
                 const lettter = letter.toUpperCase();
                 letterH1.textContent = lettter;
                 letterDiv.appendChild(letterH1);
+                letterDiv.addEventListener('click', function () {
+                    const inputDiv = document.getElementById("user-input")
+                    if (inputDiv.childElementCount < 7) {
+                        const newDiv = document.createElement('div');
+                        newDiv.classList.add('mx-1');
+                        newDiv.innerHTML = `<h1>${lettter}</h1>`;
+                        inputDiv.appendChild(newDiv);
+                    }
+                });
+                letterDiv.addEventListener('mouseover', function () {
+                    letterDiv.style.backgroundColor = "lightblue";
+                });
+                letterDiv.addEventListener('mouseout', function () {
+                    letterDiv.style.backgroundColor = "white";
+                });
                 display.appendChild(letterDiv);
             }
         }
@@ -179,6 +195,20 @@
             scoreDiv.appendChild(scoreH2);
         }
 
+        function initStatistics(){
+            const gamesPlayed = JSON.parse(localStorage.getItem("gamesPlayed")) || 0;
+            const highScore = JSON.parse(localStorage.getItem("highScore")) || 0;
+            const lowestScore = JSON.parse(localStorage.getItem("lowestScore")) || Infinity;
+            const averageCorrectGuesses = JSON.parse(localStorage.getItem("averageCorrectGuesses")) || 0;
+            const averageIncorrectGuesses = JSON.parse(localStorage.getItem("averageIncorrectGuesses")) || 0;
+
+            document.getElementById("games_played").textContent = gamesPlayed;
+            document.getElementById("high_score").textContent = highScore;
+            document.getElementById("lowest_score").textContent = lowestScore;
+            document.getElementById("average_correct_guesses").textContent = averageCorrectGuesses.toFixed(2);
+            document.getElementById("average_incorrect_guesses").textContent = averageIncorrectGuesses.toFixed(2);
+        }
+
         function mockGuesses() {
             const guesses = [
                 ["word1", "word2"],
@@ -228,15 +258,60 @@
         }
 
         function newGame() {
+            clearAlert();
             saveStatistics();
             clearGame();
             init();
+        }
+
+        function clearAlert() {
+            const alertDiv = document.getElementById("alert");
+            alertDiv.classList.remove("alert-danger");
+            alertDiv.classList.remove("alert-success");
+            alertDiv.textContent = '';
+        }
+
+        function newGameNoInit() {
+            saveStatistics();
+            initStatistics(); // Update statistics display
+            clearGame();
+            initGuesses(); // hides the guesses display
+            updateWordDisplayNewGame()
+
+        }
+
+        function updateWordDisplayNewGame() {
+            const display = document.getElementById('display');
+            display.innerHTML = ''; // Clear previous display
+
+            for (let letter of "NEWGAME?") {
+                const letterDiv = document.createElement('div');
+                letterDiv.className = "mx-1"
+                const letterH1 = document.createElement('h1');
+                const lettter = letter.toUpperCase();
+                letterH1.textContent = lettter;
+                letterDiv.appendChild(letterH1);
+                letterDiv.addEventListener('click', function () {
+                    newGame();
+                });
+                letterDiv.addEventListener('mouseover', function () {
+                    letterDiv.style.backgroundColor = "lightblue";
+                });
+                letterDiv.addEventListener('mouseout', function () {
+                    letterDiv.style.backgroundColor = "white";
+                });
+                display.appendChild(letterDiv);
+            }
         }
 
     </script>
 
     <script> // Functions for the game
         function shuffle() {
+            // if new game state don't shuffle
+            if (!localStorage.getItem("currentWord")) {
+                return;
+            }
             const currentWord = JSON.parse(localStorage.getItem("currentWord"));
             updateWordDisplay(currentWord); // Display does shuffling (bad practice)
         }
@@ -265,9 +340,13 @@
             const inputDiv = document.getElementById("user-input");
             inputDiv.innerHTML = ''; // Clear input div
 
-            if (guess == localStorage.getItem("currentWord")) {
-                // clear()
-                // init()
+            if (guess == JSON.parse(localStorage.getItem("currentWord"))) {
+                newGameNoInit(); // Start a new game
+                const alertDiv = document.getElementById("alert");
+                alertDiv.classList.remove("alert-danger");
+                alertDiv.classList.add("alert-success");
+                alertDiv.textContent = `Congratulations! You guessed the word: ${guess}`;
+                return;
             }
 
             if ((guess) && (isValidGuess(guess))) {
@@ -299,8 +378,6 @@
             }
             return;
         }
-
-
 
         function isValidGuess(guess) {
             const currentWord = JSON.parse(localStorage.getItem("currentWord"));
@@ -410,18 +487,38 @@
         }
         window.addEventListener('keydown', handleInput);
 
+        function showInstructions() {
+            const instructions = document.getElementById("instructions");
+
+            if (instructions.style.display === "block") {
+                instructions.style.display = "none";
+            } else {
+                instructions.style.display = "block";
+            }
+        }
+
+        function showStatistics() {
+            const instructions = document.getElementById("statistics");
+
+            if (instructions.style.display === "block") {
+                instructions.style.display = "none";
+            } else {
+                instructions.style.display = "block";
+            }
+        }
+
     </script>
 
 </head>
 
-<body class="container-lg mb-5" onload="init()" unload="saveState()">
+<body class="container-lg mb-5" onload="init()">
     <section id="anagrams" class="row justify-content-center mt-4">
         <section id="anagram-title" class="d-flex col-12 align-items-baseline">
             <div class="col-3">
             </div>
             <h1 class="col-6 text-center">the anagrams game</h1>
             <div class="col-3 d-flex justify-content-end">
-                <div style="margin-right:10px;">
+                <div style="margin-right:10px;" onclick="showInstructions()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                         class="bi bi-question-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -429,7 +526,7 @@
                             d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94" />
                     </svg>
                 </div>
-                <div>
+                <div onclick="showStatistics()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                         class="bi bi-trophy-fill" viewBox="0 0 16 16">
                         <path
@@ -452,7 +549,7 @@
                     <h2 class="mb-0">shuffle</h2>
                 </button>
                 <button class="d-flex align-items-end" type="submit" onclick="newGame()">
-                    <h2 class="mb-0">new game</h2>
+                    <h2 class="mb-0">new word</h2>
                 </button>
             </div>
         </section>
@@ -482,6 +579,45 @@
 
         <hr id='underline' class='mt-2 col-6 mx-auto' style='height: 5px; background-color: rgb(0, 0, 0);' />
     </section>
+
+    <section id="instructions" class="row" style="position: fixed; display: none;
+    margin: auto; width: 40%; top: 15%; left: 50%; transform: translateX(-50%); border: solid; background-color: white; z-index: 1000;">
+        <div class="col-12 d-flex-column justify-content-center">
+            <div class=""col-12> <h2 class="text-center"> the anagrams game guide</h2></div>
+            <div class="col-12"> <h3 class="text-center">Click the letters of a word or type it.</h3></div>
+            <div class="col-12">
+                <img class="text-center" src="image.png" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+            </div>
+            <div class="col-12">
+                <h3 class="text-center">How to Play:</h3>
+            </div>
+            <div class="col-10 ms-auto mb-3">
+                <h4 class="">1. Use the letters to make words.</h4>
+                <h4 class="">2. Longer word gets you more points.</h4>
+                <h4 class="">3. Guessing the 7 letter ends the game.</h4>
+                <h4 class="">4. Get as many points!</h4>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="statistics" class="row" style="position: fixed; display: none;
+    margin: auto; width: 40%; top: 15%; left: 50%; transform: translateX(-50%); border: solid; background-color: white; z-index: 1000;">
+        <div class="col-12 d-flex-column justify-content-center">
+            <div class="col-12"> <h3 class="text-center">Player Statistics</h3></div>
+            <div class="col-10 ms-auto mb-3">
+                <h4 class="">Games Played: <span id="games_played"></span></h4>
+                <h4 class="">High Score: <span id="high_score"></span></h4>
+                <h4 class="">Lowest Score: <span id="lowest_score"></span></h4>
+                <h4 class="">Avg Correct: <span id="average_correct_guesses"></span></h4>
+                <h4 class="">Avg Incorrect: <span id="average_incorrect_guesses"></span></h4>
+            </div>
+            <div class="col-12 d-flex justify-content-center mb-3">
+                <button class="btn btn-danger" onclick="clearAll();init();window.location.reload();">STOP COLLECTING MY DATA!</button>
+            </div>
+    </section>    
+
+
 </body>
 
 </html>
