@@ -11,10 +11,6 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <script>
-        // Functions from Anagrams.js
-    </script>
-
     <style>
         #anagram-display #display div,
         #user-input div {
@@ -54,18 +50,156 @@
             align-items: flex-end;
         }
     </style>
+
+    <script> // Functions for the game
+
+        /*
+        * Game States
+        * Current Word: The current word to be guessed
+        * Guessed Words: The words that have been guessed so far
+        * Score: The current score of the player
+        * Words Left: The number of words left to guess
+        */
+
+        /* Game Statistic Variables 
+        * Games Played: The total number of games played
+        * High Score: The highest score achieved in a game
+        * Lowest Score: The lowest score achieved in a game
+        * Average of Correct Guesses: The average number of correct guesses per game
+        * Average of Incorrect Guesses: The average number of incorrect guesses per game
+        */
+
+        async function init() {
+            initWord();
+            initGuesses();
+        }
+
+        async function getWord() {
+            const response = await fetch('https://cs4640.cs.virginia.edu/homework/anagrams.php');
+            console.log('Response:', response);
+            const data = await response.json();
+            console.log('Data:', data);
+            if (data.result === 'success') {
+                return data.word;
+            } else {
+                console.error('Error fetching word:', data.error);
+            }
+            return null;
+        }
+
+        async function setWord() {
+            const word = await getWord();
+            if (word){
+                updateWordDisplay(word);
+                saveWordState(word);
+            } else {
+                updateWordDisplay('ERROR');
+            }
+        }
+
+        async function initWord() {
+            if (!localStorage.getItem("currentWord")) {
+                setWord(); 
+            } else {
+                const currentWord = JSON.parse(localStorage.getItem("currentWord"));
+                updateWordDisplay(currentWord);
+            }
+        }
+
+        function updateWordDisplay(word) {
+            const display = document.getElementById('display');
+            display.innerHTML = ''; // Clear previous display
+            for (let letter of word) {
+                const letterDiv = document.createElement('div');
+                letterDiv.className = "mx-1"
+                const letterH1 = document.createElement('h1');
+                const lettter = letter.toUpperCase();
+                letterH1.textContent = lettter;
+                letterDiv.appendChild(letterH1);
+                display.appendChild(letterDiv);
+            }
+        }
+
+        function saveWordState(currentWord) {
+            localStorage.setItem("currentWord", JSON.stringify(currentWord));
+        }
+
+        function initGuesses() {
+            mockGuesses(); // For testing purposes, remove in production
+            const guesses = JSON.parse(localStorage.getItem("guesses")) || [];
+            const display = document.getElementById('anagram-guesses');
+            display.innerHTML = ''; // Clear previous guesses
+            console.log('Guesses:', guesses);
+            console.log('Guesses length:', guesses.length);
+            
+            for (i = 0; i < guesses.length; i++) {
+                //<div id='$i-letter-words' class='d-flex align-items-center mt-2'> 
+                const guessContainer = document.createElement('div');
+                guessContainer.className = "d-flex align-items-center mt-2";
+                guessContainer.id = `$i-letter-words`;
+                
+                // h2 for the number of letters in the word
+                const guessDiv = document.createElement('h2');
+                guessDiv.textContent = `[${i}-letters]:`;
+
+                guessContainer.appendChild(guessDiv);
+                
+                // h3 for each word
+                for (let j = 0; j < guesses[i].length; j++) {
+                    const guessWord = document.createElement('h3');
+                    guessWord.textContent = guesses[i][j].toUpperCase();
+                    guessContainer.appendChild(guessWord);
+                }
+
+                display.appendChild(guessContainer);
+
+            }
+        }
+
+        function mockGuesses() {
+            const guesses = [
+                ["word1", "word2"],
+                ["word3", "word4"],
+                ["word5", "word6"]
+            ];
+            localStorage.setItem("guesses", JSON.stringify(guesses));
+        }
+
+        function saveState() {
+            // Save the current game state to local storage or a cookie
+            // This function is called when the page unloads
+            // You can add your saving code here
+        }
+    </script>
+
 </head>
 
-<body class="container-lg mb-5">
+<body class="container-lg mb-5" onload="init()" unload="saveState()">
     <section id="anagrams" class="row justify-content-center mt-4">
         <section id="anagram-title" class="d-flex col-12 align-items-baseline">
             <div class="col-3">
             </div>
             <h1 class="col-6 text-center">the anagrams game</h1>
-            <!-- <div class="col-3 d-flex justify-content-end ">
-                <h2 class="mb-0">[name]</h2>
-            </div> -->
+            <div class="col-3 d-flex justify-content-end">
+                <div style="margin-right:10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-question-circle"
+                    viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path
+                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94" />
+                </svg>
+                </div>
+                <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trophy-fill"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935" />
+                </svg>
+
+                </div>       
+            </div>
         </section>
+
         <hr class="col-12 mx-auto mb-3" style="height: 5px;" />
         <section id="anagram-display" class="d-flex justify-content-between align-items-baseline mb-3">
             <div id="score" class="col-3">
@@ -90,7 +224,7 @@
             </div>
         </section>
 
-        <section id="anagram-guesses" class="d-flex flex-wrap flex-column">
+        <section id="anagram-guesses" style="width: 100%;">
             <div id='$i-letter-words' class='d-flex align-items-center mt-2'>
                 <h2>[Example 6-letters]:</h2>
             </div>
