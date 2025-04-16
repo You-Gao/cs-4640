@@ -58,6 +58,7 @@
         * Game States
         * Current Word: The current word to be guessed
         * Guessed Words: The words that have been guessed so far
+        * Incorrect Guesses: The number of incorrect guesses made by the player
         * Score: The current score of the player
         * Words Left: The number of words left to guess
         */
@@ -73,6 +74,7 @@
         async function init() {
             await initWord();
             initGuesses();
+            initScore();
         }
 
         async function getWord() {
@@ -140,7 +142,11 @@
             console.log('Guesses:', guesses);
             console.log('Guesses length:', guesses.length);
 
-            for (i = 0; i < guesses.length; i++) {
+            for (i = 1; i < guesses.length; i++) {
+                if (guesses[i] == null) {
+                    continue;
+                }
+
                 //<div id='$i-letter-words' class='d-flex align-items-center mt-2'> 
                 const guessContainer = document.createElement('div');
                 guessContainer.className = "d-flex align-items-center mt-2";
@@ -164,6 +170,15 @@
             }
         }
 
+        function initScore() {
+            const score = JSON.parse(localStorage.getItem("score")) || 0;
+            const scoreDiv = document.getElementById("score");
+            const scoreH2 = document.createElement('h2');
+            scoreH2.textContent = `Score: ${score}`;
+            scoreDiv.innerHTML = ''; // Clear previous score
+            scoreDiv.appendChild(scoreH2);
+        }
+
         function mockGuesses() {
             const guesses = [
                 ["word1", "word2"],
@@ -173,11 +188,51 @@
             localStorage.setItem("guesses", JSON.stringify(guesses));
         }
 
-        function saveState() {
-            // Save the current game state to local storage or a cookie
-            // This function is called when the page unloads
-            // You can add your saving code here
+        function saveStatistics(){
+            const score = JSON.parse(localStorage.getItem("score")) || 0;
+            const guesses = JSON.parse(localStorage.getItem("guesses")) || [];
+            const correct_guesses = guesses.flat(); // Flatten the array of arrays
+            const incorrect_guesses = JSON.parse(localStorage.getItem("incorrect_guesses")) || 0;
+            const gamesPlayed = JSON.parse(localStorage.getItem("gamesPlayed")) || 0;
+            const highScore = JSON.parse(localStorage.getItem("highScore")) || 0;
+            const lowestScore = JSON.parse(localStorage.getItem("lowestScore")) || Infinity;
+            const averageCorrectGuesses = JSON.parse(localStorage.getItem("averageCorrectGuesses")) || 0;
+            const averageIncorrectGuesses = JSON.parse(localStorage.getItem("averageIncorrectGuesses")) || 0;
+
+            if ((score > 0) || (correct_guesses.length > 0) || (incorrect_guesses > 0)) {
+                localStorage.setItem("gamesPlayed", gamesPlayed + 1);
+                localStorage.setItem("highScore", Math.max(score, highScore));
+                localStorage.setItem("lowestScore", Math.min(score, lowestScore));
+                localStorage.setItem("averageCorrectGuesses", (averageCorrectGuesses + correct_guesses.length) / (gamesPlayed + 1));
+                localStorage.setItem("averageIncorrectGuesses", (averageIncorrectGuesses + incorrect_guesses) / (gamesPlayed + 1));
+            }
+
         }
+
+        function clearGame(){
+            localStorage.removeItem("currentWord");
+            localStorage.removeItem("guesses");
+            localStorage.removeItem("score");
+            localStorage.removeItem("incorrect_guesses");
+        }
+
+        function clearAll() {
+            localStorage.removeItem("currentWord");
+            localStorage.removeItem("guesses");
+            localStorage.removeItem("score");
+            localStorage.removeItem("gamesPlayed");
+            localStorage.removeItem("highScore");
+            localStorage.removeItem("lowestScore");
+            localStorage.removeItem("averageCorrectGuesses");
+            localStorage.removeItem("averageIncorrectGuesses");
+        }
+
+        function newGame() {
+            saveStatistics();
+            clearGame();
+            init();
+        }
+
     </script>
 
     <script> // Functions for the game
@@ -232,16 +287,20 @@
                     alertDiv.classList.remove("alert-success");
                     alertDiv.classList.add("alert-danger");
                     alertDiv.textContent = `Incorrect! ${guess} is not a valid word.`;
+                    updateIncorrectGuesses();
                 }
             }
             else {
                 const alertDiv = document.getElementById("alert");
                 alertDiv.classList.remove("alert-success");
                 alertDiv.classList.add("alert-danger");
-                alertDiv.textContent = `Invalid guess! ${guess} is not a valid guess.`;
+                alertDiv.textContent = `Already guessed! ${guess} is not a valid guess.`;
+                updateIncorrectGuesses();
             }
             return;
         }
+
+
 
         function isValidGuess(guess) {
             const currentWord = JSON.parse(localStorage.getItem("currentWord"));
@@ -311,6 +370,12 @@
             scoreDiv.innerHTML = ''; // Clear previous score
             scoreDiv.appendChild(scoreH2);
         }
+
+        function updateIncorrectGuesses() {
+            const incorrectGuesses = JSON.parse(localStorage.getItem("incorrect_guesses")) || 0;
+            localStorage.setItem("incorrect_guesses", incorrectGuesses + 1);
+        }
+
         function handleInput(event) {
             const key = event.key;
             console.log('Key pressed:', key);
@@ -378,7 +443,7 @@
         <hr class="col-12 mx-auto mb-3" style="height: 5px;" />
         <section id="anagram-display" class="d-flex justify-content-between align-items-baseline mb-3">
             <div id="score" class="col-3">
-                <h2>Score: [score]</h2>
+                <h2>Score:</h2>
             </div>
             <div id="display" class="d-flex col-6 justify-content-center">
             </div>
@@ -386,18 +451,14 @@
                 <button class="d-flex align-items-end" type="submit" onclick="shuffle()">
                     <h2 class="mb-0">shuffle</h2>
                 </button>
-                <form>
-                    <input type="hidden" name="give_up" value="true">
-                    <button class="d-flex align-items-end" type="submit">
-                        <h2 class="mb-0">new game</h2>
-                    </button>
-                </form>
+                <button class="d-flex align-items-end" type="submit" onclick="newGame()">
+                    <h2 class="mb-0">new game</h2>
+                </button>
             </div>
         </section>
 
         <section id="anagram-guesses" style="width: 100%;">
             <div id='$i-letter-words' class='d-flex align-items-center mt-2'>
-                <h2>[Example 6-letters]:</h2>
             </div>
         </section>
 
@@ -407,7 +468,6 @@
 
         <section id="input-line" class="d-flex mt-3 justify-content-center">
             <div class="col-3 d-flex align-items-end">
-                <h2 class='mb-0'>Words Left: [numb]</h2>
             </div>
             <div id="user-input" class="d-flex col-6 justify-content-center mb-0" style="height: 50px"></div>
             <form id="guess_form" class="col-3 mb-0">
