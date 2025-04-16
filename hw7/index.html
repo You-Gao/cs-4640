@@ -70,7 +70,7 @@
         */
 
         async function init() {
-            initWord();
+            await initWord();
             initGuesses();
         }
 
@@ -109,7 +109,15 @@
         function updateWordDisplay(word) {
             const display = document.getElementById('display');
             display.innerHTML = ''; // Clear previous display
-            for (let letter of word) {
+
+            // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+            const shuffledWord = word.split('')
+                .map(value => ({ value, sort: Math.random() }))
+                .sort((a, b) => a.sort - b.sort)
+                .map(({ value }) => value)
+                .join('');
+
+            for (let letter of shuffledWord) {
                 const letterDiv = document.createElement('div');
                 letterDiv.className = "mx-1"
                 const letterH1 = document.createElement('h1');
@@ -172,6 +180,13 @@
         }
     </script>
 
+    <script> // Functions for the game
+        function shuffle() {
+            const currentWord = JSON.parse(localStorage.getItem("currentWord"));
+            updateWordDisplay(currentWord); // Display does shuffling (bad practice)
+        }
+    </script>
+
 </head>
 
 <body class="container-lg mb-5" onload="init()" unload="saveState()">
@@ -209,12 +224,9 @@
                 <?php makeAnagramDisplay(); ?>
             </div>
             <div id="shuffle" class="d-flex mb-0 col-3 justify-content-end">
-                <form>
-                    <input type="hidden" name="shuffle" value="true">
-                    <button class="d-flex align-items-end" type="submit">
-                        <h2 class="mb-0">shuffle</h2>
-                    </button>
-                </form>
+                <button class="d-flex align-items-end" type="submit" onclick="shuffle()">
+                    <h2 class="mb-0">shuffle</h2>
+                </button>
                 <form>
                     <input type="hidden" name="give_up" value="true">
                     <button class="d-flex align-items-end" type="submit">
