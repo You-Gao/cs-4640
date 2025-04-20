@@ -375,7 +375,7 @@ class GameController {
     $charater_items = [];
     for ($x = 0; $x <= count($items); $x++) {
       $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1 and item_id = $2;", $_SESSION["character_id"], Sitems[$x]["id"]);
-      $charater_items[] = {array("name"=>Sitems[$x]["name"], "atk"=>Sitems[$x]["atk"], "def"=>Sitems[$x]["def"], "hp"=>[Sitems[$x]["hp"], "type"=>[Sitems[$x]["type"],"equiped"=>Sitem_info[0]["equiped"])};
+      $charater_items[] = {array("id"=>$items[$x]["id"], "name"=>Sitems[$x]["name"], "atk"=>Sitems[$x]["atk"], "def"=>Sitems[$x]["def"], "hp"=>[Sitems[$x]["hp"], "type"=>[Sitems[$x]["type"],"equiped"=>Sitem_info[0]["equiped"])};
     }
     header("Content-Type: application/json");
     echo json_encode($userInfo, JSON_PRETTY_PRINT);
