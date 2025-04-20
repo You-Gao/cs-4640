@@ -61,6 +61,8 @@ class GameController {
       case "inventory":
         $this->showInventory();
         break;
+      case "items":
+        $this->getInventory();
       case "equip":
         $this->equip();
         break;
@@ -365,6 +367,18 @@ class GameController {
     $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1;", $_SESSION["character_id"]);
     include_once("templates/inventory.php");
     return;
+  }
+
+  public function getInventory(){
+    $items = $this->db->query("select * from sprint3_items where id = (select item_id from sprint3_character_items where char_id = $1);", $_SESSION["character_id"]);
+    $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1;", $_SESSION["character_id"]);
+    $charater_items = [];
+    for ($x = 0; $x <= count($items); $x++) {
+      $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1 and item_id = $2;", $_SESSION["character_id"], Sitems[$x]["id"]);
+      $charater_items[] = {array("name"=>Sitems[$x]["name"], "atk"=>Sitems[$x]["atk"], "def"=>Sitems[$x]["def"], "hp"=>[Sitems[$x]["hp"], "type"=>[Sitems[$x]["type"],"equiped"=>Sitem_info[0]["equiped"])};
+    }
+    header("Content-Type: application/json");
+    echo json_encode($userInfo, JSON_PRETTY_PRINT);
   }
 
   public function showSettings(){
