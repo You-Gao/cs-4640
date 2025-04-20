@@ -461,8 +461,6 @@ class GameController {
         }
       }
     }
-    header("Location: ?command=inventory");
-    return;
   }
 
   public function attack(){
