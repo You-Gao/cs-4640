@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../project/styles/game.css">
         <script>
             async function load(){      
-                var response = await fetch("?command=items")
+            var response = await fetch("?command=items")
             if (!response.ok) {;
                 throw new Error("Response failed");
             }
@@ -28,10 +28,10 @@
                 newCell.textContent = item.name + " (" + item.type + ") " + " atk: " + item.atk + " def: " + item.def + " hp: " + item.hp;
                 newCell = newRow.insertCell(1);
                 if(item.equiped === 0){
-                    newCell.innerHTML = "<button class='btn btn-primary' onclick='equip();'>Equip</button>";
+                    newCell.innerHTML = "<button class='btn btn-primary' onclick='equip("+item.id+");'>Equip</button>";
                 }
                 else{
-                    newCell.innerHTML = "<button class='btn btn-danger' onclick='equip();'>Unequip</button>";
+                    newCell.innerHTML = "<button class='btn btn-danger' onclick='equip("+item.id+");'>Unequip</button>";
                 }
                 newRow.addEventListener("mouseover", function() {
                 table.clickedRow = this.rowIndex;
@@ -41,8 +41,15 @@
                     additem(obj[i]);
                 }
             }
-            function equip(){
-                
+            async function equip(id){
+                var response = await fetch("command?equip", {
+                method: "POST",
+                body:  JSON.stringify({item_id: id})
+                })
+                if (!response.ok) {;
+                    throw new Error("Response failed");
+                }
+                load();
             }
         </script>
     </head>  
