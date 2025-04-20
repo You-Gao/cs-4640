@@ -14,8 +14,39 @@
         <title>Video Game Name</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../project/styles/game.css">
+        <script>
+            async function load(){      
+                var response = await fetch("?command=items")
+            if (!response.ok) {;
+                throw new Error("Response failed");
+            }
+            let obj = await response.json();
+            let table = document.getElementById("table");
+            const additem = (item) => {
+                let newRow = table.insertRow(table.rows.length);
+                let newCell = newRow.insertCell(0);
+                newCell.textContent = item.name + " (" + item.type + ") " + " atk: " + item.atk + " def: " + item.def + " hp: " + item.hp;
+                newCell = newRow.insertCell(1);
+                if(item.equiped === 0){
+                    newCell.innerHTML = "<button class='btn btn-primary' onclick='equip();'>Equip</button>";
+                }
+                else{
+                    newCell.innerHTML = "<button class='btn btn-danger' onclick='equip();'>Unequip</button>";
+                }
+                newRow.addEventListener("mouseover", function() {
+                table.clickedRow = this.rowIndex;
+                });
+            };
+                for (let i = 0; i < obj.length; i++){
+                    additem(obj[i]);
+                }
+            }
+            function equip(){
+                
+            }
+        </script>
     </head>  
-    <body>
+    <body onload="load();">
         <header class = "row">
             <nav class="navbar navbar-light bg-light">
                 <a class="navbar-brand btn" href="home_logged_in.html">
@@ -41,7 +72,21 @@
                 </a>
             </nav>
         </header>
-        
+        <div class="row" style="margin-top: 20px;">    
+            <div class="col-12">
+              <div class="card">
+                <h4 class="card-header">Inventory</h4>
+                <div class="card-body"> 
+                <table id="table" class="table table-striped">
+                    <tr class="table-dark">
+                        <th style="width: 80%;">Items</th>
+                        <th style="width: 20%;"></th>
+                    </tr>
+                </table>
+                </div>
+              </div>
+            </div>
+        </div>
         <div class="container">
             <footer class="py-3 my-4">
               <ul class="nav justify-content-center border-bottom pb-3 mb-3">
