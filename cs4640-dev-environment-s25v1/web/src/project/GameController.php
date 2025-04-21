@@ -63,6 +63,7 @@ class GameController {
         break;
       case "items":
         $this->getInventory();
+        break;
       case "equip":
         $this->equip();
         break;
@@ -291,7 +292,7 @@ class GameController {
     if (isset($_POST) && isset($_POST["character_id"]) && !empty($_POST["character_id"])){
       $_SESSION["character_id"] = $_POST["character_id"];
       $results = $this->db->query("select * from sprint3_characters where id = $1;", $_SESSION["character_id"]);
-      $items = $this->db->query("select * from sprint3_items where id = (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
+      $items = $this->db->query("select * from sprint3_items where id in (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
       $hp = $results[0]["hp"];
       for ($x = 0; $x < count($items); $x++) {
         $hp += $items[$x]["hp"];
@@ -311,7 +312,7 @@ class GameController {
     }
     
     $results = $this->db->query("select * from sprint3_characters where id = $1;", $_SESSION["character_id"]);
-    $items = $this->db->query("select * from sprint3_items where id = (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
+    $items = $this->db->query("select * from sprint3_items where id in (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
     $character_name = $results[0]["name"];
     $exp = $results[0]["exp"];
     $atk = $results[0]["atk"];
@@ -370,14 +371,17 @@ class GameController {
   }
 
   public function showInventory(){
-    $items = $this->db->query("select * from sprint3_items where id = (select item_id from sprint3_character_items where char_id = $1);", $_SESSION["character_id"]);
+    $items = $this->db->query("SELECT sprint3_items.* 
+    FROM sprint3_items
+    JOIN sprint3_character_items ON sprint3_items.id = sprint3_character_items.item_id
+    WHERE sprint3_character_items.char_id = $1;", $_SESSION["character_id"]);
     $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1;", $_SESSION["character_id"]);
     include_once("templates/inventory.php");
     return;
   }
 
   public function getInventory(){
-    $items = $this->db->query("select * from sprint3_items where id in (select item_id from sprint3_character_items where char_id = $1);", $_SESSION["character_id"]);
+    $items = $this->db->query("select * from sprint3_items where id in (select item_id from sprint3_character_items where char_id = $1) ORDER BY name;", $_SESSION["character_id"]);
     $character_items = [];
     for ($x = 0; $x < count($items); $x++) {
       $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1 and item_id = $2;", $_SESSION["character_id"], $items[$x]["id"]);
@@ -385,6 +389,7 @@ class GameController {
     }
     header("Content-Type: application/json");
     echo json_encode($character_items, JSON_PRETTY_PRINT);
+
   }
 
   public function showSettings(){
@@ -445,36 +450,45 @@ class GameController {
   public function equip(){
     $json = file_get_contents("php://input");
     $input = json_decode($json, true);
+    $output = [
+      "result" => "failure",
+    ];
     if($input !== false && isset($input["item_id"])){
       $item_id = $input["item_id"];
       $equiped =  $this->db->query("select equiped from sprint3_character_items where item_id = $1 and char_id = $2;", $item_id, $_SESSION["character_id"]);
-      if ($equiped == 1){
+      if (!empty($equiped) && $equiped[0]["equiped"] == 1){//if equiped unequip
         $this->db->query("update sprint3_character_items set equiped = 0 where item_id = $1 and char_id = $2;", $item_id, $_SESSION["character_id"]);
       }
       else{
         $item = $this->db->query("select * from sprint3_items where id = $1;", $item_id);
-        $this->db->query("update sprint3_character_items set equiped = 1 where item_id = $1 and char_id = $2;", $item_id, $_SESSION["character_id"]);
-        $results = $this->db->query("select item_id from sprint3_character_items where item_id = $1 and sprint3_items.type = $2;", $item_id, $item[0]["type"]);
+        $results = $this->db->query("
+        SELECT sprint3_character_items.item_id
+        FROM sprint3_character_items 
+        JOIN sprint3_items ON sprint3_character_items.item_id = sprint3_items.id 
+        WHERE sprint3_character_items.char_id = $1 AND sprint3_items.type = $2;
+        ", $_SESSION['character_id'], $item[0]["type"]);
         if(!empty($results)){
-          $this->db->query("update sprint3_character_items set equiped = 0 where item_id = $1 and char_id = $2;", $results[0]["id"], $_SESSION["character_id"]);
-          //make sure hp does not become more then max
-          $items = $this->db->query("select * from sprint3_items where id = (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
-          $results = $this->db->query("select hp from sprint3_characters where id = $1;", $_SESSION["character_id"]);
-          $hp = $results[0]["hp"];
+          $this->db->query("update sprint3_character_items set equiped = 0 where item_id = $1 and char_id = $2;", $results[0]["item_id"], $_SESSION["character_id"]);
+        }
+        $this->db->query("update sprint3_character_items set equiped = 1 where item_id = $1 and char_id = $2;", $item_id, $_SESSION["character_id"]);
+      }
+      $results = $this->db->query("select hp from sprint3_characters where id = $1;", $_SESSION["character_id"]);
+      $items = $this->db->query("select * from sprint3_items where id in (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
+      $hp = $results[0]["hp"];
           for ($x = 0; $x < count($items); $x++) {
               $hp += $items[$x]["hp"];
           }
           if($_SESSION["hp"] > $hp){
             $_SESSION["hp"] = $hp;
-          }
-        }
       }
+      $output["result"] = "success";
     }
+    echo json_encode($output, JSON_PRETTY_PRINT); 
   }
 
   public function attack(){
     $results = $this->db->query("select * from sprint3_characters where id = $1;", $_SESSION["character_id"]);
-    $items = $this->db->query("select * from sprint3_items where id = (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
+    $items = $this->db->query("select * from sprint3_items where id in (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
     $exp = $results[0]["exp"];
     $atk = $results[0]["atk"];
     $def = $results[0]["def"];
@@ -556,7 +570,7 @@ class GameController {
   }
 
   public function heal(){
-    $items = $this->db->query("select * from sprint3_items where id = (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
+    $items = $this->db->query("select * from sprint3_items where id in (select item_id from sprint3_character_items where char_id = $1 and equiped = 1);", $_SESSION["character_id"]);
     $results = $this->db->query("select hp from sprint3_characters where id = $1;", $_SESSION["character_id"]);
     $_SESSION["hp"] = $results[0]["hp"];
     for ($x = 0; $x < count($items); $x++) {
