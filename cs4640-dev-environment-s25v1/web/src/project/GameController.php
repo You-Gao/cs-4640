@@ -501,10 +501,10 @@ class GameController {
         $this->db->query("update sprint3_characters set stat_points = $1 where id = $2;", $stat_points+$_SESSION["level_up"], $_SESSION["character_id"]);
       }
       if($_SESSION["monster_name"] === "Tree"){
-        $item_id = rand(0,4);        
+        $item_id = rand(1,5);        
       }
       else{//add item set for each monster later
-        $item_id = rand(0,4);  
+        $item_id = rand(1,5);  
       }
       $_SESSION["recived"] = $this->db->query("select * from sprint3_items where id = $1;", $item_id);
       $results = $this->db->query("select item_count from sprint3_charcter_items where char_id = $1 and item_id = $2;", $_SESSION["character_id"], $item_id);
@@ -512,7 +512,7 @@ class GameController {
         $this->db->query("insert into sprint3_charcter_items (char_id, item_id, item_count, equiped) values ($1, $2, 1, 0);", $_SESSION["character_id"], $item_id);
       }
       else{
-        $this->db->query("update sprint3_charcter_items set item_count = $1 where char_id = $2 and item_id = $3;", results[0]["item_count"] + 1, $_SESSION["character_id"], $item_id);
+        $this->db->query("update sprint3_charcter_items set item_count = $1 where char_id = $2 and item_id = $3;", $results[0]["item_count"] + 1, $_SESSION["character_id"], $item_id);
       }
       header("Location: ?command=game");
       return;
