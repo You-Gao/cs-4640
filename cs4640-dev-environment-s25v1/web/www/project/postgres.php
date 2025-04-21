@@ -68,7 +68,8 @@ pg_query($dbHandle, "create table sprint3_items (
     name text,
     atk int,
     def int,
-    hp int
+    hp int,
+    type text
 );");
 
 pg_query($dbHandle, "create table sprint3_character_items (
@@ -81,10 +82,10 @@ pg_query($dbHandle, "create table sprint3_character_items (
 //TODO change for sever deployment
 $items = json_decode(file_get_contents("/opt/src/project/data/items.json"), true);
 
-$res = pg_prepare($dbHandle, "myinsert", "insert into sprint3_items (name, atk, def, hp) values 
-($1, $2, $3, $4);");
+$res = pg_prepare($dbHandle, "myinsert", "insert into sprint3_items (name, atk, def, hp, type) values 
+($1, $2, $3, $4, $5);");
 foreach ($items as $item) {
-    $res = pg_execute($dbHandle, "myinsert", [$item["name"], $item["atk"], $item["def"], $item["hp"]]);
+    $res = pg_execute($dbHandle, "myinsert", [$item["name"], $item["atk"], $item["def"], $item["hp"], $item["type"]]);
     echo "Added item: {$item["name"]}<br>\n";
 }
 
