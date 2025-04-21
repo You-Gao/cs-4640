@@ -374,8 +374,8 @@ class GameController {
     $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1;", $_SESSION["character_id"]);
     $charater_items = [];
     for ($x = 0; $x <= count($items); $x++) {
-      $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1 and item_id = $2;", $_SESSION["character_id"], Sitems[$x]["id"]);
-      $charater_items[] = {array("id"=>$items[$x]["id"], "name"=>Sitems[$x]["name"], "atk"=>Sitems[$x]["atk"], "def"=>Sitems[$x]["def"], "hp"=>[Sitems[$x]["hp"], "type"=>[Sitems[$x]["type"],"equiped"=>Sitem_info[0]["equiped"])};
+      $item_info = $this->db->query("select * from sprint3_character_items where char_id = $1 and item_id = $2;", $_SESSION["character_id"], $items[$x]["id"]);
+      $charater_items[] = array("id"=>$items[$x]["id"], "name"=>$items[$x]["name"], "atk"=>$items[$x]["atk"], "def"=>$items[$x]["def"], "hp"=>$items[$x]["hp"], "type"=>$items[$x]["type"],"equiped"=>$item_info[0]["equiped"]);
     }
     header("Content-Type: application/json");
     echo json_encode($userInfo, JSON_PRETTY_PRINT);
