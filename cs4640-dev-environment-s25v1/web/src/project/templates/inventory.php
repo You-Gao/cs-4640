@@ -27,29 +27,33 @@
                 let newCell = newRow.insertCell(0);
                 newCell.textContent = item.name + " (" + item.type + ") " + " atk: " + item.atk + " def: " + item.def + " hp: " + item.hp;
                 newCell = newRow.insertCell(1);
-                if(item.equiped === 0){
+                if(item.equiped === "0"){
                     newCell.innerHTML = "<button class='btn btn-primary' onclick='equip("+item.id+");'>Equip</button>";
                 }
                 else{
                     newCell.innerHTML = "<button class='btn btn-danger' onclick='equip("+item.id+");'>Unequip</button>";
                 }
-                newRow.addEventListener("mouseover", function() {
-                table.clickedRow = this.rowIndex;
-                });
             };
+            if(obj.length !== 0){
                 for (let i = 0; i < obj.length; i++){
                     additem(obj[i]);
                 }
             }
+            }
             async function equip(id){
-                var response = await fetch("command?equip", {
+                var response = await fetch("?command=equip", {
                 method: "POST",
                 body:  JSON.stringify({item_id: id})
                 })
                 if (!response.ok) {;
                     throw new Error("Response failed");
                 }
-                load();
+                let obj = await response.json();
+                let table = document.getElementById("table");
+                for (let i = table.rows.length - 1; i > 0; i--) {
+                    table.deleteRow(i);
+                }
+                await load();
             }
         </script>
     </head>  
