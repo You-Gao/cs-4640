@@ -97,6 +97,9 @@ class GameController {
       case "removeF":
         $this->removeFriend();
         break;
+      case "getCharacterData":
+        $this->getCharacterData();
+        break;
       case "home":
         $this->showHome();
         break;
@@ -681,6 +684,23 @@ class GameController {
       header("Location: ?command=friends");
       return;
     }
+  }
+
+  // Endpoint: ?command=getCharacterData&character_id=some_id
+  public function getCharacterData(){
+    header("Content-Type: application/json");
+    if (!isset($_GET["character_id"])) {
+      echo json_encode(["error" => "No character ID provided"]); // are there better error messages?
+      return;
+    }
+    $character_id = $_GET["character_id"];
+    $results = $this->db->query("select * from sprint3_characters where id = $1;", $character_id);
+    if (empty($results)) {
+      echo json_encode(["error" => "No matching character found"]); // are there better error messages?
+      return;
+    }
+    echo json_encode($results[0]);
+    return;
   }
 
   public function isNumeric($var) {

@@ -7,9 +7,37 @@
     <meta name="author" content="You Gao">
     <title>home | insert title here</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script>
+        // http://localhost:8080/project/?command=getCharacterData&character_id=id
+        async function gatherStatistics() {
+            let characterIds = document.querySelectorAll("#characters ul li form input[name='character_id']");
+            let ids = Array.from(characterIds).map(input => input.value);
+            let stats = {
+                "monsters_killed": [],
+                "total_exp": [],
+                "stat_points": [],
+            }
+            for (let i = 0; i < ids.length; i++) {
+                let response = await fetch(`?command=getCharacterData&character_id=${ids[i]}`);
+                let data = await response.json();
+                stats["monsters_killed"].push(data["monsters_killed"]);
+                stats["total_exp"].push(data["total_exp"]);
+                stats["stat_points"].push(data["stat_points"]);
+            }
+            let statsDiv = document.querySelector("#statistics ul");
+            statsDiv.innerHTML = ""; // Clear previous stats
+            let totalMonstersKilled = stats["monsters_killed"].reduce((a, b) => a + b, 0);
+            let totalExp = stats["total_exp"].reduce((a, b) => a + b, 0);
+            let totalStatPoints = stats["stat_points"].reduce((a, b) => a + b, 0);
+            statsDiv.innerHTML += `<li>Total Monsters Killed: ${totalMonstersKilled}</li>`;
+            statsDiv.innerHTML += `<li>Total Experience: ${totalExp}</li>`;
+            statsDiv.innerHTML += `<li>Total Stat Points: ${totalStatPoints}</li>`;
+        }
+        </script>
 </head>
 
-<body class="container">
+<body class="container" onload="gatherStatistics()">
     <section id="title" class="row justify-content-center align-items-end">
         <img src="../project/assets/mage.png" alt="placeholder" class="img-fluid col-2">
         <div class="col-auto text-center">
