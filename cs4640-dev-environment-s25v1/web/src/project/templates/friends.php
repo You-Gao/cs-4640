@@ -14,6 +14,32 @@
         <title>Video Game Name</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../project/styles/game.css">
+        <script>
+            async function fillUsers() {
+                let input = document.querySelector('input[name="username"]').value;
+                if (input.length < 3) {
+                    return; // Don't send a request if the input is less than 3 characters
+                }
+                const response = await fetch(`?command=searchF&name=${input}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                const datalist = document.getElementById('users');
+                datalist.innerHTML = '';
+                for (let i = 0; i < data.user_characters.length; i++) {
+                   // data[i].username is the username of the character
+                    console.log(data.user_characters[i].username);
+                    const option = document.createElement('option');
+                    option.value = data.user_characters[i].username;
+                    option.textContent = data.user_characters[i].username; // Set the text content to the username
+                    datalist.appendChild(option);
+
+                }
+            }
+        </script>
     </head>  
     <body>
         <header class = "row">
@@ -60,8 +86,11 @@
 
             <div class = "col-12" id = "mocked-friends">
                     <form action="?command=addF" method="post">
-                        <input type="text" placeholder="enter friend's username" name="username">
-                        <button type="submit">add someone (will be replaced w/ js)</button>
+                        <input list="users" type="text" placeholder="enter friend's username" name="username"
+                        onchange="fillUsers()">
+                        <datalist id="users">
+                        </datalist> 
+                        <button type="submit">Add Friend</button>
                     </form>
             </div>
 
