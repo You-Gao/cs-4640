@@ -460,7 +460,7 @@ class GameController {
         SELECT sprint3_character_items.item_id
         FROM sprint3_character_items 
         JOIN sprint3_items ON sprint3_character_items.item_id = sprint3_items.id 
-        WHERE sprint3_character_items.char_id = $1 AND sprint3_items.type = $2;
+        WHERE sprint3_character_items.char_id = $1 AND sprint3_items.type = $2 AND sprint3_character_items.equiped = 1;
         ", $_SESSION['character_id'], $item[0]["type"]);
         if(!empty($results)){
           $this->db->query("update sprint3_character_items set equiped = 0 where item_id = $1 and char_id = $2;", $results[0]["item_id"], $_SESSION["character_id"]);
