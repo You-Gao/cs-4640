@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--  url: https://cs4640.cs.virginia.edu/djx3rn/project/html/ -->
+    <!--  url: https://cs4640.cs.virginia.edu/djx3rn/project/ -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../project/styles/main.css">
     <meta name="author" content="You Gao">
-    <title>home | insert title here</title>
+    <title>home | Cool RPG Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -14,7 +14,7 @@
     <section id="title" class="row justify-content-center align-items-end">
         <img src="../project/assets/mage.png" alt="placeholder" class="img-fluid col-2">
         <div class="col-auto text-center">
-            <a href="index.html"><h1>insert title here</h1></a>
+            <a href="?command=welcome"><h1>Cool RPG Game</h1></a>
         </div>
         <img src="../project/assets/warrior.png" alt="placeholder" class="img-fluid col-2">
         <hr class="mt-2"/>
@@ -62,28 +62,28 @@
                             <tr>
                                 <th scope="col">Rank</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Level</th>
-                                <th scope="col">Class</th>
+                                <th scope="col">Exp</th>
+                                <th scope="col">Monsters Killed</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th scope="row">1</th>
-                                <td>wizardman123</td>
-                                <td>100</td>
-                                <td>Wizard</td>
+                                <td><?=$leader1[0]?></td>
+                                <td><?=$leader1[1]?></td>
+                                <td><?=$leader1[2]?></td>
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
-                                <td>warriorman123</td>
-                                <td>100</td>
-                                <td>Warrior</td>
+                                <td><?=$leader2[0]?></td>
+                                <td><?=$leader2[1]?></td>
+                                <td><?=$leader2[2]?></td>
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
-                                <td>roguewoman123</td>
-                                <td>100</td>
-                                <td>Rogue</td>
+                                <td><?=$leader3[0]?></td>
+                                <td><?=$leader3[1]?></td>
+                                <td><?=$leader3[2]?></td>
                             </tr>
                         </tbody>
                     </table>

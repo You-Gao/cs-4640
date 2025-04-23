@@ -11,7 +11,7 @@
         <meta property="og:url" content="https://cs4640.cs.virginia.edu/yourid/hw2/index.html">
         <meta property="og:description" content="text based video game rpg">
         <meta property="og:site_name" content="Video Game Name">
-        <title>Video Game Name</title>
+        <title>Cool RPG Game</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../project/styles/game.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -26,8 +26,8 @@
     <body>
         <header class = "row">
             <nav class="navbar navbar-light bg-light">
-                <a class="navbar-brand btn" href="home_logged_in.html">
-                  <h2> Game title</h2>
+                <a class="navbar-brand btn" href="?command=home">
+                  <h2> Cool RPG Game</h2>
                 </a>
                 <div class="n-item">
                     <form action="?command=game" method="post">
@@ -41,9 +41,6 @@
                 <div class="n-item">
                 <a href="?command=friends">Friends</a>
                 </div>
-                <div class="n-item">
-                <a href="?command=settings">Settings</a>
-                </div>
                 <a class="nav-item align-right btn" href="?command=logout">
                     <h3> Log out</h3>
                 </a>
@@ -53,7 +50,7 @@
             <div class = "col-md-2 float-md-end col-border clearfix">
                 <h4>Recent Anoucments</h4>
                 <p>
-                    Sprint 3 completed
+                    Final Deliverable completed
                 </p>
             </div>
             <div class = 'col-md-8 float-md-end col-border clearfix'>
@@ -67,12 +64,12 @@ if($location === "town"){
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                     </tr>
                     <tr>
-                      <td><p>quest giver place holder</p></td>
+                      <td><img src = "../project/assets/townie.png" alt="empty location"></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action = "?command=heal" method = "post">
                             <button type="submit">
-                              <p>healing well place holder</p>
+                              <img src = "../project/assets/well.png" alt="empty location">
                             </button>
                           </form>
                       </td>
@@ -120,14 +117,34 @@ elseif($location === "forest" || $location === "plains" || $location === "mounta
                     echo '<h4 class = "content">'.ucfirst($location).'</h4>
                 <table class = "content">
                     <tr>
-                      <td><p>Health = '.$hp.'/'.$max_hp.'</p></td>
+                        <td><p>Health</p>
+                        <div class="progress position-relative">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: '.($hp/$max_hp*100).'%" aria-valuenow="'.$hp.'" aria-valuemin="0" aria-valuemax="'.$max_hp.'"></div>
+                        <small class="justify-content-center d-flex position-absolute w-100">'.$hp.'/'.$max_hp.'</small>
+                        </div></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
-                      <td><p>Monster Health = '.$monster_hp.'</p></td>
+                      <td><p>'.$monster_name.'</p><div class="progress position-relative">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: '.($monster_hp/$monster_max_hp*100).'%" aria-valuenow="'.$monster_hp.'" aria-valuemin="0" aria-valuemax="'.$monster_max_hp.'"></div>
+                        <small class="justify-content-center d-flex position-absolute w-100">'.$monster_hp.'/'.$monster_max_hp.'</small>
+                        </div></td>
                     </tr>
                     <tr>
-                      <td><p>character image place holder</p></td>
+                      <td><img src="../project/assets/stick.jpg" alt="stick" width="150" height="150"></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
-                      <td><p>'.$monster_name.' image place holder</p></td>
+                      <td>';
+                        if($monster_name === "Tree"){
+                            echo '<img src = "../project/assets/tree.png" alt="monster">';
+                        }
+                        elseif($monster_name === "Ox"){
+                            echo '<img src = "../project/assets/ox.png" alt="monster">';
+                        }
+                        elseif($monster_name === "Big Rock"){
+                            echo '<img src = "../project/assets/big_rock.png" alt="monster">';
+                        }
+                        elseif($monster_name === "Boss"){
+                            echo '<img src = "../project/assets/boss.png" alt="monster">';
+                        }
+                      echo'</td>
                     </tr>
                     <tr>
                       <td colspan="2">';
@@ -205,7 +222,7 @@ else{
                 ?>
             </div>
             <div class = 'float-md-end col-md-2 col-border clearfix'>
-                <div class = 'mobile_split_4'>
+                <div class = 'mobile_split_6'>
                     <?php
                     echo "<p>";
                         $levelpoints = array(0,10,30,75,180,400,1000,1000000000000);
@@ -230,25 +247,51 @@ else{
                             placehould for shoes with id = <?=$shoes_id?>
                         </p>
                 </div>
-                <div class = 'mobile_split_4'>
+                <div class = 'mobile_split_6'>
                     <p>
                         Stats
-                    <p>
-                        Health = <?=$hp?>/<?=$max_hp?>
-                    <p>
-                        Defence = <?=$def?>
-                    <p>
-                        Attack = <?=$atk?>
-                    <p>
-                        Unused Stat Points = <?=$stat_points?>
-                    </p>
-                </div>
-                <div class = 'mobile_split_4'>
-                    <p>
-                        Quests:
-                    <p>
-                        placeholder for quest with id = <?=$quest_id?>
-                    </p>
+                    <?php
+                        if($stat_points > 0){
+                            echo '
+                            <form action="?command=allocate_stats" method = "post">
+                                <input type="hidden" name="stat" value="hp">
+                                <p>
+                                    Health = '.$hp.'/'.$max_hp.'
+                                    <input type="submit" value="+">
+                                </p>
+                            </form>
+                            <form action="?command=allocate_stats" method = "post">
+                                <input type="hidden" name="stat" value="def">
+                                <p>
+                                    Defence = '.$def.'
+                                    <input type="submit" value="+">
+                                </p>
+                            </form>
+                            <form action="?command=allocate_stats" method = "post">
+                                <input type="hidden" name="stat" value="atk">
+                                <p>
+                                    Attack = '.$atk.'
+                                    <input type="submit" value="+">
+                                </p>
+                            </form>
+                            <p>
+                            Unused Stat Points = '.$stat_points.'
+                            </p>';
+                        }
+                        else{
+                            echo '
+                            <p>
+                            Health = '.$hp.'/'.$max_hp.'
+                            <p>
+                            Defence = '.$def.'
+                            <p>
+                            Attack = '.$atk.'
+                            <p>
+                            Unused Stat Points = '.$stat_points.'
+                            </p>';
+                        }
+
+                    ?>
                 </div>
             </div>
         </div>
@@ -269,7 +312,6 @@ else{
                 <li class="nav-item"><a href="?command=game" class="nav-link px-2 text-body-secondary">Game</a></li>
                 <li class="nav-item"><a href="?command=inventory" class="nav-link px-2 text-body-secondary">Inventory</a></li>
                 <li class="nav-item"><a href="?command=friends" class="nav-link px-2 text-body-secondary">Friends</a></li>
-                <li class="nav-item"><a href="?command=settings" class="nav-link px-2 text-body-secondary">Settings</a></li>
               </ul>
               <small class="copyright">&copy; copyright 2025 video game name</small>
             </footer>

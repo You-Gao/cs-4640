@@ -71,9 +71,6 @@ class GameController {
       case "equip":
         $this->equip();
         break;
-      case "settings":
-        $this->showSettings();
-        break;
       case "creation":
         $this->showCreation();
         break;
@@ -108,9 +105,9 @@ class GameController {
         $this->showHome();
         break;
       case "logout": 
-        $this->logout(); // notice no break 
       case "welcome":
       default:
+        $this->logout(); //logout before going to welcome page to destory session
         $this->showWelcome();
         break;
     }
@@ -182,7 +179,7 @@ class GameController {
             return;
         }
         else{
-        header("Location: ?command=creation");
+        header("Location: ?command=home");
         return;
         }
       }
@@ -213,6 +210,25 @@ class GameController {
   }
 
   public function showWelcome($message = "") {
+      $results = $this->db->query("SELECT * FROM sprint3_characters ORDER BY exp LIMIT 3;");
+      if(isset($results[0])){
+        $leader1 = array($results[0]["name"], $results[0]["exp"], $results[0]["monsters_killed"]);
+      }
+      else{
+        $leader1 = array("","","");
+      }
+      if(isset($results[1])){
+        $leader2 = array($results[1]["name"], $results[1]["exp"], $results[1]["monsters_killed"]);
+      }
+      else{
+        $leader2 = array("","","");
+      }
+      if(isset($results[2])){
+        $leader3 = array($results[2]["name"], $results[2]["exp"], $results[2]["monsters_killed"]);
+      }
+      else{
+        $leader3 = array("","","");
+      }
       include_once("templates/home.php");
       return;
   }
@@ -239,12 +255,32 @@ class GameController {
         $character_ids[] = $characters[$x]["id"];
         $character_names[] = $characters[$x]["name"];
       }
+      $results = $this->db->query("SELECT * FROM sprint3_characters ORDER BY exp LIMIT 3;");
+      if(isset($results[0])){
+        $leader1 = array($results[0]["name"], $results[0]["exp"], $results[0]["monsters_killed"]);
+      }
+      else{
+        $leader1 = array("","","");
+      }
+      if(isset($results[1])){
+        $leader2 = array($results[1]["name"], $results[1]["exp"], $results[1]["monsters_killed"]);
+      }
+      else{
+        $leader2 = array("","","");
+      }
+      if(isset($results[2])){
+        $leader3 = array($results[2]["name"], $results[2]["exp"], $results[2]["monsters_killed"]);
+      }
+      else{
+        $leader3 = array("","","");
+      }
       include_once("templates/home_logged_in.php");
       return;
   }
 
   public function forest(){
     $_SESSION["monster_hp"] = 5;
+    $_SESSION["monster_max_hp"] = 5;
     $_SESSION["monster_atk"] = 2;
     $_SESSION["monster_def"] = 1;
     $_SESSION["monster_exp"] = 2;
@@ -258,8 +294,9 @@ class GameController {
 
   public function plains(){
     $_SESSION["monster_hp"] = 20;
-    $_SESSION["monster_atk"] = 2;
-    $_SESSION["monster_def"] = 1;
+    $_SESSION["monster_max_hp"] = 20;
+    $_SESSION["monster_atk"] = 10;
+    $_SESSION["monster_def"] = 2;
     $_SESSION["monster_exp"] = 10;
     $_SESSION["monster_name"] = "Ox";
     $_SESSION["location"] = "plains";
@@ -271,8 +308,9 @@ class GameController {
 
   public function mountains(){
     $_SESSION["monster_hp"] = 50;
-    $_SESSION["monster_atk"] = 2;
-    $_SESSION["monster_def"] = 1;
+    $_SESSION["monster_max_hp"] = 50;
+    $_SESSION["monster_atk"] = 20;
+    $_SESSION["monster_def"] = 3;
     $_SESSION["monster_exp"] = 100;
     $_SESSION["monster_name"] = "Big Rock";
     $_SESSION["location"] = "mountains";
@@ -284,8 +322,9 @@ class GameController {
   
   public function boss(){
     $_SESSION["monster_hp"] = 100;
-    $_SESSION["monster_atk"] = 2;
-    $_SESSION["monster_def"] = 1;
+    $_SESSION["monster_max_hp"] = 100;
+    $_SESSION["monster_atk"] = 40;
+    $_SESSION["monster_def"] = 5;
     $_SESSION["monster_name"] = "Boss";
     $_SESSION["monster_exp"] = 1000;
     $_SESSION["location"] = "boss";
@@ -339,13 +378,14 @@ class GameController {
         $hp += $items[$x]["hp"];
       }
     }
-    if(isset($_SESSION["damage_dealt"]) && !empty($_SESSION["damage_dealt"])){
+    if(isset($_SESSION["damage_dealt"])){
       $damage_dealt = $_SESSION["damage_dealt"]; 
     }
-    if(isset($_SESSION["damage_taken"]) && !empty($_SESSION["damage_taken"])){
+    if(isset($_SESSION["damage_taken"])){
       $damage_taken = $_SESSION["damage_taken"]; 
     }
     if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountains" || $_SESSION["location"] === "boss" ){
+      $monster_max_hp = $_SESSION["monster_max_hp"];
       $monster_hp = $_SESSION["monster_hp"];
       $monster_atk = $_SESSION["monster_atk"];
       $monster_def = $_SESSION["monster_def"];
@@ -397,11 +437,6 @@ class GameController {
     header("Content-Type: application/json");
     echo json_encode($character_items, JSON_PRETTY_PRINT);
 
-  }
-
-  public function showSettings(){
-    include_once("templates/settings.php");
-    return;
   }
 
   public function logout(){
@@ -472,7 +507,7 @@ class GameController {
         SELECT sprint3_character_items.item_id
         FROM sprint3_character_items 
         JOIN sprint3_items ON sprint3_character_items.item_id = sprint3_items.id 
-        WHERE sprint3_character_items.char_id = $1 AND sprint3_items.type = $2;
+        WHERE sprint3_character_items.char_id = $1 AND sprint3_items.type = $2 AND sprint3_character_items.equiped = 1;
         ", $_SESSION['character_id'], $item[0]["type"]);
         if(!empty($results)){
           $this->db->query("update sprint3_character_items set equiped = 0 where item_id = $1 and char_id = $2;", $results[0]["item_id"], $_SESSION["character_id"]);
@@ -511,7 +546,7 @@ class GameController {
       $_SESSION["location"] = "won";
       //give items and experience
       $_SESSION["exp_gain"] = $_SESSION["monster_exp"];
-      $this->db->query("update sprint3_characters set exp = $1 where id = $2;", $exp + $_SESSION["exp_gain"], $_SESSION["character_id"]);
+      $this->db->query("update sprint3_characters set exp = $1, monsters_killed = $2 where id = $3;", $exp + $_SESSION["exp_gain"], $results[0]["monsters_killed"]+1 ,$_SESSION["character_id"]);
       $levelpoints = array(0,10,30,75,180,400,1000,1000000000000);
       $start = count($levelpoints);
       $end = 0;
@@ -530,8 +565,14 @@ class GameController {
       if($_SESSION["monster_name"] === "Tree"){
         $item_id = rand(1,5);        
       }
-      else{//add item set for each monster later
-        $item_id = rand(1,5);  
+      elseif($_SESSION["monster_name"] === "Ox"){//add item set for each monster later
+        $item_id = rand(6,10);  
+      }
+      elseif($_SESSION["monster_name"] === "Big Rock"){//add item set for each monster later
+        $item_id = rand(11,15);  
+      }
+      elseif($_SESSION["monster_name"] === "Boss"){//add item set for each monster later
+        $item_id = rand(16,20);
       }
       $_SESSION["recived"] = $this->db->query("select * from sprint3_items where id = $1;", $item_id);
       $results = $this->db->query("select item_count from sprint3_character_items where char_id = $1 and item_id = $2;", $_SESSION["character_id"], $item_id);
@@ -556,17 +597,17 @@ class GameController {
   public function allocate_stats(){
     if(isset($_POST) && isset($_POST["stat"]) && !empty($_POST["stat"])){
       $results = $this->db->query("select stat_points, hp, def, atk from sprint3_characters where id = $1;", $_SESSION["character_id"]);
-      if(results[0]["stat_points"] > 0){
+      if($results[0]["stat_points"] > 0){
         switch($_POST["stat"]) {
           case "hp":
-            $this->db->query("update sprint3_characters set stat_points = $1, hp = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["hp"]+5, $_SESSION["character_id"]);
+            $this->db->query("update sprint3_characters set stat_points = $1, hp = $2  where id = $3;", $results[0]["stat_points"]-1, $results[0]["hp"]+5, $_SESSION["character_id"]);
             $_SESSION["hp"] += 5;
             break;
           case "def":
-            $this->db->query("update sprint3_characters set stat_points = $1, def = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["def"]+1, $_SESSION["character_id"]);
+            $this->db->query("update sprint3_characters set stat_points = $1, def = $2  where id = $3;", $results[0]["stat_points"]-1, $results[0]["def"]+1, $_SESSION["character_id"]);
             break;
           case "atk":
-            $this->db->query("update sprint3_characters set stat_points = $1, atk = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["atk"]+3, $_SESSION["character_id"]);
+            $this->db->query("update sprint3_characters set stat_points = $1, atk = $2  where id = $3;", $results[0]["stat_points"]-1, $results[0]["atk"]+3, $_SESSION["character_id"]);
             break;
         }
       }

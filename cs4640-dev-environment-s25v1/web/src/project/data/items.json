@@ -33,5 +33,110 @@
     "atk": 0,
     "def": 1,
     "hp" : 5
+  },
+    {
+    "name": "Stone Sword",
+    "type": "hand",
+    "atk": 3,
+    "def": 0,
+    "hp" : 0
+  },
+  {
+    "name": "Stone Shield",
+    "type": "offhand",
+    "atk": 0,
+    "def": 3,
+    "hp" : 0
+  },
+  {
+    "name": "Stone Shirt",
+    "type": "shirt",
+    "atk": 0,
+    "def": 3,
+    "hp" : 20
+  },
+  {
+    "name": "Stone Pants",
+    "type": "pants",
+    "atk": 0,
+    "def": 3,
+    "hp" : 20
+  },
+    {
+    "name": "Stone Hat",
+    "type": "helmet",
+    "atk": 0,
+    "def": 3,
+    "hp" : 10
+  },
+    {
+    "name": "Iron Sword",
+    "type": "hand",
+    "atk": 5,
+    "def": 0,
+    "hp" : 0
+  },
+  {
+    "name": "Iron Shield",
+    "type": "offhand",
+    "atk": 0,
+    "def": 5,
+    "hp" : 0
+  },
+  {
+    "name": "Iron Shirt",
+    "type": "shirt",
+    "atk": 0,
+    "def": 5,
+    "hp" : 50
+  },
+  {
+    "name": "Iron Pants",
+    "type": "pants",
+    "atk": 0,
+    "def": 5,
+    "hp" : 50
+  },
+    {
+    "name": "Iron Hat",
+    "type": "helmet",
+    "atk": 0,
+    "def": 5,
+    "hp" : 25
+  },
+    {
+    "name": "Epic Sword",
+    "type": "hand",
+    "atk": 20,
+    "def": 0,
+    "hp" : 0
+  },
+  {
+    "name": "Epic Shield",
+    "type": "offhand",
+    "atk": 0,
+    "def": 20,
+    "hp" : 0
+  },
+  {
+    "name": "Epic Shirt",
+    "type": "shirt",
+    "atk": 0,
+    "def": 20,
+    "hp" : 200
+  },
+  {
+    "name": "Epic Pants",
+    "type": "pants",
+    "atk": 0,
+    "def": 20,
+    "hp" : 200
+  },
+    {
+    "name": "Epic Hat",
+    "type": "helmet",
+    "atk": 0,
+    "def": 20,
+    "hp" : 100
   }
 ]
