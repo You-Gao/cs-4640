@@ -44,22 +44,25 @@
     <body>
         <header class = "row">
             <nav class="navbar navbar-light bg-light">
-                <a class="navbar-brand btn" href="home_logged_in.html">
-                  <h2> Game title</h2>
+                <a class="navbar-brand btn" href="?command=home">
+                  <h2> Cool RPG Game</h2>
                 </a>
                 <div class="n-item">
-                <a href="game.html">Map</a>
+                    <form action="?command=game" method="post">
+                        <input type="hidden" name="location" value="main">
+                        <button type="submit">Map</button>
+                    </form> 
                 </div>
                 <div class="n-item">
-                <a href="inventory.html">Inventory</a>
+                <a href="?command=inventory">Inventory</a>
                 </div>
                 <div class="n-item">
-                <a href="friends.html">Friends</a>
+                <a href="?command=friends">Friends</a>
                 </div>
                 <div class="n-item">
-                <a href="settings.html">Settings</a>
+                <a href="?command=settings">Settings</a>
                 </div>
-                <a class="nav-item align-right btn" href="?command=logout" id="logout">
+                <a class="nav-item align-right btn" href="?command=logout">
                     <h3> Log out</h3>
                 </a>
             </nav>
