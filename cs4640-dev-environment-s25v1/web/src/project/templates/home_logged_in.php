@@ -60,36 +60,36 @@
             <h2>Leaderboard</h2>
         </div>
         <div class="col-sm-12 col-md-8 table-responsive">
-            <table class="table table-sm table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">Rank</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Level</th>
-                        <th scope="col">Class</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>wizardman123</td>
-                        <td>100</td>
-                        <td>Wizard</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>warriorman123</td>
-                        <td>100</td>
-                        <td>Warrior</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>roguewoman123</td>
-                        <td>100</td>
-                        <td>Rogue</td>
-                    </tr>
-                </tbody>
-            </table>
+                    <table class="table table-sm table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Rank</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Level</th>
+                                <th scope="col">Monsters Killed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td><?=$leader1[0]?></td>
+                                <td><?=$leader1[1]?></td>
+                                <td><?=$leader1[2]?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td><?=$leader2[0]?></td>
+                                <td><?=$leader2[1]?></td>
+                                <td><?=$leader2[2]?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td><?=$leader3[0]?></td>
+                                <td><?=$leader3[1]?></td>
+                                <td><?=$leader3[2]?></td>
+                            </tr>
+                        </tbody>
+                    </table>
         </div>
     </section>
 
