@@ -22,8 +22,9 @@ td, tr{
    border: 5px solid black;
 }
 
-.n-item > a{
-   color:gray
+.n-item > a, .n-item{
+   color:gray;
+   text-decoration: underline;
 }
 
 a:hover {
