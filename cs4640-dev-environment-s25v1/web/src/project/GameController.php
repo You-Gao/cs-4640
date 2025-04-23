@@ -175,7 +175,7 @@ class GameController {
             return;
         }
         else{
-        header("Location: ?command=creation");
+        header("Location: ?command=home");
         return;
         }
       }
