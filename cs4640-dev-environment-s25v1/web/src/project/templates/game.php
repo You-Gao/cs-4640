@@ -11,7 +11,7 @@
         <meta property="og:url" content="https://cs4640.cs.virginia.edu/yourid/hw2/index.html">
         <meta property="og:description" content="text based video game rpg">
         <meta property="og:site_name" content="Video Game Name">
-        <title>Video Game Name</title>
+        <title>Cool RPG Game</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../project/styles/game.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -26,8 +26,8 @@
     <body>
         <header class = "row">
             <nav class="navbar navbar-light bg-light">
-                <a class="navbar-brand btn" href="home_logged_in.html">
-                  <h2> Game title</h2>
+                <a class="navbar-brand btn" href="?command=home">
+                  <h2> Cool RPG Game</h2>
                 </a>
                 <div class="n-item">
                     <form action="?command=game" method="post">
