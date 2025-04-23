@@ -64,12 +64,12 @@ if($location === "town"){
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                     </tr>
                     <tr>
-                      <td><p>quest giver place holder</p></td>
+                      <td><img src = "../project/assets/townie.png" alt="empty location"></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>
                           <form action = "?command=heal" method = "post">
                             <button type="submit">
-                              <p>healing well place holder</p>
+                              <img src = "../project/assets/well.png" alt="empty location">
                             </button>
                           </form>
                       </td>
@@ -119,12 +119,25 @@ elseif($location === "forest" || $location === "plains" || $location === "mounta
                     <tr>
                       <td><p>Health = '.$hp.'/'.$max_hp.'</p></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
-                      <td><p>Monster Health = '.$monster_hp.'</p></td>
+                      <td><p>Monster '.$monster_name.' = '.$monster_hp.'</p></td>
                     </tr>
                     <tr>
-                      <td><p>character image place holder</p></td>
+                      <td><img src="../project/assets/stick.png" alt="stick" width="150" height="150"></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
-                      <td><p>'.$monster_name.' image place holder</p></td>
+                      <td>';
+                        if($monster_name === "Tree"){
+                            echo '<img src = "../project/assets/tree.png" alt="monster">';
+                        }
+                        elseif($monster_name === "Ox"){
+                            echo '<img src = "../project/assets/ox.png" alt="monster">';
+                        }
+                        elseif($monster_name === "Big Rock"){
+                            echo '<img src = "../project/assets/big_rock.png" alt="monster">';
+                        }
+                        elseif($monster_name === "Boss"){
+                            echo '<img src = "../project/assets/boss.png" alt="monster">';
+                        }
+                      echo'</td>
                     </tr>
                     <tr>
                       <td colspan="2">';
