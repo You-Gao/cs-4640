@@ -25,7 +25,7 @@
             const additem = (item) => {
                 let newRow = table.insertRow(table.rows.length);
                 let newCell = newRow.insertCell(0);
-                newCell.textContent = item.name + " (" + item.type + ") " + " atk: " + item.atk + " def: " + item.def + " hp: " + item.hp;
+                newCell.textContent = item.count+" "+item.name + " (" + item.type + ") " + " atk: " + item.atk + " def: " + item.def + " hp: " + item.hp;
                 newCell = newRow.insertCell(1);
                 if(item.equiped === "0"){
                     newCell.innerHTML = "<button class='btn btn-primary' onclick='equip("+item.id+");'>Equip</button>";
