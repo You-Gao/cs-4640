@@ -11,7 +11,7 @@
         <meta property="og:url" content="https://cs4640.cs.virginia.edu/kpb8hp/project/">
         <meta property="og:description" content="text based video game rpg">
         <meta property="og:site_name" content="Video Game Name">
-        <title>Video Game Name</title>
+        <title>Cool RPG Game</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../project/styles/game.css">
         <script>
@@ -58,9 +58,6 @@
                 </div>
                 <div class="n-item">
                 <a href="?command=friends">Friends</a>
-                </div>
-                <div class="n-item">
-                <a href="?command=settings">Settings</a>
                 </div>
                 <a class="nav-item align-right btn" href="?command=logout">
                     <h3> Log out</h3>
@@ -144,7 +141,6 @@
                 <li class="nav-item"><a href="?command=game" class="nav-link px-2 text-body-secondary">Game</a></li>
                 <li class="nav-item"><a href="?command=inventory" class="nav-link px-2 text-body-secondary">Inventory</a></li>
                 <li class="nav-item"><a href="?command=friends" class="nav-link px-2 text-body-secondary">Friends</a></li>
-                <li class="nav-item"><a href="?command=settings" class="nav-link px-2 text-body-secondary">Settings</a></li>
               </ul>
               <small class="copyright">&copy; copyright 2025 video game name</small>
             </footer>
