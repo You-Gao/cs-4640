@@ -251,8 +251,8 @@ class GameController {
 
   public function plains(){
     $_SESSION["monster_hp"] = 20;
-    $_SESSION["monster_atk"] = 2;
-    $_SESSION["monster_def"] = 1;
+    $_SESSION["monster_atk"] = 10;
+    $_SESSION["monster_def"] = 2;
     $_SESSION["monster_exp"] = 10;
     $_SESSION["monster_name"] = "Ox";
     $_SESSION["location"] = "plains";
@@ -264,8 +264,8 @@ class GameController {
 
   public function mountains(){
     $_SESSION["monster_hp"] = 50;
-    $_SESSION["monster_atk"] = 2;
-    $_SESSION["monster_def"] = 1;
+    $_SESSION["monster_atk"] = 20;
+    $_SESSION["monster_def"] = 3;
     $_SESSION["monster_exp"] = 100;
     $_SESSION["monster_name"] = "Big Rock";
     $_SESSION["location"] = "mountains";
@@ -277,8 +277,8 @@ class GameController {
   
   public function boss(){
     $_SESSION["monster_hp"] = 100;
-    $_SESSION["monster_atk"] = 2;
-    $_SESSION["monster_def"] = 1;
+    $_SESSION["monster_atk"] = 40;
+    $_SESSION["monster_def"] = 5;
     $_SESSION["monster_name"] = "Boss";
     $_SESSION["monster_exp"] = 1000;
     $_SESSION["location"] = "boss";
@@ -518,8 +518,14 @@ class GameController {
       if($_SESSION["monster_name"] === "Tree"){
         $item_id = rand(1,5);        
       }
-      else{//add item set for each monster later
-        $item_id = rand(1,5);  
+      elseif($_SESSION["monster_name"] === "Ox"){//add item set for each monster later
+        $item_id = rand(6,10);  
+      }
+      elseif($_SESSION["monster_name"] === "Big Rock"){//add item set for each monster later
+        $item_id = rand(11,15);  
+      }
+      elseif($_SESSION["monster_name"] === "Boss"){//add item set for each monster later
+        $item_id = rand(16,20);
       }
       $_SESSION["recived"] = $this->db->query("select * from sprint3_items where id = $1;", $item_id);
       $results = $this->db->query("select item_count from sprint3_character_items where char_id = $1 and item_id = $2;", $_SESSION["character_id"], $item_id);
