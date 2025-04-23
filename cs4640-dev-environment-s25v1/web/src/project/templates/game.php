@@ -230,15 +230,48 @@ else{
                 <div class = 'mobile_split_6'>
                     <p>
                         Stats
-                    <p>
-                        Health = <?=$hp?>/<?=$max_hp?>
-                    <p>
-                        Defence = <?=$def?>
-                    <p>
-                        Attack = <?=$atk?>
-                    <p>
-                        Unused Stat Points = <?=$stat_points?>
-                    </p>
+                    <?php
+                        if($stat_points > 0){
+                            echo '
+                            <form action="?command=allocate_stats" method = "post">
+                                <input type="hidden" name="stat" value="hp">
+                                <p>
+                                    Health = '.$hp.'/'.$max_hp.'
+                                    <input type="submit" value="+">
+                                </p>
+                            </form>
+                            <form action="?command=allocate_stats" method = "post">
+                                <input type="hidden" name="stat" value="def">
+                                <p>
+                                    Defence = '.$def.'
+                                    <input type="submit" value="+">
+                                </p>
+                            </form>
+                            <form action="?command=allocate_stats" method = "post">
+                                <input type="hidden" name="stat" value="atk">
+                                <p>
+                                    Attack = '.$atk.'
+                                    <input type="submit" value="+">
+                                </p>
+                            </form>
+                            <p>
+                            Unused Stat Points = '.$stat_points.'
+                            </p>';
+                        }
+                        else{
+                            echo '
+                            <p>
+                            Health = '.$hp.'/'.$max_hp.'
+                            <p>
+                            Defence = '.$def.'
+                            <p>
+                            Attack = '.$atk.'
+                            <p>
+                            Unused Stat Points = '.$stat_points.'
+                            </p>';
+                        }
+
+                    ?>
                 </div>
             </div>
         </div>
