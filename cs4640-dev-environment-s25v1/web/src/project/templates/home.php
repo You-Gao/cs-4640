@@ -69,21 +69,21 @@
                         <tbody>
                             <tr>
                                 <th scope="row">1</th>
-                                <td><?$leader1[0]?></td>
-                                <td><?$leader1[1]?></td>
-                                <td><?$leader1[2]?></td>
+                                <td><?=$leader1[0]?></td>
+                                <td><?=$leader1[1]?></td>
+                                <td><?=$leader1[2]?></td>
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
-                                <td><?$leader2[0]?></td>
-                                <td><?$leader2[1]?></td>
-                                <td><?$leader2[2]?></td>
+                                <td><?=$leader2[0]?></td>
+                                <td><?=$leader2[1]?></td>
+                                <td><?=$leader2[2]?></td>
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
-                                <td><?$leader3[0]?></td>
-                                <td><?$leader3[1]?></td>
-                                <td><?$leader3[2]?></td>
+                                <td><?=$leader3[0]?></td>
+                                <td><?=$leader3[1]?></td>
+                                <td><?=$leader3[2]?></td>
                             </tr>
                         </tbody>
                     </table>
