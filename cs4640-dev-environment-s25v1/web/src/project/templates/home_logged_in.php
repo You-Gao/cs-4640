@@ -5,7 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../project/styles/main.css">
     <meta name="author" content="You Gao">
-    <title>home | insert title here</title>
+    <title>home | Cool RPG Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script>
@@ -41,7 +41,7 @@
     <section id="title" class="row justify-content-center align-items-end">
         <img src="../project/assets/mage.png" alt="placeholder" class="img-fluid col-2">
         <div class="col-auto text-center">
-            <a href="index.html"><h1>insert title here</h1></a>
+            <a href="?command=welcome"><h1>Cool RPG Game</h1></a>
         </div>
         <img src="../project/assets/warrior.png" alt="placeholder" class="img-fluid col-2">
         <hr class="mt-2"/>
