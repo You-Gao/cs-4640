@@ -101,9 +101,9 @@ class GameController {
         $this->showHome();
         break;
       case "logout": 
-        $this->logout(); // notice no break 
       case "welcome":
       default:
+        $this->logout(); //logout before going to welcome page to destory session
         $this->showWelcome();
         break;
     }
