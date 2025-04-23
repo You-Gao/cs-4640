@@ -105,35 +105,35 @@
     "hp" : 25
   },
     {
-    "name": "Sword of Doom",
+    "name": "Epic Sword",
     "type": "hand",
     "atk": 20,
     "def": 0,
     "hp" : 0
   },
   {
-    "name": "Shield of Doom",
+    "name": "Epic Shield",
     "type": "offhand",
     "atk": 0,
     "def": 20,
     "hp" : 0
   },
   {
-    "name": "Shirt of Doom",
+    "name": "Epic Shirt",
     "type": "shirt",
     "atk": 0,
     "def": 20,
     "hp" : 200
   },
   {
-    "name": "Pants of Doom",
+    "name": "Epic Pants",
     "type": "pants",
     "atk": 0,
     "def": 20,
     "hp" : 200
   },
     {
-    "name": "Hat of Doom",
+    "name": "Epic Hat",
     "type": "helmet",
     "atk": 0,
     "def": 20,
