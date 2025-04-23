@@ -32,7 +32,7 @@
                 <div class="n-item">
                     <form action="?command=game" method="post">
                         <input type="hidden" name="location" value="main">
-                        <button type="submit">Map</button>
+                        <button type="submit" class="btn n-item">Map</button>
                     </form> 
                 </div>
                 <div class="n-item">
@@ -171,7 +171,7 @@ else{
                       <td>
                           <form action="?command=game" method="post">
                               <input  type="hidden" name="location" value="town">
-                              <button type="submit">
+                              <button type="submit" class="btn">
                                   <img src="../project/assets/town.png" alt="town image">
                               </button>
                           </form>
@@ -180,7 +180,7 @@ else{
                       <td>
                           <form action="?command=forest" method="post">
                               <input  type="hidden" name="location" value="forest">
-                              <button type="submit">
+                              <button type="submit" class="btn">
                                   <img src="../project/assets/forest.png" alt="forest image">
                               </button>
                           </form>
@@ -191,7 +191,7 @@ else{
                       <td>
                           <form action="?command=plains" method="post">
                               <input  type="hidden" name="location" value="plains">
-                              <button type="submit">
+                              <button type="submit" class="btn">
                                   <img src="../project/assets/plains.png" alt="plains image">
                               </button>
                           </form>
@@ -202,7 +202,7 @@ else{
                       <td>
                           <form action="?command=mountains" method="post">
                               <input  type="hidden" name="location" value="mountains">
-                              <button type="submit">
+                              <button type="submit" class="btn">
                                   <img src="../project/assets/mountains.png" alt="mountians image">
                               </button>
                           </form>
@@ -211,7 +211,7 @@ else{
                       <td>
                           <form action="?command=boss" method="post">
                               <input  type="hidden" name="location" value="boss">
-                              <button type="submit">
+                              <button type="submit" class="btn">
                                   <img src="../project/assets/castle.png" alt="castle image">
                               </button>
                           </form>
