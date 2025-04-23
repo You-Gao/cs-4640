@@ -67,9 +67,6 @@ class GameController {
       case "equip":
         $this->equip();
         break;
-      case "settings":
-        $this->showSettings();
-        break;
       case "creation":
         $this->showCreation();
         break;
@@ -393,11 +390,6 @@ class GameController {
     header("Content-Type: application/json");
     echo json_encode($character_items, JSON_PRETTY_PRINT);
 
-  }
-
-  public function showSettings(){
-    include_once("templates/settings.php");
-    return;
   }
 
   public function logout(){
