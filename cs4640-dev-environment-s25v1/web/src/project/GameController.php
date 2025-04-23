@@ -276,6 +276,7 @@ class GameController {
 
   public function forest(){
     $_SESSION["monster_hp"] = 5;
+    $_SESSION["monster_max_hp"] = 5;
     $_SESSION["monster_atk"] = 2;
     $_SESSION["monster_def"] = 1;
     $_SESSION["monster_exp"] = 2;
@@ -289,6 +290,7 @@ class GameController {
 
   public function plains(){
     $_SESSION["monster_hp"] = 20;
+    $_SESSION["monster_max_hp"] = 20;
     $_SESSION["monster_atk"] = 10;
     $_SESSION["monster_def"] = 2;
     $_SESSION["monster_exp"] = 10;
@@ -302,6 +304,7 @@ class GameController {
 
   public function mountains(){
     $_SESSION["monster_hp"] = 50;
+    $_SESSION["monster_max_hp"] = 50;
     $_SESSION["monster_atk"] = 20;
     $_SESSION["monster_def"] = 3;
     $_SESSION["monster_exp"] = 100;
@@ -315,6 +318,7 @@ class GameController {
   
   public function boss(){
     $_SESSION["monster_hp"] = 100;
+    $_SESSION["monster_max_hp"] = 100;
     $_SESSION["monster_atk"] = 40;
     $_SESSION["monster_def"] = 5;
     $_SESSION["monster_name"] = "Boss";
@@ -377,6 +381,7 @@ class GameController {
       $damage_taken = $_SESSION["damage_taken"]; 
     }
     if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountains" || $_SESSION["location"] === "boss" ){
+      $monster_max_hp = $_SESSION["monster_max_hp"];
       $monster_hp = $_SESSION["monster_hp"];
       $monster_atk = $_SESSION["monster_atk"];
       $monster_def = $_SESSION["monster_def"];
