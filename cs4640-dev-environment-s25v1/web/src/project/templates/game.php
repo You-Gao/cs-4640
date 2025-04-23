@@ -123,7 +123,10 @@ elseif($location === "forest" || $location === "plains" || $location === "mounta
                         <small class="justify-content-center d-flex position-absolute w-100">'.$hp.'/'.$max_hp.'</small>
                         </div></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
-                      <td><p>'.$monster_name.' = '.$monster_hp.'</p></td>
+                      <td><p>'.$monster_name.'</p><div class="progress position-relative">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: '.($monster_hp/$monster_max_hp*100).'%" aria-valuenow="'.$monster_hp.'" aria-valuemin="0" aria-valuemax="'.$monster_max_hp.'"></div>
+                        <small class="justify-content-center d-flex position-absolute w-100">'.$monster_hp.'/'.$monster_max_hp.'</small>
+                        </div></td>
                     </tr>
                     <tr>
                       <td><img src="../project/assets/stick.jpg" alt="stick" width="150" height="150"></td>
