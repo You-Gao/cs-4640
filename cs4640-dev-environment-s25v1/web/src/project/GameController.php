@@ -176,12 +176,9 @@ class GameController {
             }
             unset($_COOKIE["character_ids"]);
             setcookie("character_ids", "", time() - 3600);
-            return;
         }
-        else{
         header("Location: ?command=home");
         return;
-        }
       }
     }
     include_once("templates/sign_up.php");
