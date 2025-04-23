@@ -206,6 +206,25 @@ class GameController {
   }
 
   public function showWelcome($message = "") {
+      $results = $this->db->query("SELECT * FROM sprint3_characters ORDER BY exp LIMIT 3;");
+      if(isset($results[0])){
+        $leader1 = array($results[0]["name"], $results[0]["exp"], $results[0]["monsters_killed"]);
+      }
+      else{
+        $leader1 = array("","","");
+      }
+      if(isset($results[1])){
+        $leader2 = array($results[1]["name"], $results[1]["exp"], $results[1]["monsters_killed"]);
+      }
+      else{
+        $leader2 = array("","","");
+      }
+      if(isset($results[2])){
+        $leader3 = array($results[2]["name"], $results[2]["exp"], $results[2]["monsters_killed"]);
+      }
+      else{
+        $leader3 = array("","","");
+      }
       include_once("templates/home.php");
       return;
   }
@@ -231,6 +250,25 @@ class GameController {
       for ($x = 0; $x < count($characters); $x++) {
         $character_ids[] = $characters[$x]["id"];
         $character_names[] = $characters[$x]["name"];
+      }
+      $results = $this->db->query("SELECT * FROM sprint3_characters ORDER BY exp LIMIT 3;");
+      if(isset($results[0])){
+        $leader1 = array($results[0]["name"], $results[0]["exp"], $results[0]["monsters_killed"]);
+      }
+      else{
+        $leader1 = array("","","");
+      }
+      if(isset($results[1])){
+        $leader2 = array($results[1]["name"], $results[1]["exp"], $results[1]["monsters_killed"]);
+      }
+      else{
+        $leader2 = array("","","");
+      }
+      if(isset($results[2])){
+        $leader3 = array($results[2]["name"], $results[2]["exp"], $results[2]["monsters_killed"]);
+      }
+      else{
+        $leader3 = array("","","");
       }
       include_once("templates/home_logged_in.php");
       return;
