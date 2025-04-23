@@ -22,7 +22,7 @@
                 let response = await fetch(`?command=getCharacterData&character_id=${ids[i]}`);
                 let data = await response.json();
                 stats["monsters_killed"].push(parseInt(data["monsters_killed"], 10));
-                stats["total_exp"].push(parseInt(data["total_exp"], 10));
+                stats["total_exp"].push(parseInt(data["exp"], 10));
                 stats["stat_points"].push(parseInt(data["stat_points"], 10));
             }
             let statsDiv = document.querySelector("#statistics ul");
