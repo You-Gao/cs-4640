@@ -117,7 +117,11 @@ elseif($location === "forest" || $location === "plains" || $location === "mounta
                     echo '<h4 class = "content">'.ucfirst($location).'</h4>
                 <table class = "content">
                     <tr>
-                      <td><p>Health = '.$hp.'/'.$max_hp.'</p></td>
+                        <td><p>Health</p>
+                        <div class="progress position-relative">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: '.($hp/$max_hp*100).'%" aria-valuenow="'.$hp.'" aria-valuemin="0" aria-valuemax="'.$max_hp.'"></div>
+                        <small class="justify-content-center d-flex position-absolute w-100">'.$hp.'/'.$max_hp.'</small>
+                        </div></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td><p>'.$monster_name.' = '.$monster_hp.'</p></td>
                     </tr>
