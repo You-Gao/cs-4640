@@ -550,17 +550,17 @@ class GameController {
   public function allocate_stats(){
     if(isset($_POST) && isset($_POST["stat"]) && !empty($_POST["stat"])){
       $results = $this->db->query("select stat_points, hp, def, atk from sprint3_characters where id = $1;", $_SESSION["character_id"]);
-      if(results[0]["stat_points"] > 0){
+      if($results[0]["stat_points"] > 0){
         switch($_POST["stat"]) {
           case "hp":
-            $this->db->query("update sprint3_characters set stat_points = $1, hp = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["hp"]+5, $_SESSION["character_id"]);
+            $this->db->query("update sprint3_characters set stat_points = $1, hp = $2  where id = $3;", $results[0]["stat_points"]-1, $results[0]["hp"]+5, $_SESSION["character_id"]);
             $_SESSION["hp"] += 5;
             break;
           case "def":
-            $this->db->query("update sprint3_characters set stat_points = $1, def = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["def"]+1, $_SESSION["character_id"]);
+            $this->db->query("update sprint3_characters set stat_points = $1, def = $2  where id = $3;", $results[0]["stat_points"]-1, $results[0]["def"]+1, $_SESSION["character_id"]);
             break;
           case "atk":
-            $this->db->query("update sprint3_characters set stat_points = $1, atk = $2  where id = $3;", results[0]["stat_points"]-1, results[0]["atk"]+3, $_SESSION["character_id"]);
+            $this->db->query("update sprint3_characters set stat_points = $1, atk = $2  where id = $3;", $results[0]["stat_points"]-1, $results[0]["atk"]+3, $_SESSION["character_id"]);
             break;
         }
       }
