@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <meta name="description" content="friends page">
-        <meta name="author" content="Owen Williams">
+        <meta name="author" content="You Gao">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="main game page">
         <meta property="og:type" content="website">
         <meta property="og:img" content="../project/assets/mage.png">
-        <meta property="og:url" content="https://cs4640.cs.virginia.edu/yourid/hw2/index.html">
+        <meta property="og:url" content="https://cs4640.cs.virginia.edu/kpb8hp/project/">
         <meta property="og:description" content="text based video game rpg">
         <meta property="og:site_name" content="Video Game Name">
         <title>Video Game Name</title>
@@ -140,11 +140,11 @@
         <div class="container">
             <footer class="py-3 my-4">
               <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="home.html" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Game</a></li>
-                <li class="nav-item"><a href="inventory.html" class="nav-link px-2 text-body-secondary">Inventory</a></li>
-                <li class="nav-item"><a href="friends.html" class="nav-link px-2 text-body-secondary">Friends</a></li>
-                <li class="nav-item"><a href="settings.html" class="nav-link px-2 text-body-secondary">Settings</a></li>
+                <li class="nav-item"><a href="?command=logout" class="nav-link px-2 text-body-secondary">Home</a></li>
+                <li class="nav-item"><a href="?command=game" class="nav-link px-2 text-body-secondary">Game</a></li>
+                <li class="nav-item"><a href="?command=inventory" class="nav-link px-2 text-body-secondary">Inventory</a></li>
+                <li class="nav-item"><a href="?command=friends" class="nav-link px-2 text-body-secondary">Friends</a></li>
+                <li class="nav-item"><a href="?command=settings" class="nav-link px-2 text-body-secondary">Settings</a></li>
               </ul>
               <small class="copyright">&copy; copyright 2025 video game name</small>
             </footer>
