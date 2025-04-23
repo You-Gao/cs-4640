@@ -41,9 +41,6 @@
                 <div class="n-item">
                 <a href="?command=friends">Friends</a>
                 </div>
-                <div class="n-item">
-                <a href="?command=settings">Settings</a>
-                </div>
                 <a class="nav-item align-right btn" href="?command=logout">
                     <h3> Log out</h3>
                 </a>
@@ -53,7 +50,7 @@
             <div class = "col-md-2 float-md-end col-border clearfix">
                 <h4>Recent Anoucments</h4>
                 <p>
-                    Sprint 3 completed
+                    Final Deliverable completed
                 </p>
             </div>
             <div class = 'col-md-8 float-md-end col-border clearfix'>
@@ -205,7 +202,7 @@ else{
                 ?>
             </div>
             <div class = 'float-md-end col-md-2 col-border clearfix'>
-                <div class = 'mobile_split_4'>
+                <div class = 'mobile_split_6'>
                     <?php
                     echo "<p>";
                         $levelpoints = array(0,10,30,75,180,400,1000,1000000000000);
@@ -230,7 +227,7 @@ else{
                             placehould for shoes with id = <?=$shoes_id?>
                         </p>
                 </div>
-                <div class = 'mobile_split_4'>
+                <div class = 'mobile_split_6'>
                     <p>
                         Stats
                     <p>
@@ -241,13 +238,6 @@ else{
                         Attack = <?=$atk?>
                     <p>
                         Unused Stat Points = <?=$stat_points?>
-                    </p>
-                </div>
-                <div class = 'mobile_split_4'>
-                    <p>
-                        Quests:
-                    <p>
-                        placeholder for quest with id = <?=$quest_id?>
                     </p>
                 </div>
             </div>
@@ -269,7 +259,6 @@ else{
                 <li class="nav-item"><a href="?command=game" class="nav-link px-2 text-body-secondary">Game</a></li>
                 <li class="nav-item"><a href="?command=inventory" class="nav-link px-2 text-body-secondary">Inventory</a></li>
                 <li class="nav-item"><a href="?command=friends" class="nav-link px-2 text-body-secondary">Friends</a></li>
-                <li class="nav-item"><a href="?command=settings" class="nav-link px-2 text-body-secondary">Settings</a></li>
               </ul>
               <small class="copyright">&copy; copyright 2025 video game name</small>
             </footer>
