@@ -119,10 +119,10 @@ elseif($location === "forest" || $location === "plains" || $location === "mounta
                     <tr>
                       <td><p>Health = '.$hp.'/'.$max_hp.'</p></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
-                      <td><p>Monster '.$monster_name.' = '.$monster_hp.'</p></td>
+                      <td><p>'.$monster_name.' = '.$monster_hp.'</p></td>
                     </tr>
                     <tr>
-                      <td><img src="../project/assets/stick.png" alt="stick" width="150" height="150"></td>
+                      <td><img src="../project/assets/stick.jpg" alt="stick" width="150" height="150"></td>
                       <td><img src = "../project/assets/empty.png" alt="empty location"></td>
                       <td>';
                         if($monster_name === "Tree"){
