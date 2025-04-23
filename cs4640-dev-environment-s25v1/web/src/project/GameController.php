@@ -332,10 +332,10 @@ class GameController {
         $hp += $items[$x]["hp"];
       }
     }
-    if(isset($_SESSION["damage_dealt"]) && !empty($_SESSION["damage_dealt"])){
+    if(isset($_SESSION["damage_dealt"])){
       $damage_dealt = $_SESSION["damage_dealt"]; 
     }
-    if(isset($_SESSION["damage_taken"]) && !empty($_SESSION["damage_taken"])){
+    if(isset($_SESSION["damage_taken"])){
       $damage_taken = $_SESSION["damage_taken"]; 
     }
     if($_SESSION["location"] === "plains" || $_SESSION["location"] === "forest" || $_SESSION["location"] === "mountains" || $_SESSION["location"] === "boss" ){
