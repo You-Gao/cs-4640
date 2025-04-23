@@ -30,6 +30,10 @@ class GameController {
     if (isset($this->input["command"]))
       $command = $this->input["command"];
 
+    if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] != null && $command == "welcome"){
+      $command = "home";
+    }
+
     switch($command) {
       case "login": 
         $this->login();

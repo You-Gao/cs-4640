@@ -27,7 +27,7 @@
                         <div class="d-flex justify-content-between">
                             <div class="mb-3 col-5">
                                 <label class="form-label">username</label>
-                                <input type="name" name="name" class="form-control" required>
+                                <input type="text" name="name" class="form-control" pattern="[a-zA-Z0-9]+" title="Only alphanumeric characters are allowed" required>
                             </div>
                             <div class="mb-3 col-6">
                                 <label class="form-label">password</label>

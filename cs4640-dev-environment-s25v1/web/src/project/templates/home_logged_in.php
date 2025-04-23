@@ -21,9 +21,9 @@
             for (let i = 0; i < ids.length; i++) {
                 let response = await fetch(`?command=getCharacterData&character_id=${ids[i]}`);
                 let data = await response.json();
-                stats["monsters_killed"].push(data["monsters_killed"]);
-                stats["total_exp"].push(data["total_exp"]);
-                stats["stat_points"].push(data["stat_points"]);
+                stats["monsters_killed"].push(parseInt(data["monsters_killed"], 10));
+                stats["total_exp"].push(parseInt(data["total_exp"], 10));
+                stats["stat_points"].push(parseInt(data["stat_points"], 10));
             }
             let statsDiv = document.querySelector("#statistics ul");
             statsDiv.innerHTML = ""; // Clear previous stats
