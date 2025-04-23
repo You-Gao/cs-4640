@@ -62,7 +62,7 @@
                             <tr>
                                 <th scope="col">Rank</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Level</th>
+                                <th scope="col">Exp</th>
                                 <th scope="col">Monsters Killed</th>
                             </tr>
                         </thead>
