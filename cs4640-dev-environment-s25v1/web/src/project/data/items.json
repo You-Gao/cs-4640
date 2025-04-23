@@ -33,5 +33,110 @@
     "atk": 0,
     "def": 1,
     "hp" : 5
+  },
+    {
+    "name": "Stone Sword",
+    "type": "hand",
+    "atk": 3,
+    "def": 0,
+    "hp" : 0
+  },
+  {
+    "name": "Stone Shield",
+    "type": "offhand",
+    "atk": 0,
+    "def": 3,
+    "hp" : 0
+  },
+  {
+    "name": "Stone Shirt",
+    "type": "shirt",
+    "atk": 0,
+    "def": 3,
+    "hp" : 20
+  },
+  {
+    "name": "Stone Pants",
+    "type": "pants",
+    "atk": 0,
+    "def": 3,
+    "hp" : 20
+  },
+    {
+    "name": "Stone Hat",
+    "type": "helmet",
+    "atk": 0,
+    "def": 3,
+    "hp" : 10
+  },
+    {
+    "name": "Iron Sword",
+    "type": "hand",
+    "atk": 5,
+    "def": 0,
+    "hp" : 0
+  },
+  {
+    "name": "Iron Shield",
+    "type": "offhand",
+    "atk": 0,
+    "def": 5,
+    "hp" : 0
+  },
+  {
+    "name": "Iron Shirt",
+    "type": "shirt",
+    "atk": 0,
+    "def": 5,
+    "hp" : 50
+  },
+  {
+    "name": "Iron Pants",
+    "type": "pants",
+    "atk": 0,
+    "def": 5,
+    "hp" : 50
+  },
+    {
+    "name": "Iron Hat",
+    "type": "helmet",
+    "atk": 0,
+    "def": 5,
+    "hp" : 25
+  },
+    {
+    "name": "Sword of Doom",
+    "type": "hand",
+    "atk": 20,
+    "def": 0,
+    "hp" : 0
+  },
+  {
+    "name": "Shield of Doom",
+    "type": "offhand",
+    "atk": 0,
+    "def": 20,
+    "hp" : 0
+  },
+  {
+    "name": "Shirt of Doom",
+    "type": "shirt",
+    "atk": 0,
+    "def": 20,
+    "hp" : 200
+  },
+  {
+    "name": "Pants of Doom",
+    "type": "pants",
+    "atk": 0,
+    "def": 20,
+    "hp" : 200
+  },
+    {
+    "name": "Hat of Doom",
+    "type": "helmet",
+    "atk": 0,
+    "def": 20,
+    "hp" : 100
   }
 ]
