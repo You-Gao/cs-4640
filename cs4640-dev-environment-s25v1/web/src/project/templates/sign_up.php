@@ -14,7 +14,7 @@
         <section id="title" class="row justify-content-center align-items-end">
             <img src="../project/assets/mage.png" alt="placeholder" class="img-fluid col-2">
             <div class="col-auto text-center">
-                <a href="?command=welcome"><h1>Cool RPG game</h1></a>
+                <a href="?command=welcome"><h1>Cool RPG Game</h1></a>
             </div>
             <img src="../project/assets/warrior.png" alt="placeholder" class="img-fluid col-2">
             <hr class="mt-2"/>
