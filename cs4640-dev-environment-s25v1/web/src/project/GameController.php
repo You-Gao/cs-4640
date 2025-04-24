@@ -191,6 +191,7 @@ class GameController {
 
   public function deleteCharacter(){
     if (isset($_POST) && isset($_POST["character_id"]) && !empty($_POST["character_id"])){
+      echo $_POST["character_id"];
       if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] != null){
         $this->db->query("delete from sprint3_characters where id = $1 and user_id = $2;", $_POST["character_id"], $_SESSION["user_id"]);
       }
@@ -204,7 +205,7 @@ class GameController {
         setcookie("character_ids", json_encode($character_ids), time() + 604800);
       }
       $this->db->query("delete from sprint3_characters where id = $1;", $_POST["character_id"]);
-      header("Location: ?command=home");
+      // header("Location: ?command=home");
       return;
     }
   }
