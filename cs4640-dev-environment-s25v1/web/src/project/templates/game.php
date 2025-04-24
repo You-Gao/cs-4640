@@ -237,15 +237,9 @@ else{
                     echo "exp = ".$exp-$levelpoints[$end]."/".$levelpoints[$end+1]-$levelpoints[$end];
                     echo "</p>";
                     ?>
-                        <p>
-                            placehould for hat with id = <?=$hat_id?>
-                        <p>
-                            placehould for shirt with id = <?=$shirt_id?>
-                        <p>
-                            placehould for pants with id = <?=$pants_id?>
-                        <p>
-                            placehould for shoes with id = <?=$shoes_id?>
-                        </p>
+                    <img style="z-index: -2; width: 150px; height: 200px;" src="../project/assets/stick.jpg" alt="stick man" />
+
+
                 </div>
                 <div class = 'mobile_split_6'>
                     <p>

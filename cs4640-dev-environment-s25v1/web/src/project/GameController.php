@@ -202,7 +202,7 @@ class GameController {
         setcookie("character_ids", json_encode($character_ids), time() + 604800);
       }
       $this->db->query("delete from sprint3_characters where id = $1;", $_POST["character_id"]);
-      // header("Location: ?command=home");
+      header("Location: ?command=home");
       return;
     }
   }

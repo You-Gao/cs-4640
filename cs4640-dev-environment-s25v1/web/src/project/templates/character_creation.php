@@ -3,101 +3,94 @@
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <scrip src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../project/styles/main.css">
     <meta name="author" content="You Gao">
     <title>character creation | Cool RPG Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-    .hat {
+    .character-container {
+        width: 300px;
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
         position: absolute;
-        top: 25%; 
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: 150px !important;
-        max-height: 150px !important;
+    }
+
+    .character-container img {
+        max-width: 100%; 
+        max-height: 100%; 
+        object-fit: contain; 
         z-index: -1;
+    }
+
+    .hat {
+        width: 150px !important;
+        height: 150px !important;
     }
 
     .shirt {
-        position: absolute;
-        top: 50%; 
-        left: 50%;
-        transform: translate(-50%, -50%);
         max-width: 250px !important;
-        max-height: 250px !important;
-        z-index: -1;
+        height: 150px !important;
     }
 
     .pant {
-        position: absolute;
-        top: 65%; 
-        left: 50%;
-        transform: translate(-50%, -50%);
+        margin-top: -50px !important;
         max-width: 150px !important;
-        max-height: 150px !important;
-        z-index: -1;
+        height: 150px !important;
     }
 
     .shoes {
-        position: absolute;
-        top: 70%; 
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: 150px !important;
-        max-height: 150px !important;
-        z-index: -1;
+        margin-top: -50px !important;
+        width: 150px !important;
+        height: 100px !important;
     }
 
     @media screen and (max-width: 768px) {
+        .register {
+            margin-top: 100px !important;
+        }
         .hat {
-            max-width: 100px !important;
-            max-height: 100px !important;
+            width: 100px !important;
+            height: 100px !important;
         }
 
         .shirt {
-            top: 40%;
-            max-width: 150px !important;
-            max-height: 150px !important;
+            width: 150px !important;
+            height: 150px !important;
         }
 
         .pant {
-            top: 50%;
-
-            max-width: 100px !important;
-            max-height: 100px !important;
+            width: 100px !important;
+            height: 100px !important;
         }
 
         .shoes {
-            top: 55%;
-            max-width: 100px !important;
-            max-height: 100px !important;
+            width: 100px !important;
+            height: 100px !important;
         }
     }
 
     @media screen and (max-width: 480px) {
         .hat {
-            top: 20%;
-            max-width: 80px !important;
-            max-height: 80px !important;
+            width: 80px !important;
+            height: 80px !important;
         }
 
         .shirt {
-            top: 30%;
-            max-width: 120px !important;
-            max-height: 120px !important;
+            width: 120px !important;
+            height: 120px !important;
         }
 
         .pant {
-            top: 35%;
-            max-width: 80px !important;
-            max-height: 80px !important;
+            width: 80px !important;
+            height: 80px !important;
         }
 
         .shoes {
-            top: 37%;
-            max-width: 80px !important;
-            max-height: 80px !important;
+            width: 80px !important;
+            height: 80px !important;
         }
         
     }
@@ -155,12 +148,13 @@
 
             </div>
         </div>
-
         <img class="col-6" style="z-index: -2;" src="../project/assets/stick.jpg" alt="stick man" />
-        <img id="hats" class="hat" src="../project/assets/hats/3.png" alt="hat" class="img-fluid" />
-        <img id="shirts" class="shirt" src="../project/assets/shirts/3.png" alt="shirt" class="img-fluid" />
-        <img id="pants" class="pant" src="../project/assets/pants/3.png" alt="pant" class="img-fluid" />
-        <img id="shoes" class="shoes" src="../project/assets/shoes/3.png" alt="shoes" class="img-fluid" />
+        <div class="character-container">
+            <img id="hats" class="hat" src="../project/assets/transparent.png" alt="hat" />
+            <img id="shirts" class="shirt" src="../project/assets/transparent.png" alt="shirt" />
+            <img id="pants" class="pant" src="../project/assets/transparent.png" alt="pant" />
+            <img id="shoes" class="shoes" src="../project/assets/transparent.png" alt="shoes" />
+        </div>
 
         <div class="col-2">
             <div class="row flex-column align-items-start">
@@ -228,6 +222,7 @@
         function change_src(value, id) {
             let img = document.getElementById(id);
             img.src = "../project/assets/" + id + "/" + value + ".png";
+            img.style.display = "block";
         }
 
 
@@ -241,5 +236,15 @@
             }
             document.getElementById("hidden-character-name").value = character_name;
         }
+        
+        window.addEventListener("load", function () {
+            const stickImage = document.querySelector("img[src='../project/assets/stick.jpg']");
+            const characterContainer = document.querySelector(".character-container");
+
+            if (stickImage && characterContainer) {
+                const stickRect = stickImage.getBoundingClientRect();
+                characterContainer.style.top = `${stickRect.top + window.scrollY - 100}px`;
+            }
+        });
     </script>
 </body>
