@@ -7,8 +7,8 @@
  }
 
 @media only screen and (max-width: 768px){
-.mobile_split_4{
-    width: 33.33%;
+.mobile_split_6{
+    width: 50%;
     float: left;
  }   
 }
@@ -22,8 +22,9 @@ td, tr{
    border: 5px solid black;
 }
 
-.n-item > a{
-   color:gray
+.n-item > a, .n-item{
+   color:gray;
+   text-decoration: underline;
 }
 
 a:hover {

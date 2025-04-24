@@ -176,12 +176,9 @@ class GameController {
             }
             unset($_COOKIE["character_ids"]);
             setcookie("character_ids", "", time() - 3600);
-            return;
         }
-        else{
         header("Location: ?command=home");
         return;
-        }
       }
     }
     include_once("templates/sign_up.php");
@@ -211,7 +208,7 @@ class GameController {
   }
 
   public function showWelcome($message = "") {
-      $results = $this->db->query("SELECT * FROM sprint3_characters ORDER BY exp LIMIT 3;");
+      $results = $this->db->query("SELECT * FROM sprint3_characters ORDER BY exp DESC LIMIT 3;");
       if(isset($results[0])){
         $leader1 = array($results[0]["name"], $results[0]["exp"], $results[0]["monsters_killed"]);
       }
@@ -256,7 +253,7 @@ class GameController {
         $character_ids[] = $characters[$x]["id"];
         $character_names[] = $characters[$x]["name"];
       }
-      $results = $this->db->query("SELECT * FROM sprint3_characters ORDER BY exp LIMIT 3;");
+      $results = $this->db->query("SELECT * FROM sprint3_characters ORDER BY exp DESC LIMIT 3;");
       if(isset($results[0])){
         $leader1 = array($results[0]["name"], $results[0]["exp"], $results[0]["monsters_killed"]);
       }

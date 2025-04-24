@@ -66,7 +66,7 @@
                 <div class="n-item">
                     <form action="?command=game" method="post">
                         <input type="hidden" name="location" value="main">
-                        <button type="submit">Map</button>
+                        <button type="submit"  class="btn n-item">Map</button>
                     </form> 
                 </div>
                 <div class="n-item">
