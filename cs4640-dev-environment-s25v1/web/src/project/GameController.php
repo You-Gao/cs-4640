@@ -115,7 +115,11 @@ class GameController {
 
   public function login() {
     if (isset($_POST["email"]) && isset($_POST["password"]) && !empty($_POST["password"]) && !empty($_POST["email"])) {
-      // TODO: check that email looks right!
+      if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+        $message = "Invalid email format";
+        $this->showWelcome($message);
+        return;
+      }
       $results = $this->db->query("select * from sprint3_users where email = $1;", $_POST["email"]);
 
       if (empty($results)) {
@@ -161,7 +165,9 @@ class GameController {
         $message = "Email already exists. Please choose a different email.";
       } elseif (!empty($name)) {
         $message = "Name already exists. Please choose a different name.";
-      } else {
+      } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+        $message = "Invalid email format";
+      }else {
         $result = $this->db->query("insert into sprint3_users (username, email, password) values ($1, $2, $3);",
           $_POST["name"],
           $_POST["email"],
@@ -182,7 +188,6 @@ class GameController {
       }
     }
     include_once("templates/sign_up.php");
-
     return;
   }    
 
