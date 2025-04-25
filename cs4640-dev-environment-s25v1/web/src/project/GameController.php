@@ -632,6 +632,10 @@ class GameController {
   }
 
   public function showFriends($message = ""){
+    if((!isset($_SESSION["user_id"])) || $_SESSION["user_id"] === null){
+      include_once("templates/friends_not_logged_in.php");
+      return;
+    }
     $results = $this->db->query("select * from sprint3_friends where (user_id0 = $1 or user_id1 = $2) and status = $3;", $_SESSION["user_id"], $_SESSION["user_id"], "accepted");
     $friends = [];
     for ($x = 0; $x < count($results); $x++) {
