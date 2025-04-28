@@ -227,10 +227,11 @@
 
 
         function set_character_name(event) {
-            let character_name = document.getElementById("character-name").value;
+            let character_name = document.getElementById("character-name");
 
             // validate that it only contains letters and numbers
-            if (!/^[a-zA-Z0-9_]*$/.test(character_name)) {
+            if (!/^[a-zA-Z0-9_]*$/.test(character_name.value)) {
+                character_name.value = character_name.value.replace(/[^a-zA-Z0-9_\s]/g, '');
                 alert("Name can only contain letters and numbers.");
                 return;
             }
