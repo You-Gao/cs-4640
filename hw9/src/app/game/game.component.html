@@ -1,0 +1,16 @@
+<p>word to guess: (hidden after development, you have to guess it :D)</p>
+<p>guesses: {{ guesses }}</p>
+<div *ngIf="guessedWord">
+    <p>Your guess: {{ guessedWord }}</p>
+    <p># chars in position: {{ positions }}</p>
+    <p># chars in target: {{ targetchars }}</p>
+    <p *ngFor="let condition of lss">
+        {{ condition }}
+    </p>
+</div>
+<form>
+    <label for="guess">Guess a Word:</label>
+    <input type="text" id="guess" name="guess" [(ngModel)]="guessWord" (ngModelChange)="onGuessChange($event)"
+        (keyup.enter)="onGuessSubmit()" required/>
+</form>
+<div (click)="fetchWord()">new game</div>
